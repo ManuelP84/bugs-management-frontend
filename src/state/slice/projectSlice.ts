@@ -34,6 +34,18 @@ const projectSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getAllProjects.pending, (state, action) => {
+            state.status = possibleStatus.PENDING;
+        })
+
+        builder.addCase(getAllProjects.fulfilled, (state, action) => {
+            state.status = possibleStatus.COMPLETED;
+            state.projects = action.payload;
+        })
+        
+        builder.addCase(getAllProjects.rejected, (state, action) => {
+            state.status = possibleStatus.FAILED;
+            state.error = "Something went wrong fetching the projects"
+            state.projects = []
         })
 
         builder.addCase(createProject.fulfilled, (state, action) => {
