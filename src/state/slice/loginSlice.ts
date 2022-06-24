@@ -1,15 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { getUsersThunk } from "../../services/loginServices";
 
-export interface User {
+export interface IUser {
     uid?: string
     userImage?: string
     userName?: string
     userEmail: string
     userToken: string
+    userRol: string
 }
 
 interface LoginState {
-    user: User | null
+    user: IUser | null
     logged: boolean
 }
 
@@ -22,7 +24,7 @@ export const loginSlice = createSlice({
     name: "login",
     initialState,
     reducers: {
-        getUser: (state: LoginState, action: PayloadAction<User>) => (
+        getUser: (state: LoginState, action: PayloadAction<IUser>) => (
             {...state, user: action.payload}
         ),
         getLogged: (state: LoginState, action: PayloadAction<boolean>)  => (

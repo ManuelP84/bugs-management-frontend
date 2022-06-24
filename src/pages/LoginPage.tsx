@@ -1,7 +1,7 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
 import * as React from "react";
 import { useDispatch } from "react-redux";
-import { auth } from "../components/Login/firebaseConfig";
+import { auth } from "../config/firebaseConfig";
 import GoogleLogIn from "../components/Login/GoogleLogIn";
 import { getLogged, getUser, User } from "../state/slice/loginSlice";
 
