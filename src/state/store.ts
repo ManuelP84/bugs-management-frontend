@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import loginReducer from "./slices/loginSlice";
+import { useDispatch } from 'react-redux'
+import taskReducer from "./slice/taskSlice"
 
 export const store = configureStore({
     reducer: {
-        login: loginReducer,
+        tasks: taskReducer,
     }
 })
 
 export type RootState = ReturnType<typeof store.getState>
-export type AddDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch
+export const useAppDispatch = () => useDispatch<AppDispatch>()
