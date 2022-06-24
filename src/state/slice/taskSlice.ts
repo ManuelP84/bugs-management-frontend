@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { possibleStatus } from "../../config/possibleStatus"
+import { RootState } from "../store";
 
 type taskType = {
     id: String,
@@ -97,6 +98,6 @@ const taskSlice = createSlice({
 export type { taskType, initialStateType }
 export default taskSlice.reducer
 
-export const selectTasksState = () => (state: RootState) => state.tasks.products
+export const selectTasksState = () => (state: RootState) => state.tasks.tasks
 export const selectTasksStatus = () => (state: RootState) => state.tasks.status
 export const selectTasksFetchError = () => (state: RootState) => state.tasks.error
