@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { getAllProjects } from "../../services/project/getAllProjects"
+import { createProject } from "../../services/project/createProject"
 import { RootState } from "../store"
 import { possibleStatus } from "../../config/possibleStatus"
 
@@ -17,7 +18,7 @@ type projectType = {
 type projectStateType = {
     projects: projectType[],
     status: possibleStatus,
-    error: null
+    error: string | null
 }
 
 const initialState: projectStateType = {
@@ -33,6 +34,19 @@ const projectSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getAllProjects.pending, (state, action) => {
+        })
+
+        builder.addCase(createProject.fulfilled, (state, action) => {
+            state.status = possibleStatus.COMPLETED
+            state.projects.push(action.payload)
+        })
+        builder.addCase(createProject.pending, (state, action) => {
+            state.status = possibleStatus.PENDING;
+        })
+        builder.addCase(createProject.rejected, (state, action) => {
+            state.projects = []
+            state.status = possibleStatus.FAILED;
+            state.error = "Something went wrong creating a new project";
         })
     }
 })
