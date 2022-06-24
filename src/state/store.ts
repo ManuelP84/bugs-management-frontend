@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import projectReducer from "./slice/projectSlice";
+import taskReducer from "./slice/taskSlice"
 
 export const store = configureStore({
     reducer: {
+        tasks: taskReducer,
         projects: projectReducer
     }
 })

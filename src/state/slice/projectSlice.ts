@@ -1,13 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { getAllProjects } from "../../services/project/getAllProjects"
 import { RootState } from "../store"
-
-export enum fetchStatus {
-    IDLE = 'idle',
-    COMPLETED = 'completed',
-    FAILED = 'failed',
-    PENDING = 'pending',
-}
+import { possibleStatus } from "../../config/possibleStatus"
 
 type projectType = {
     id?: string,
@@ -22,13 +16,13 @@ type projectType = {
 
 type projectStateType = {
     projects: projectType[],
-    status: fetchStatus,
+    status: possibleStatus,
     error: null
 }
 
 const initialState: projectStateType = {
     projects: [],
-    status: fetchStatus.IDLE,
+    status: possibleStatus.IDLE,
     error: null
 }
 
