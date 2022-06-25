@@ -19,12 +19,16 @@ const ProjectPage = (props: Props) => {
         if (status === possibleStatus.IDLE) {
             dispatch(getAllProjects())
         }
-    }, [dispatch])
+    }, [])
 
     return (
-        <div>
-            <CreateProjectForm />
-            <ProjectList />
+        <div className="container my-5 w-50">
+            <div className="row">
+                <CreateProjectForm />
+            </div>
+            <div className="row">
+                <ProjectList />
+            </div>
         </div>
     )
 }

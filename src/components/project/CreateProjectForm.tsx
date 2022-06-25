@@ -1,69 +1,90 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 type Props = {}
 
 const CreateProjectForm = (props: Props) => {
 
+    const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
+
+    const [name, setName] = useState("");
+    const [date, setDate] = useState("");
+    const [devEmail, setDevEmail] = useState("");
+    const [devInCharged, setDevInCharged] = useState(false);
+    const [developerEmails, setDeveloperEmails] = useState<string[]>([]);
+    const [leaderEmail, setLeaderEmail] = useState("");
+    const [leaderInCharged, setLeaderInCharged] = useState(false);
+    const [leaderEmails, setLeaderEmails] = useState<string[]>([]);
+    const [description, setDescription] = useState("");
+
+    const onAddDevEmail = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault()
+        if (emailRegex.test(devEmail)) {
+            setDeveloperEmails([...developerEmails, devEmail])
+            setDevEmail("")
+        }
+    }
+
+    const onAddLeaderEmail = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault()
+        if (emailRegex.test(leaderEmail)) {
+            setLeaderEmails([...leaderEmails, leaderEmail])
+            setLeaderEmail("")
+        }
+    }
+
     return (
         <form>
-            <div className="container m-5">
+            <div className="container my-3">
 
-                <div className="">
-                    <h3>Project Management</h3>
-                </div>
-
-                <div className="row w-50 my-2">
-                    <div className="col form-floating">
-                        <input className="form-control" type="text" id="name" placeholder="Project Name" />
-                        <label className="mx-3" htmlFor="name">Project Name</label>
+                <div className="row my-4">
+                    <div className="col">
+                        <h4>Project registration</h4>
                     </div>
                 </div>
 
-                <div className="row w-50 my-2">
-                    <div className="col form-floating">
-                        <input className="form-control" type="text" id="startDate" placeholder="Start Date" />
-                        <label className="mx-3" htmlFor="startDate">Start date</label>
+                <div className="row my-3">
+                    <div className="col input-form">
+                        <input className="form-control" type="text" id="name" onChange={(e) => setName(e.target.value)} placeholder="Project Name" />
+                    </div>
+                </div>
+                <div className="my-3 input-group">
+                    <input type="text" className="form-control" onChange={(e) => setDate(e.target.value)} placeholder="Start date" />
+                    <span className="input-group-text">yyyy-mm-dd</span>
+                </div>
+
+                <div className="d-flex row my-3 justify-content-between">
+                    <div className="col-md-8">
+                        <div className="input-group">
+                            <input type="email" className="form-control" onChange={(e) => setDevEmail(e.target.value)} placeholder="Developer email" />
+                            <div className="input-group-text">
+                                <input className="form-check-input mt-0 mx-2" onChange={(e) => setDevInCharged(e.currentTarget.checked)} type="checkbox" value="" />
+                                <span>in charge</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-4">
+                        <button className="btn btn-primary w-100" onClick={onAddDevEmail}>Add developer</button>
                     </div>
                 </div>
 
-                <div className="row w-50 my-2">
-                    <div className="col form-floating">
-                        <input className="form-control" type="email" id="developerEmails" placeholder="Developer Email" />
-                        <label className="mx-3" htmlFor="developerEmails">Developer email</label>
+                <div className="row my-3">
+                    <div className="col-8">
+                        <div className="input-group">
+                            <input type="email" className="form-control" onChange={(e) => setLeaderEmail(e.target.value)} placeholder="Leader email" />
+                            <div className="input-group-text">
+                                <input className="form-check-input mt-0 mx-2" onChange={(e) => setLeaderInCharged(e.currentTarget.checked)} type="checkbox" value="" />
+                                <span>in charge</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-4">
+                        <button className="btn btn-primary w-100" onClick={onAddLeaderEmail}>Add leader</button>
                     </div>
                 </div>
 
-                <div className="row w-50 align-items-center my-2">
-                    <div className="col w-50 form-check">
-                        <input className="form-check-input" type="checkbox" id="isInCharge" />
-                        <label className="form-check-label" htmlFor="isInCharge">in charge?</label>
-                    </div>
-                    <div className="col w-50">
-                        <button className="btn btn-primary w-100">Add developer</button>
-                    </div>
-                </div>
-
-                <div className="d-flex row w-50 my-2">
-                    <div className="col form-floating">
-                        <input className="form-control" type="email" id="leaderEmails" placeholder="Leader Email" />
-                        <label className="mx-3" htmlFor="leaderEmails">Leader email</label>
-                    </div>
-                </div>
-
-                <div className="row w-50 align-items-center my-2">
-                    <div className="col w-50 form-check">
-                        <input className="form-check-input" type="checkbox" id="isInCharge" />
-                        <label className="form-check-label" htmlFor="isInCharge">in charge?</label>
-                    </div>
-                    <div className="col w-50">
-                        <button className="btn btn-primary w-100">Add leader</button>
-                    </div>
-                </div>
-
-                <div className="row w-50 my-2">
+                <div className="row my-3">
                     <div className="col-12">
-                        <label className="m-2" htmlFor="description">Description:</label><br />
-                        <textarea className="form-control" id="description" placeholder="Project description" />
+                        <textarea className="form-control" id="description" onChange={(e) => setDescription(e.target.value)} placeholder="Project description" />
                     </div>
                 </div>
             </div>
