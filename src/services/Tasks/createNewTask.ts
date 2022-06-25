@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { urlApi } from "../../config/urlApi";
+import { urlApi } from "../../auxTypePlsDeleteMe/urlApi";
 import { taskType } from "../../state/slice/taskSlice";
 
-const createProductsAPI = urlApi + "/createProduct";
+const createProductsAPI = urlApi + "/v1/api/createProduct";
 
 export const createNewTask = createAsyncThunk('createNewTask', async (task: taskType) => {
     const response = await fetch(createProductsAPI, {
