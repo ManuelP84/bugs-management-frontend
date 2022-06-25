@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { possibleStatus } from "../../config/possibleStatus"
+import { createNewTask } from "../../services/Tasks/createNewTask";
+import { deleteTask } from "../../services/Tasks/deleteTask";
+import { getTasksByProjectId } from "../../services/Tasks/getTasksByProjectId";
+import { updateTask } from "../../services/Tasks/UpdateTask";
 import { RootState } from "../store";
 
 type taskType = {
