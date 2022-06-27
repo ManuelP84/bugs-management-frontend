@@ -39,7 +39,7 @@ const taskSlice = createSlice({
     reducers: {
 
     },
-    extraReducers: (builder) {
+    extraReducers: (builder) => {
         //POST 
         builder.addCase(createNewTask.pending, (state,action) => {
             state.status = possibleStatus.PENDING;
