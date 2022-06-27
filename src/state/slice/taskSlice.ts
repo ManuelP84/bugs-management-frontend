@@ -7,7 +7,7 @@ import { updateTask } from "../../services/Tasks/UpdateTask";
 import { RootState } from "../store";
 
 type taskType = {
-    id: String,
+    id?: String,
     projectId: String,
     taskId: String,
     projectName: String,
