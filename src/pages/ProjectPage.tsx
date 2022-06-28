@@ -35,7 +35,7 @@ const ProjectPage = (props: Props) => {
                     <CreateProjectForm />
                 </div>
                 <div className="col-md-8 py-2">
-                    <ProjectFilter/>
+                    <ProjectFilter />
                 </div>
             </div>
         </div>

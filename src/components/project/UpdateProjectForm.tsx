@@ -3,9 +3,11 @@ import { createProject } from '../../services/project/createProject'
 import { projectStateEnum, projectType } from '../../state/slice/projectSlice'
 import { useAppDispatch } from '../../state/store'
 
-type Props = {}
+type Props = {
+    project: projectType
+}
 
-const CreateProjectForm: React.FC<Props> = (props) => {
+const UpdateProjectForm: React.FC<Props> = (props) => {
 
     const dispatch = useAppDispatch()
 
@@ -83,7 +85,7 @@ const CreateProjectForm: React.FC<Props> = (props) => {
     return (
         <div className="fluid-container py-2">
             <div className="row m-2">
-                <h4>Create a Project</h4>
+                <h6>Create a Project</h6>
             </div>
 
             <div className="row m-2">
@@ -152,4 +154,4 @@ const CreateProjectForm: React.FC<Props> = (props) => {
     )
 }
 
-export default CreateProjectForm
+export default UpdateProjectForm

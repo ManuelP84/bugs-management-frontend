@@ -19,7 +19,7 @@ const ProjectDropdown: React.FC<Props> = ({ project }) => {
     return (
         <div className="fluid-container mx-3 my-1 px-2 rounded-3 border shadow-sm">
             <div className="d-flex row justify-content-between mt-2 align-items-center">
-                <div className="col-md-2 col-sm-2" onClick={toggleCollapse}><span className="clickable">{project.projectId}</span></div>
+                <div className="col-md-2 col-sm-2" onClick={toggleCollapse}><span className="clickable-id">{project.projectId}</span></div>
                 <div className="col-md-5 col-sm-5">{project.name}</div>
                 <div className="col-md-5 col-sm-5">{project.state}</div>
             </div>
