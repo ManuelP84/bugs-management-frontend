@@ -1,54 +1,66 @@
-import { useTable } from "react-table";
+import { useFilters, useSortBy, useGlobalFilter, useTable } from "react-table";
+import { GlobalFilter } from "../ReactTable/Filter";
 
 
 export default function TasksTable({ columns, data }) {
+
+    const tableInstance = useTable(
+        {
+            columns,
+            data,
+        },
+        useGlobalFilter,
+        useSortBy
+    );
+
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
         rows,
-        state,
-        visibleColumns,
         prepareRow,
-    } = useTable({
-        columns,
-        data,
-    },
-    );
+        preGlobalFilteredRows,
+        setGlobalFilter,
+        state,
+        visibleColumns
+    } = tableInstance;
 
     return (
-        <table {...getTableProps()}>
-            <thead>
-                <tr>
-                    <th
-                        colSpan={visibleColumns.length}
-                        style={{
-                            textAlign: "center",
-                        }}>
-                    </th>
-                </tr>
-                {headerGroups.map((headerGroup) => (
-                    <tr {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map((column) => (
-                            <th {...column.getHeaderProps()}>
-                                {column.render("Header")}
-                            </th>
-                        ))}
-                    </tr>
-                ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-                {rows.map((row, i) => {
-                    prepareRow(row);
-                    return (
-                        <tr {...row.getRowProps()}>
-                            {row.cells.map((cell) => {
-                                return <td {...cell.getCellProps()}>{cell.render("Cell")}</td>;
-                            })}
+
+        <>
+            <GlobalFilter
+                preGlobalFilteredRows={preGlobalFilteredRows}
+                setGlobalFilter={setGlobalFilter}
+                globalFilter={state.globalFilter}
+            />
+            <table {...getTableProps()}>
+                <thead>
+                    {headerGroups.map((headerGroup) => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map((column) => (
+                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                    {column.render("Header")}
+                                    {column.isSorted ? (column.isSortedDesc ? " ▼" : " ▲") : ""}
+                                </th>
+                            ))}
                         </tr>
-                    );
-                })}
-            </tbody>
-        </table>
+                    ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {rows.map((row) => {
+                        prepareRow(row);
+                        return (
+                            <tr {...row.getRowProps()}>
+                                {row.cells.map((cell, idx) => (
+                                    <td {...cell.getCellProps()}>
+                                        {cell.render("Cell")}
+                                    </td>
+                                ))}
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
+        </>
     )
 }

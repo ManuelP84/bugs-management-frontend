@@ -1,13 +1,14 @@
 import TasksTable from '../../components/Tasks/TableContainer'
 import { Link } from "react-router-dom";
+import { taskType } from '../../state/slice/taskSlice';
 
 const ListOfTasks = () => {
 
-    const data = [
+    const data:taskType[] = [
         {
             "id": "0b4265d6-d06e-4a51-b595-8304f72e67b7",
             "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
-            "taskId": 1,
+            "taskId": "1",
             "projectName": "Prodder",
             "name": "Husain Tigner",
             "date": "1999",
@@ -30,7 +31,7 @@ const ListOfTasks = () => {
         {
             "id": "0b4265d6-d06e-4a51-b595-8304f72e67b8",
             "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
-            "taskId": 2,
+            "taskId": "2",
             "projectName": "Prodder2",
             "name": "Husain Tigner2",
             "date": "2000",
@@ -59,7 +60,7 @@ const ListOfTasks = () => {
         {
             "id": "0b4265d6-d06e-4a51-b595-8304f72e67b7",
             "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
-            "taskId": 3,
+            "taskId": "3",
             "projectName": "Prodder",
             "name": "Husain Tigner",
             "date": "1999",
@@ -82,7 +83,7 @@ const ListOfTasks = () => {
         {
             "id": "0b4265d6-d06e-4a51-b595-8304f72e67b7",
             "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
-            "taskId": 4,
+            "taskId": "4",
             "projectName": "Prodder",
             "name": "Husain Tigner",
             "date": "1999",

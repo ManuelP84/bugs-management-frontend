@@ -6,6 +6,21 @@ import { getTasksByProjectId } from "../../services/Tasks/getTasksByProjectId";
 import { updateTask } from "../../services/Tasks/UpdateTask";
 import { RootState } from "../store";
 
+type labelType = {
+    id?: String,
+    label: String,
+}
+
+type urlType = {
+    id?: String,
+    url: String,
+}
+
+type emailType = {
+    id?: String,
+    email: String,
+}
+
 type taskType = {
     id?: String,
     projectId: String,
@@ -14,11 +29,11 @@ type taskType = {
     name: String,
     date: String,
     endDate?: String,
-    labels: String[],
+    labels: labelType[],
     description: String,
-    urls: String[],
+    urls: urlType[],
     state: String,
-    developerEmails: String[],
+    developerEmails: emailType[],
 }
 
 interface initialStateType {
@@ -99,7 +114,7 @@ const taskSlice = createSlice({
     }
 })
 
-export type { taskType, initialStateType }
+export type { urlType, labelType, emailType, taskType, initialStateType }
 export default taskSlice.reducer
 
 export const selectTasksState = () => (state: RootState) => state.tasks.tasks
