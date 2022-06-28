@@ -181,7 +181,7 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
                     <select className="form-select" name="projectState"
                         onChange={(e) => setProjectState(e.target.value)}>
                         <option value={projectState}>Change project state (current: {projectState})</option>
-                        {(Object.values(projectStateEnum)).map(
+                        {(Object.values(projectStateEnum).slice(1)).map(
                             state => {
                                 return <option value={projectState} key={state}>{state}</option>
                             })}

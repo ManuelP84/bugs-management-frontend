@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { projectType } from '../../state/slice/projectSlice'
+import { projectStateEnum, projectType } from '../../state/slice/projectSlice'
 import DeleteProjectModal from './DeleteProjectModal'
 import UpdateProjectModal from './UpdateProjectModal'
 
@@ -39,12 +39,16 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
                         )}</p>
                     <p className="row text-start"><b className="row">Description:</b>{project.description}</p>
                     <div className="row my-2">
-                        <div className="col-sm-6 col-xs-6">
-                            <button className="btn btn-danger w-100 my-2"
-                                type="button"
-                                onClick={() => setShowDeleteModal(true)}>Delete Project</button>
-                        </div>
-                        <div className="col-sm-6 col-xs-6">
+
+                        {project.state === projectStateEnum.CREATED ?
+                            <div className="col-sm-6 col-xs-6">
+                                <button className="btn btn-danger w-100 my-2"
+                                    type="button"
+                                    onClick={() => setShowDeleteModal(true)}>Delete Project</button>
+                            </div> : <></>}
+
+                        <div className={project.state === projectStateEnum.CREATED ?
+                            "col-sm-6 col-xs-6" : "col-sm-12"}>
                             <button className="btn btn-warning w-100 my-2"
                                 type="button"
                                 onClick={() => setShowUpdateModal(true)}>Update Project</button>

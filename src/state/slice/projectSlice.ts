@@ -10,6 +10,7 @@ enum projectStateEnum {
     CREATED = "CREATED",
     ACTIVE = "ACTIVE",
     IDLE = "IDLE",
+    CANCELLED = "CANCELLED",
     COMPLETED = "COMPLETED"
 }
 
