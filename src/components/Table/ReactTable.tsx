@@ -39,12 +39,12 @@ export default function TasksTable({ columns, data}) {
                 setGlobalFilter={setGlobalFilter}
                 globalFilter={state.globalFilter}
             />
-            <table {...getTableProps()}>
+            <table className="table" {...getTableProps()}>
                 <thead>
                     {headerGroups.map((headerGroup) => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column) => (
-                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                                <th scope="col" {...column.getHeaderProps(column.getSortByToggleProps())}>
                                     {column.render("Header")}
                                     {column.isSorted ? (column.isSortedDesc ? " ▼" : " ▲") : ""}
                                 </th>
@@ -58,7 +58,7 @@ export default function TasksTable({ columns, data}) {
                         return (
                             <tr {...row.getRowProps()}>
                                 {row.cells.map((cell, idx) => (
-                                    <td {...cell.getCellProps()}>
+                                    <td scope="row"{...cell.getCellProps()}>
                                         {cell.render("Cell")}
                                     </td>
                                 ))}
@@ -67,9 +67,9 @@ export default function TasksTable({ columns, data}) {
                     })}
                 </tbody>
             </table>
-            <button onClick={() => previousPage()} hidden={!canPreviousPage || data.length <= 30}>Anterior</button>
-            <strong hidden={data.length <= 30}>Pagina {state.pageIndex+1} de {pageOptions.length}</strong>
-            <button onClick={() => nextPage()} hidden={!canNextPage || data.length <= 30}>Siguiente</button>
+            <div><strong hidden={data.length <= 30}>Pagina {state.pageIndex+1} de {pageOptions.length}</strong></div>
+            <button className="btn btn-secondary" onClick={() => previousPage()} hidden={!canPreviousPage || data.length <= 30}>Anterior</button>
+            <button className="btn btn-secondary" onClick={() => nextPage()} hidden={!canNextPage || data.length <= 30}>Siguiente</button>
         </>
     )
 }

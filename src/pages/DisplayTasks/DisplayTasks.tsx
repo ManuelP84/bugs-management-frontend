@@ -26,7 +26,7 @@ const DisplayTasks = () => {
         )}</h2>
         <h2 >Descripción: {taskDetail.description}</h2>
         <h2 >Archivos adjuntos: {taskDetail.urls.map( urls =>{
-            return (<li>{urls.url}</li>)
+            return (<li><a href={urls.url}>{urls.fileName}</a></li>)
         }
         )}</h2>
         <h2 >Estado de tarea: {taskDetail.state}</h2>

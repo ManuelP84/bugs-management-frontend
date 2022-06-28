@@ -60,7 +60,7 @@ const ListOfTasks = () => {
             ],
         },
         {
-            "id": "0b4265d6-d06e-4a51-b595-8304f72e67b7",
+            "id": "81717e2c-90d1-4a32-8536-94050b5130ea",
             "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
             "taskId": "3",
             "projectName": "Prodder",
@@ -73,8 +73,10 @@ const ListOfTasks = () => {
             ],
             "description": "fentanyl citrate",
             "urls": [
-                {"url":"https://cdn2.thecatapi.com/images/kZvqdDvvy.jpg"},
-                {"url":"https://cdn2.thecatapi.com/images/8is.jpg"}
+                {"fileName":"test",
+                "url":"https://cdn2.thecatapi.com/images/kZvqdDvvy.jpg"},
+                {"fileName":"test",
+                "url":"https://cdn2.thecatapi.com/images/8is.jpg"}
             ],
             "state": "Abierto",
             "developerEmails": [
@@ -321,7 +323,8 @@ const ListOfTasks = () => {
         {
             Header: "Borrar",
             Cell: () => (
-                <button>
+                <button className="btn btn-danger w-100 my-2"
+                type="button">
                     Borrar
                 </button>
             )
@@ -329,16 +332,21 @@ const ListOfTasks = () => {
     ]
 
     return (
-        <div className="container m-5">
-            <h1>Hola desde la lista de tareas</h1>
-            <div>
+        <div className="container m-4.text-center" >
+
+            <h1 className="text-center">Lista de tareas, Proyecto X</h1>
+            <div className="text-center">
                 <TasksTable
                     columns={columns}
                     data={data}
                 />
             </div>
             <br/>
-            <button>Agregar Tarea</button>
+            <div className="text-center">
+                <Link to='/create-task'>
+                    <button  className="btn btn-primary" >Agregar nueva Tarea</button>
+                </Link>
+            </div>
         </div>
     )
 }

@@ -13,15 +13,15 @@ export function GlobalFilter({
   }
 
  return (
-    <div>
-      <h2>Search:</h2>
-      <input
+    <div >
+      <h2 className="text-center">Buscar:</h2>
+      <input type="text" className="form-control"
         value={value || ""}
         onChange={(e) => {
           setValue(e.target.value);
           onChange(e.target.value);
         }}
-        placeholder={`${count} records...`}
+        placeholder={`${count} entradas...`}
       />
     </div>
   );
