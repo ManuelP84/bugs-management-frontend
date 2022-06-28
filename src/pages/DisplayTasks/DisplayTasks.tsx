@@ -37,9 +37,15 @@ const DisplayTasks = () => {
             return (<li>{emails.email}</li>)
         }
         )}</h2>
+        <br/>
+        <br/>
+        <button>Editar</button>
+        <br/>
+        <button>
         <Link to='/'>
                     Volver
         </Link>
+        </button>
         </div>
     )
 }
