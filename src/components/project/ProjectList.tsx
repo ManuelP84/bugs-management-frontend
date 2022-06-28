@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { selectProjectsState } from '../../state/slice/projectSlice'
+import React from 'react'
+import { projectType } from '../../state/slice/projectSlice'
+import ProjectDropdown from './ProjectDropdown'
 
-type Props = {}
+type Props = {
+    projects: projectType[]
+}
 
-const ProjectList = (props: Props) => {
-
-    const projects = useSelector(selectProjectsState())
+const ProjectList: React.FC<Props> = ({ projects }) => {
 
     return (
-        <div>
+        <div className="fluid-container py-2" id="accordionExample">
+
             {projects.map(project =>
-                <h1 key={project.id}>{project.description}</h1>
+                <ProjectDropdown project={project} key={project.id} />
             )}
         </div>
     )

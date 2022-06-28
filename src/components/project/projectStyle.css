@@ -1,0 +1,13 @@
+.input-inset-format {
+  font-size: 12px;
+  font-family: sans-serif;
+}
+
+.clickable {
+  color: rgb(61, 117, 172);
+  text-decoration: underline;
+}
+
+.clickable:hover {
+  cursor: pointer;
+}

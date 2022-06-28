@@ -1,95 +1,154 @@
 import React, { useState } from 'react'
+import { createProject } from '../../services/project/createProject'
+import { projectStateEnum, projectType } from '../../state/slice/projectSlice'
+import { useAppDispatch } from '../../state/store'
 
 type Props = {}
 
 const CreateProjectForm = (props: Props) => {
 
-    const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
+    const dispatch = useAppDispatch()
 
-    const [name, setName] = useState("");
-    const [date, setDate] = useState("");
-    const [devEmail, setDevEmail] = useState("");
-    const [devInCharged, setDevInCharged] = useState(false);
+    const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
+    const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/
+
+    const [projectName, setProjectName] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [personEmail, setPersonEmail] = useState("");
+    const [isLeader, setIsLeader] = useState(false);
     const [developerEmails, setDeveloperEmails] = useState<string[]>([]);
-    const [leaderEmail, setLeaderEmail] = useState("");
-    const [leaderInCharged, setLeaderInCharged] = useState(false);
     const [leaderEmails, setLeaderEmails] = useState<string[]>([]);
     const [description, setDescription] = useState("");
+    const [showEmailAlert, setShowEmailAlert] = useState(false)
 
-    const onAddDevEmail = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const onAddPersonEmail = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
-        if (emailRegex.test(devEmail)) {
-            setDeveloperEmails([...developerEmails, devEmail])
-            setDevEmail("")
+
+        if (emailRegex.test(personEmail) && isLeader) {
+            setLeaderEmails([...leaderEmails, personEmail])
+            setShowEmailAlert(false)
+        }
+        if (emailRegex.test(personEmail) && !isLeader) {
+            setDeveloperEmails([...developerEmails, personEmail])
+            setShowEmailAlert(false)
+        }
+        if (!emailRegex.test(personEmail)) {
+            setShowEmailAlert(true)
+        }
+        setPersonEmail("")
+        setIsLeader(false)
+    }
+
+    const onCreateProject = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault()
+
+        if (0 < projectName.length && projectName.length < 50
+            && 0 < description.length && description.length <= 2000
+            && dateRegex.test(startDate) && dateRegex.test(startDate) && description) {
+
+            const projectToCreate: projectType =
+            {
+                projectId: randomProjectId(),
+                name: projectName,
+                startDate,
+                endDate,
+                developerEmails,
+                leaderEmails,
+                description,
+                state: projectStateEnum.CREATED
+            }
+
+            dispatch(createProject(projectToCreate))
+
+            cleanForm()
         }
     }
 
-    const onAddLeaderEmail = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault()
-        if (emailRegex.test(leaderEmail)) {
-            setLeaderEmails([...leaderEmails, leaderEmail])
-            setLeaderEmail("")
-        }
+    const cleanForm = () => {
+        setProjectName("")
+        setStartDate("")
+        setEndDate("")
+        setPersonEmail("")
+        setDeveloperEmails([])
+        setLeaderEmails([])
+        setDescription("")
+        setShowEmailAlert(false)
+    }
+
+    const randomProjectId = () => {
+        return Math.floor(Math.random() * 10000000)
     }
 
     return (
-        <form>
-            <div className="container my-3">
+        <div className="fluid-container py-2">
+            <div className="row m-2">
+                <h4>Create a Project</h4>
+            </div>
 
-                <div className="row my-4">
-                    <div className="col">
-                        <h4>Project registration</h4>
-                    </div>
-                </div>
-
-                <div className="row my-3">
-                    <div className="col input-form">
-                        <input className="form-control" type="text" id="name" onChange={(e) => setName(e.target.value)} placeholder="Project Name" />
-                    </div>
-                </div>
-                <div className="my-3 input-group">
-                    <input type="text" className="form-control" onChange={(e) => setDate(e.target.value)} placeholder="Start date" />
-                    <span className="input-group-text">yyyy-mm-dd</span>
-                </div>
-
-                <div className="d-flex row my-3 justify-content-between">
-                    <div className="col-md-8">
-                        <div className="input-group">
-                            <input type="email" className="form-control" onChange={(e) => setDevEmail(e.target.value)} placeholder="Developer email" />
-                            <div className="input-group-text">
-                                <input className="form-check-input mt-0 mx-2" onChange={(e) => setDevInCharged(e.currentTarget.checked)} type="checkbox" value="" />
-                                <span>in charge</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-4">
-                        <button className="btn btn-primary w-100" onClick={onAddDevEmail}>Add developer</button>
-                    </div>
-                </div>
-
-                <div className="row my-3">
-                    <div className="col-8">
-                        <div className="input-group">
-                            <input type="email" className="form-control" onChange={(e) => setLeaderEmail(e.target.value)} placeholder="Leader email" />
-                            <div className="input-group-text">
-                                <input className="form-check-input mt-0 mx-2" onChange={(e) => setLeaderInCharged(e.currentTarget.checked)} type="checkbox" value="" />
-                                <span>in charge</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-4">
-                        <button className="btn btn-primary w-100" onClick={onAddLeaderEmail}>Add leader</button>
-                    </div>
-                </div>
-
-                <div className="row my-3">
-                    <div className="col-12">
-                        <textarea className="form-control" id="description" onChange={(e) => setDescription(e.target.value)} placeholder="Project description" />
-                    </div>
+            <div className="row m-2">
+                <div className="col-12">
+                    <input className="form-control" type="text" id="name"
+                        onChange={(e) => setProjectName(e.target.value)}
+                        placeholder="Project name (up to 50 characters)"
+                        value={projectName} />
                 </div>
             </div>
 
-        </form>
+            <div className="row m-2 ">
+                <div className="col-12 input-group">
+                    <div className="input-group-text">
+                        <span className="input-inset-format">YYYY-MM-DD</span>
+                    </div>
+                    <input type="text" className="form-control" onChange={(e) => setStartDate(e.target.value)}
+                        placeholder="Start date"
+                        value={startDate} />
+                </div>
+            </div>
+
+            <div className="row m-2 ">
+                <div className="col-12 input-group">
+                    <div className="input-group-text">
+                        <span className="input-inset-format">YYYY-MM-DD</span>
+                    </div>
+                    <input type="text" className="form-control"
+                        onChange={(e) => setEndDate(e.target.value)}
+                        placeholder="End date (optional)"
+                        value={endDate} />
+                </div>
+            </div>
+
+            {/* Set an email of a person, check if him/her is a leader to be added to the corresponding list*/}
+            <div className="row m-2">
+                <div className="col input-group">
+                    <input className="form-control" type="email"
+                        onChange={(e) => setPersonEmail(e.target.value)} placeholder="Person email" value={personEmail} />
+                    <div className="input-group-text">
+                        <span className="me-2 input-inset-format">leader</span>
+                        <input className="form-check-input mt-0" type="checkbox" checked={isLeader} onChange={(e) => { setIsLeader(e.currentTarget.checked) }} />
+                    </div>
+                    <button className="btn btn-outline-primary" type="button" onClick={onAddPersonEmail}>Add</button>
+                </div>
+            </div>
+
+            {showEmailAlert ? <div className="row ms-2">
+                <span className="text-start" style={{ color: "red" }}>The email has an invalid format</span>
+            </div> : <></>}
+
+            <div className="row m-2">
+                <div className="col-12">
+                    <textarea className="form-control" name="description" id="description" value={description}
+                        onChange={(e) => setDescription(e.target.value)} placeholder="Project description (up to 2000 characters)" />
+                </div>
+            </div>
+
+            <div className="row m-2">
+                <div className="col-12">
+                    <button className="btn btn-primary w-100" type="button"
+                        onClick={(e) => onCreateProject(e)}>Create Project</button>
+                </div>
+            </div>
+        </div>
     )
 }
 
