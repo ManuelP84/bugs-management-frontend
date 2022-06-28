@@ -1,25 +1,32 @@
 import React, { useState } from 'react'
-import { createProject } from '../../services/project/createProject'
+import { updateProject } from '../../services/project/updateProject'
 import { projectStateEnum, projectType } from '../../state/slice/projectSlice'
 import { useAppDispatch } from '../../state/store'
 
-type Props = {}
+type Props = {
+    project: projectType,
+    setShowUpdateModal: Function
+}
 
-const CreateProjectForm: React.FC<Props> = (props) => {
+const UpdateProjectForm: React.FC<Props> = (props) => {
+
+    const { project, setShowUpdateModal } = props
 
     const dispatch = useAppDispatch()
 
     const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
     const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/
 
-    const [projectName, setProjectName] = useState("");
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
+    const [projectName, setProjectName] = useState(project.name);
+    const [startDate, setStartDate] = useState(project.startDate);
+    const [endDate, setEndDate] = useState(project.endDate);
     const [personEmail, setPersonEmail] = useState("");
     const [isLeader, setIsLeader] = useState(false);
-    const [developerEmails, setDeveloperEmails] = useState<string[]>([]);
-    const [leaderEmails, setLeaderEmails] = useState<string[]>([]);
-    const [description, setDescription] = useState("");
+    const [developerEmails, setDeveloperEmails] = useState<string[]>(project.developerEmails);
+    const [leaderEmails, setLeaderEmails] = useState<string[]>(project.leaderEmails);
+    const [emailToDelete, setEmailToDelete] = useState("");
+    const [description, setDescription] = useState(project.description);
+    const [projectState, setProjectState] = useState(project.state as string);
     const [showEmailAlert, setShowEmailAlert] = useState(false)
 
     const onAddPersonEmail = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -40,28 +47,29 @@ const CreateProjectForm: React.FC<Props> = (props) => {
         setIsLeader(false)
     }
 
-    const onCreateProject = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const onUpdateProject = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
 
         if (0 < projectName.length && projectName.length < 50
             && 0 < description.length && description.length <= 2000
             && dateRegex.test(startDate) && dateRegex.test(startDate) && description) {
 
-            const projectToCreate: projectType =
+            const projectToUpdate: projectType =
             {
-                projectId: randomProjectId(),
+                id: project.id,
+                projectId: project.projectId,
                 name: projectName,
                 startDate,
                 endDate,
                 developerEmails: Array.from(new Set(developerEmails)),
                 leaderEmails: Array.from(new Set(leaderEmails)),
                 description,
-                state: projectStateEnum.CREATED
+                state: projectStateEnum[projectState as keyof typeof projectStateEnum]
             }
 
-            dispatch(createProject(projectToCreate))
-
+            dispatch(updateProject(projectToUpdate))
             clearForm()
+            setShowUpdateModal(false)
         }
     }
 
@@ -76,14 +84,20 @@ const CreateProjectForm: React.FC<Props> = (props) => {
         setShowEmailAlert(false)
     }
 
-    const randomProjectId = () => {
-        return Math.floor(Math.random() * 10000000)
+    const onRemoveAnEmail = () => {
+        const developersAfterRemoveAnEmail = developerEmails.filter(email => email !== emailToDelete)
+        const leadersAfterRemoveAnEmail = leaderEmails.filter(email => email !== emailToDelete)
+        setDeveloperEmails([...developersAfterRemoveAnEmail])
+        setLeaderEmails([...leadersAfterRemoveAnEmail])
     }
 
     return (
         <div className="fluid-container py-2">
             <div className="row m-2">
-                <h4>Create a Project</h4>
+                <h6>{"Updating project with id "}
+                    <span style={{ textDecoration: "underline" }}>{project.projectId}
+                    </span>
+                </h6>
             </div>
 
             <div className="row m-2">
@@ -122,10 +136,12 @@ const CreateProjectForm: React.FC<Props> = (props) => {
             <div className="row m-2">
                 <div className="col input-group">
                     <input className="form-control" type="email"
-                        onChange={(e) => setPersonEmail(e.target.value)} placeholder="Person email" value={personEmail} />
+                        onChange={(e) => setPersonEmail(e.target.value)} placeholder="Person email"
+                        value={personEmail} />
                     <div className="input-group-text">
                         <span className="me-2 input-inset-format">leader</span>
-                        <input className="form-check-input mt-0" type="checkbox" checked={isLeader} onChange={(e) => { setIsLeader(e.currentTarget.checked) }} />
+                        <input className="form-check-input mt-0" type="checkbox" checked={isLeader}
+                            onChange={(e) => { setIsLeader(e.currentTarget.checked) }} />
                     </div>
                     <button className="btn btn-outline-primary" type="button" onClick={onAddPersonEmail}>Add</button>
                 </div>
@@ -135,21 +151,51 @@ const CreateProjectForm: React.FC<Props> = (props) => {
                 <span className="text-start" style={{ color: "red" }}>The email has an invalid format</span>
             </div> : <></>}
 
+            {/* Pick the email to be deleted*/}
+            <div className="row m-2">
+                <div className="col input-group">
+                    <select className="form-select" name="projectState"
+                        onChange={(e) => setEmailToDelete(e.target.value)}>
+                        <option value="">Pick an email to remove...</option>
+                        {[...developerEmails, ...leaderEmails].map(
+                            email => {
+                                return <option value={email} key={email}>{email}</option>
+                            })}
+                    </select>
+                    <button className="btn btn-outline-danger" type="button" onClick={onRemoveAnEmail}>Remove</button>
+                </div>
+            </div>
+
             <div className="row m-2">
                 <div className="col-12">
                     <textarea className="form-control" name="description" id="description" value={description}
-                        onChange={(e) => setDescription(e.target.value)} placeholder="Project description (up to 2000 characters)" />
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Project description (up to 2000 characters)" />
+                </div>
+            </div>
+
+            {/* Select to change the project state */}
+            <div className="row m-2">
+                <div className="col-12">
+                    <select className="form-select" name="projectState"
+                        onChange={(e) => setProjectState(e.target.value)}>
+                        <option value="">Change project state (current: {projectState})</option>
+                        {(Object.values(projectStateEnum).slice(1)).map(
+                            state => {
+                                return <option value={state} key={state}>{state}</option>
+                            })}
+                    </select>
                 </div>
             </div>
 
             <div className="row m-2">
                 <div className="col-12">
                     <button className="btn btn-primary w-100" type="button"
-                        onClick={(e) => onCreateProject(e)}>Create Project</button>
+                        onClick={(e) => onUpdateProject(e)}>Update Project</button>
                 </div>
             </div>
         </div>
     )
 }
 
-export default CreateProjectForm
+export default UpdateProjectForm
