@@ -17,7 +17,7 @@ const DisplayTasks = () => {
     return(
         <div>
         <h1>Hello from Display Tasks</h1>
-        <h2 >First Name: {localState.taskDetail.first_name}</h2>
+        <h2 >Id: {localState.taskDetail.taskId}</h2>
         <h2 >Last Name: {localState.taskDetail.last_name}</h2>
         <h2 >E-mail: {localState.taskDetail.email}</h2>
         <h2 >Gender: {localState.taskDetail.gender}</h2>

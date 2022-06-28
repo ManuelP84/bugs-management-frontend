@@ -13,7 +13,7 @@ type taskType = {
     projectName: String,
     name: String,
     date: String,
-    endDate: String,
+    endDate?: String,
     labels: String[],
     description: String,
     urls: String[],
