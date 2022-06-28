@@ -54,7 +54,6 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
             && 0 < description.length && description.length <= 2000
             && dateRegex.test(startDate) && dateRegex.test(startDate) && description) {
 
-
             const projectToUpdate: projectType =
             {
                 id: project.id,
@@ -180,10 +179,10 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
                 <div className="col-12">
                     <select className="form-select" name="projectState"
                         onChange={(e) => setProjectState(e.target.value)}>
-                        <option value={projectState}>Change project state (current: {projectState})</option>
+                        <option value="">Change project state (current: {projectState})</option>
                         {(Object.values(projectStateEnum).slice(1)).map(
                             state => {
-                                return <option value={projectState} key={state}>{state}</option>
+                                return <option value={state} key={state}>{state}</option>
                             })}
                     </select>
                 </div>

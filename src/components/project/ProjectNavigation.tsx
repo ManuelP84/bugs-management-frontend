@@ -115,7 +115,14 @@ const ProjectNavigation: React.FC<Props> = (props) => {
                         onClick={() => setAscending(!ascending)}>⬆⬇</button>
                 </div>
             </div>
+            {/* <div className="row">
+                <div className="col-">
+                    <button>←</button>
+                    <button>→</button>
+                </div>
+            </div> */}
             <ProjectList projects={projectList} />
+
         </div>
     )
 }
