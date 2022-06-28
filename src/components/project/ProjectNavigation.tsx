@@ -57,12 +57,13 @@ const ProjectNavigation: React.FC<Props> = (props) => {
             const filteredList = projectList.filter(project => {
                 const fieldToFilter = project[filterBy as keyof projectType]
                 if (fieldToFilter) {
-                    return fieldToFilter.toString().toLowerCase().includes(filterInput.toLowerCase())
+                    return fieldToFilter.toString().toLowerCase().trim().includes(filterInput.toLowerCase().trim())
                 }
             })
             setProjectList([...filteredList])
         }
         setFilterInput("")
+        setFilter("")
     }
 
     return (

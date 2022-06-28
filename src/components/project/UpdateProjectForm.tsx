@@ -62,8 +62,8 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
                 name: projectName,
                 startDate,
                 endDate,
-                developerEmails,
-                leaderEmails,
+                developerEmails: Array.from(new Set(developerEmails)),
+                leaderEmails: Array.from(new Set(leaderEmails)),
                 description,
                 state: projectStateEnum[projectState as keyof typeof projectStateEnum]
             }
