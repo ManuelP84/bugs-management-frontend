@@ -1,9 +1,16 @@
-import { GoogleAuthProvider, OAuthCredential, signInWithPopup } from "firebase/auth";
+import {
+  GoogleAuthProvider,
+  OAuthCredential,
+  signInWithPopup,
+} from "firebase/auth";
 import * as React from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getLogged, getUser, IUser } from "../../state/slice/loginSlice";
 import { auth } from "../../config/firebaseConfig";
+import { useAppDispatch } from "../../state/store";
+import { getUserByEmail, postUserThunk } from "../../services/loginServices";
+import { v1 as uuidv1 } from "uuid";
+import { useDispatch } from "react-redux";
 
 interface IGoogleLogInProps {}
 
@@ -13,9 +20,14 @@ const GoogleLogIn: React.FunctionComponent<IGoogleLogInProps> = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const getActualRol = async (email: string) => {
+    const userStored = await getUserByEmail(email as string);
+    return userStored.userRol;
+  };
+
   const signInWithGoogleButton = () => {
     signInWithPopup(auth, providerGoogleAuth)
-      .then((result) => {
+      .then(async (result) => {
         // This gives you a Google Access Token. You can use it to access the Google API.
         const credential: OAuthCredential | null =
           GoogleAuthProvider.credentialFromResult(result);
@@ -27,18 +39,32 @@ const GoogleLogIn: React.FunctionComponent<IGoogleLogInProps> = () => {
         //get a lot of information about the user that have logged in
         const user = result.user;
 
+        const rol = await getActualRol(user.email as string);
+
+        
+
         /*Whit the information of the user you can populate an state that is mainly focused on 
                   holding the information of the user that is logged in*/
 
-        
-        dispatch(getUser({uid: user.uid, userName: user.displayName, userImage: user.photoURL} as IUser));
-        dispatch(getLogged(true))
+        dispatch(
+          getUser({
+            uid: user.uid,
+            userToken: uuidv1(),
+            userName: user.displayName,
+            userImage: user.photoURL,
+            userEmail: user.email,
+            userRol: rol,
+          } as IUser)
+        );
 
-        navigate("/stock");
+        dispatch(
+          getLogged(true)
+        )
 
+          navigate("/main")
         // ...
       })
-      .catch((error:any) => {
+      .catch((error: any) => {
         //If the logged in is not succesfull yu will get to this part and with the message you can tell
         //the user what went wrong
 
