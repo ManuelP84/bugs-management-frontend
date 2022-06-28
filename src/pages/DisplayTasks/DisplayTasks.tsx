@@ -23,11 +23,20 @@ const DisplayTasks = () => {
         <h2 >Nombre de Proyecto: {localState.taskDetail.projectName}</h2>
         <h2 >Fecha de inicio: {localState.taskDetail.date}</h2>
         <h2 >Fecha de finalización: {localState.taskDetail.endDate}</h2>
-        <h2 >Tags: {localState.taskDetail.labels}</h2>
+        <h2 >Tags: {localState.taskDetail.labels.map( tag =>{
+            return (<li>{tag.label}</li>)
+        }
+        )}</h2>
         <h2 >Descripción: {localState.taskDetail.description}</h2>
-        <h2 >Archivos adjuntos: {localState.taskDetail.urls}</h2>
+        <h2 >Archivos adjuntos:: {localState.taskDetail.urls.map( urls =>{
+            return (<li>{urls.url}</li>)
+        }
+        )}</h2>
         <h2 >Estado de tarea: {localState.taskDetail.state}</h2>
-        <h2 >Desarrolladores asociados: {localState.taskDetail.developerEmails}</h2>
+        <h2 >Desarrolladores asociados: {localState.taskDetail.developerEmails.map( emails =>{
+            return (<li>{emails.email}</li>)
+        }
+        )}</h2>
         <Link to='/'>
                     Volver
         </Link>
