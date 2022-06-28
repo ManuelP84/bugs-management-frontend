@@ -3,6 +3,7 @@ import { getAllProjects } from "../../services/project/getAllProjects"
 import { createProject } from "../../services/project/createProject"
 import { RootState } from "../store"
 import { possibleStatus } from "../../config/possibleStatus"
+import { updateProject } from "../../services/project/updateProject"
 
 enum projectStateEnum {
     CREATED = "CREATED",
@@ -41,6 +42,8 @@ const projectSlice = createSlice({
     reducers: {
     },
     extraReducers: (builder) => {
+
+        // GET cases
         builder.addCase(getAllProjects.pending, (state, action) => {
             state.status = possibleStatus.PENDING;
         })
@@ -54,20 +57,38 @@ const projectSlice = createSlice({
             state.projects = []
         })
 
+        // POST cases
         builder.addCase(createProject.fulfilled, (state, action) => {
             state.status = possibleStatus.COMPLETED
             state.projects.push(action.payload)
-            console.log("On completed")
         })
         builder.addCase(createProject.pending, (state, action) => {
             state.status = possibleStatus.PENDING;
-            console.log("On pending")
         })
         builder.addCase(createProject.rejected, (state, action) => {
             state.projects = []
             state.status = possibleStatus.FAILED;
             state.error = "Something went wrong creating a new project";
-            console.log("On error")
+        })
+
+        // PUT cases
+        builder.addCase(updateProject.pending, (state, action) => {
+            state.status = possibleStatus.PENDING
+        })
+        builder.addCase(updateProject.fulfilled, (state, action) => {
+            state.status = possibleStatus.COMPLETED
+            let projectsAfterUpdate = state.projects.map(project => {
+                if (project.id === action.payload.id) {
+                    return action.payload
+                }
+                return project
+            })
+
+            state.projects = projectsAfterUpdate
+        })
+        builder.addCase(updateProject.rejected, (state, action) => {
+            state.status = possibleStatus.FAILED
+            state.error = "Something went wrong while creatin a product"
         })
     }
 })

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { createProject } from '../../services/project/createProject'
+import { updateProject } from '../../services/project/updateProject'
 import { projectStateEnum, projectType } from '../../state/slice/projectSlice'
 import { useAppDispatch } from '../../state/store'
 
@@ -51,8 +52,10 @@ const UpdateProjectForm: React.FC<Props> = ({ project }) => {
             && 0 < description.length && description.length <= 2000
             && dateRegex.test(startDate) && dateRegex.test(startDate) && description) {
 
+
             const projectToUpdate: projectType =
             {
+                id: project.id,
                 projectId: project.projectId,
                 name: projectName,
                 startDate,
@@ -63,10 +66,7 @@ const UpdateProjectForm: React.FC<Props> = ({ project }) => {
                 state: projectStateEnum[projectState as keyof typeof projectStateEnum]
             }
 
-
-            console.log(projectToUpdate)
-
-            // dispatch(createProject(projectToCreate))
+            dispatch(updateProject(projectToUpdate))
 
             clearForm()
         }
@@ -93,7 +93,11 @@ const UpdateProjectForm: React.FC<Props> = ({ project }) => {
     return (
         <div className="fluid-container py-2">
             <div className="row m-2">
-                <h6>Create a Project</h6>
+                <h6>{"Updating project with id "}
+                    <span style={{ textDecoration: "underline" }}>{project.projectId}
+                    </span>
+                </h6>
+                <span></span>
             </div>
 
             <div className="row m-2">
@@ -132,10 +136,12 @@ const UpdateProjectForm: React.FC<Props> = ({ project }) => {
             <div className="row m-2">
                 <div className="col input-group">
                     <input className="form-control" type="email"
-                        onChange={(e) => setPersonEmail(e.target.value)} placeholder="Person email" value={personEmail} />
+                        onChange={(e) => setPersonEmail(e.target.value)} placeholder="Person email"
+                        value={personEmail} />
                     <div className="input-group-text">
                         <span className="me-2 input-inset-format">leader</span>
-                        <input className="form-check-input mt-0" type="checkbox" checked={isLeader} onChange={(e) => { setIsLeader(e.currentTarget.checked) }} />
+                        <input className="form-check-input mt-0" type="checkbox" checked={isLeader}
+                            onChange={(e) => { setIsLeader(e.currentTarget.checked) }} />
                     </div>
                     <button className="btn btn-outline-primary" type="button" onClick={onAddPersonEmail}>Add</button>
                 </div>
@@ -163,7 +169,8 @@ const UpdateProjectForm: React.FC<Props> = ({ project }) => {
             <div className="row m-2">
                 <div className="col-12">
                     <textarea className="form-control" name="description" id="description" value={description}
-                        onChange={(e) => setDescription(e.target.value)} placeholder="Project description (up to 2000 characters)" />
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Project description (up to 2000 characters)" />
                 </div>
             </div>
 
@@ -172,7 +179,7 @@ const UpdateProjectForm: React.FC<Props> = ({ project }) => {
                 <div className="col-12">
                     <select className="form-select" name="projectState"
                         onChange={(e) => setProjectState(e.target.value)}>
-                        <option value={projectState}>Change project state (current {projectState})</option>
+                        <option value={projectState}>Change project state (current: {projectState})</option>
                         {(Object.values(projectStateEnum)).map(
                             state => {
                                 return <option value={projectState} key={state}>{state}</option>
