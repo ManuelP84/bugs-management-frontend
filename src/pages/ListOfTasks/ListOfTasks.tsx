@@ -1,4 +1,4 @@
-import TasksTable from '../../components/Tasks/TableContainer'
+import TasksTable from '../../components/Table/ReactTable'
 import { Link } from "react-router-dom";
 import { taskType } from '../../state/slice/taskSlice';
 
