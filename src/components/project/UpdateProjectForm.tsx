@@ -7,21 +7,23 @@ type Props = {
     project: projectType
 }
 
-const UpdateProjectForm: React.FC<Props> = (props) => {
+const UpdateProjectForm: React.FC<Props> = ({ project }) => {
 
     const dispatch = useAppDispatch()
 
     const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
     const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/
 
-    const [projectName, setProjectName] = useState("");
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
+    const [projectName, setProjectName] = useState(project.name);
+    const [startDate, setStartDate] = useState(project.startDate);
+    const [endDate, setEndDate] = useState(project.endDate);
     const [personEmail, setPersonEmail] = useState("");
     const [isLeader, setIsLeader] = useState(false);
-    const [developerEmails, setDeveloperEmails] = useState<string[]>([]);
-    const [leaderEmails, setLeaderEmails] = useState<string[]>([]);
-    const [description, setDescription] = useState("");
+    const [developerEmails, setDeveloperEmails] = useState<string[]>(project.developerEmails);
+    const [leaderEmails, setLeaderEmails] = useState<string[]>(project.leaderEmails);
+    const [emailToDelete, setEmailToDelete] = useState("");
+    const [description, setDescription] = useState(project.description);
+    const [projectState, setProjectState] = useState(project.state as string);
     const [showEmailAlert, setShowEmailAlert] = useState(false)
 
     const onAddPersonEmail = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -42,32 +44,35 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
         setIsLeader(false)
     }
 
-    const onCreateProject = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const onUpdateProject = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
 
         if (0 < projectName.length && projectName.length < 50
             && 0 < description.length && description.length <= 2000
             && dateRegex.test(startDate) && dateRegex.test(startDate) && description) {
 
-            const projectToCreate: projectType =
+            const projectToUpdate: projectType =
             {
-                projectId: randomProjectId(),
+                projectId: project.projectId,
                 name: projectName,
                 startDate,
                 endDate,
                 developerEmails,
                 leaderEmails,
                 description,
-                state: projectStateEnum.CREATED
+                state: projectStateEnum[projectState as keyof typeof projectStateEnum]
             }
 
-            dispatch(createProject(projectToCreate))
 
-            cleanForm()
+            console.log(projectToUpdate)
+
+            // dispatch(createProject(projectToCreate))
+
+            clearForm()
         }
     }
 
-    const cleanForm = () => {
+    const clearForm = () => {
         setProjectName("")
         setStartDate("")
         setEndDate("")
@@ -78,8 +83,11 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
         setShowEmailAlert(false)
     }
 
-    const randomProjectId = () => {
-        return Math.floor(Math.random() * 10000000)
+    const onRemoveAnEmail = () => {
+        const developersAfterRemoveAnEmail = developerEmails.filter(email => email !== emailToDelete)
+        const leadersAfterRemoveAnEmail = leaderEmails.filter(email => email !== emailToDelete)
+        setDeveloperEmails([...developersAfterRemoveAnEmail])
+        setLeaderEmails([...leadersAfterRemoveAnEmail])
     }
 
     return (
@@ -137,6 +145,21 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
                 <span className="text-start" style={{ color: "red" }}>The email has an invalid format</span>
             </div> : <></>}
 
+            {/* Pick the email to be deleted*/}
+            <div className="row m-2">
+                <div className="col input-group">
+                    <select className="form-select" name="projectState"
+                        onChange={(e) => setEmailToDelete(e.target.value)}>
+                        <option value="">Pick an email to remove...</option>
+                        {[...developerEmails, ...leaderEmails].map(
+                            email => {
+                                return <option value={email} key={email}>{email}</option>
+                            })}
+                    </select>
+                    <button className="btn btn-outline-danger" type="button" onClick={onRemoveAnEmail}>Remove</button>
+                </div>
+            </div>
+
             <div className="row m-2">
                 <div className="col-12">
                     <textarea className="form-control" name="description" id="description" value={description}
@@ -144,10 +167,24 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
                 </div>
             </div>
 
+            {/* Select to change the project state */}
+            <div className="row m-2">
+                <div className="col-12">
+                    <select className="form-select" name="projectState"
+                        onChange={(e) => setProjectState(e.target.value)}>
+                        <option value={projectState}>Change project state (current {projectState})</option>
+                        {(Object.values(projectStateEnum)).map(
+                            state => {
+                                return <option value={projectState} key={state}>{state}</option>
+                            })}
+                    </select>
+                </div>
+            </div>
+
             <div className="row m-2">
                 <div className="col-12">
                     <button className="btn btn-primary w-100" type="button"
-                        onClick={(e) => onCreateProject(e)}>Create Project</button>
+                        onClick={(e) => onUpdateProject(e)}>Update Project</button>
                 </div>
             </div>
         </div>

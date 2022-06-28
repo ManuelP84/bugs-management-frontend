@@ -3,11 +3,7 @@
   font-family: sans-serif;
 }
 
-.clickable-id {
+.clickable {
   color: rgb(61, 117, 172);
-  text-decoration: underline;
-}
-
-.clickable-id:hover {
   cursor: pointer;
 }

@@ -61,11 +61,11 @@ const CreateProjectForm: React.FC<Props> = (props) => {
 
             dispatch(createProject(projectToCreate))
 
-            cleanForm()
+            clearForm()
         }
     }
 
-    const cleanForm = () => {
+    const clearForm = () => {
         setProjectName("")
         setStartDate("")
         setEndDate("")

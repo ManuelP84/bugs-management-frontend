@@ -66,7 +66,7 @@ const ProjectFilter: React.FC<Props> = (props) => {
     }
 
     return (
-        <div className="container py-2">
+        <div className="fluid-container py-2">
             <div className="row m-2">
                 <h4>Your Projects</h4>
             </div>

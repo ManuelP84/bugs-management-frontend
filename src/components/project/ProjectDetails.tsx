@@ -17,9 +17,10 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
                 <div className="fluid-container mx-4">
                     <hr></hr>
                     <p className="row text-start"><b className="row">Leaders:</b>
-                        {project.leaderEmails.map(leader => ` ${leader}`)}</p>
+                        {project.leaderEmails.map(leader => <span key={leader}>{`${leader}`}</span>)}</p>
                     <p className="row text-start"><b className="row"> People involved:</b>
-                        {project.developerEmails.map(dev => ` ${dev} `)}</p>
+                        {project.developerEmails.map(dev =>
+                            <span key={dev}>{`${dev}`}</span>)}</p>
                     <p className="row text-start"><b className="row">Description:</b>{project.description}</p>
                     <div className="row my-2">
                         <div className="col-sm-6 col-xs-6">
