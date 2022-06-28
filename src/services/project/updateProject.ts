@@ -3,7 +3,7 @@ import { projectType } from "../../state/slice/projectSlice";
 
 const PATH = 'http://localhost:8080/v1/api/update/project'
 
-export const updateProject = createAsyncThunk('updateproject', async (project: projectType) => {
+export const updateProject = createAsyncThunk('updateProject', async (project: projectType) => {
     const response = await fetch(PATH, {
         method: 'PUT',
         headers: {

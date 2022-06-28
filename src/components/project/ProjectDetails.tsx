@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { projectType } from '../../state/slice/projectSlice'
+import DeleteProjectModal from './DeleteProjectModal'
 import UpdateProjectModal from './UpdateProjectModal'
 
 type Props = {
@@ -10,6 +11,7 @@ type Props = {
 const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
 
     const [showUpdateModal, setShowUpdateModal] = useState(false)
+    const [showDeleteModal, setShowDeleteModal] = useState(false)
 
     const deleteLeaderEmail = (leader: string) => {
         console.log(leader)
@@ -40,7 +42,7 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
                         <div className="col-sm-6 col-xs-6">
                             <button className="btn btn-danger w-100 my-2"
                                 type="button"
-                                onClick={() => { }}>Delete Project</button>
+                                onClick={() => setShowDeleteModal(true)}>Delete Project</button>
                         </div>
                         <div className="col-sm-6 col-xs-6">
                             <button className="btn btn-warning w-100 my-2"
@@ -50,7 +52,14 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
                     </div>
                 </div>
             </div>
-            <UpdateProjectModal project={project} showUpdateModal={showUpdateModal} setShowUpdateModal={setShowUpdateModal} />
+            <UpdateProjectModal
+                project={project}
+                showUpdateModal={showUpdateModal}
+                setShowUpdateModal={setShowUpdateModal} />
+            <DeleteProjectModal
+                project={project}
+                showUpdateModal={showDeleteModal}
+                setShowUpdateModal={setShowDeleteModal} />
         </>
     )
 }

@@ -6,7 +6,7 @@ import ProjectList from './ProjectList';
 
 type Props = {}
 
-const ProjectFilter: React.FC<Props> = (props) => {
+const ProjectNavigation: React.FC<Props> = (props) => {
 
     const filteringOptions = ["projectId", "name", "startDate", "endDate",
         "description", "state", "developerEmails", "leaderEmails"]
@@ -119,4 +119,4 @@ const ProjectFilter: React.FC<Props> = (props) => {
     )
 }
 
-export default ProjectFilter
+export default ProjectNavigation

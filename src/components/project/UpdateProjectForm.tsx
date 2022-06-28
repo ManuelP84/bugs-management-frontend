@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
-import { createProject } from '../../services/project/createProject'
 import { updateProject } from '../../services/project/updateProject'
 import { projectStateEnum, projectType } from '../../state/slice/projectSlice'
 import { useAppDispatch } from '../../state/store'
 
 type Props = {
-    project: projectType
+    project: projectType,
+    setShowUpdateModal: Function
 }
 
-const UpdateProjectForm: React.FC<Props> = ({ project }) => {
+const UpdateProjectForm: React.FC<Props> = (props) => {
+
+    const { project, setShowUpdateModal } = props
 
     const dispatch = useAppDispatch()
 
@@ -67,8 +69,8 @@ const UpdateProjectForm: React.FC<Props> = ({ project }) => {
             }
 
             dispatch(updateProject(projectToUpdate))
-
             clearForm()
+            setShowUpdateModal(false)
         }
     }
 
@@ -97,7 +99,6 @@ const UpdateProjectForm: React.FC<Props> = ({ project }) => {
                     <span style={{ textDecoration: "underline" }}>{project.projectId}
                     </span>
                 </h6>
-                <span></span>
             </div>
 
             <div className="row m-2">

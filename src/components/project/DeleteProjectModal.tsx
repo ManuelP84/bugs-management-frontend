@@ -1,7 +1,8 @@
 import React from 'react'
 import { Button, Modal } from 'react-bootstrap'
 import { projectType } from '../../state/slice/projectSlice'
-import UpdateProjectForm from './UpdateProjectForm'
+import { deleteProject } from '../../services/project/deleteProject'
+import { useAppDispatch } from '../../state/store'
 
 type Props = {
     project: projectType,
@@ -9,12 +10,17 @@ type Props = {
     setShowUpdateModal: Function
 }
 
-const UpdateProjectModal: React.FC<Props> = (props) => {
+const DeleteProjectModal: React.FC<Props> = (props) => {
 
     const { project, showUpdateModal, setShowUpdateModal } = props
 
+    const dispatch = useAppDispatch()
+
     const handleClose = () => {
         setShowUpdateModal(false);
+    }
+    const onDelete = () => {
+        dispatch(deleteProject(project))
     }
     return (
         <Modal show={showUpdateModal} onHide={handleClose} centered>
@@ -24,21 +30,31 @@ const UpdateProjectModal: React.FC<Props> = (props) => {
                 alignItems: "center"
             }}>
                 <Modal.Title>
-                    <h5>Project Update</h5>
+                    <h5>Confirmation</h5>
                 </Modal.Title>
             </Modal.Header>
 
             <Modal.Body>
-                <UpdateProjectForm project={project} setShowUpdateModal={setShowUpdateModal} />
+                <div className="fluid-container py-2">
+                    <div className="row m-2">
+                        <h6>{"Do you want to delete the project with id "}
+                            <span style={{ textDecoration: "underline" }}> {project.projectId}
+                            </span>?
+                        </h6>
+                    </div>
+                </div>
             </Modal.Body>
 
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
+                <Button variant="danger" onClick={onDelete}>
+                    Yes, delete
+                </Button>
             </Modal.Footer>
         </Modal >
     )
 }
 
-export default UpdateProjectModal
+export default DeleteProjectModal

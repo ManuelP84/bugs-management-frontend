@@ -4,6 +4,7 @@ import { createProject } from "../../services/project/createProject"
 import { RootState } from "../store"
 import { possibleStatus } from "../../config/possibleStatus"
 import { updateProject } from "../../services/project/updateProject"
+import { deleteProject } from "../../services/project/deleteProject"
 
 enum projectStateEnum {
     CREATED = "CREATED",
@@ -68,7 +69,7 @@ const projectSlice = createSlice({
         builder.addCase(createProject.rejected, (state, action) => {
             state.projects = []
             state.status = possibleStatus.FAILED;
-            state.error = "Something went wrong creating a new project";
+            state.error = "Something went wrong while creating the project";
         })
 
         // PUT cases
@@ -88,7 +89,23 @@ const projectSlice = createSlice({
         })
         builder.addCase(updateProject.rejected, (state, action) => {
             state.status = possibleStatus.FAILED
-            state.error = "Something went wrong while creatin a product"
+            state.error = "Something went wrong while updating the project"
+        })
+
+        // DELETE
+        builder.addCase(deleteProject.pending, (state, action) => {
+            state.status = possibleStatus.PENDING;
+        })
+        builder.addCase(deleteProject.fulfilled, (state, action) => {
+            state.status = possibleStatus.COMPLETED
+            if (action.payload.status) {
+                state.projects = state.projects.filter((project) =>
+                    project.id !== action.payload.id)
+            }
+        })
+        builder.addCase(deleteProject.rejected, (state, action) => {
+            state.status = possibleStatus.FAILED;
+            state.error = "Something went wrong while deleting the project";
         })
     }
 })

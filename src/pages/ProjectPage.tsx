@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import CreateProjectForm from '../components/project/CreateProjectForm'
-import ProjectFilter from '../components/project/ProjectFilter'
+import ProjectNavigation from '../components/project/ProjectNavigation'
 import { possibleStatus } from '../config/possibleStatus'
 import { getAllProjects } from '../services/project/getAllProjects'
 import { selectProjectsStatus } from '../state/slice/projectSlice'
@@ -35,7 +35,7 @@ const ProjectPage = (props: Props) => {
                     <CreateProjectForm />
                 </div>
                 <div className="col-md-8 py-2">
-                    <ProjectFilter />
+                    <ProjectNavigation />
                 </div>
             </div>
         </div>
