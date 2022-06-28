@@ -1,30 +1,36 @@
-import { useFilters, useSortBy, useGlobalFilter, useTable } from "react-table";
+import { useFilters, useSortBy, useGlobalFilter, useTable, usePagination } from "react-table";
 import { GlobalFilter } from "../GlobalFilter/GlobalFilter";
 
 
-export default function TasksTable({ columns, data }) {
+export default function TasksTable({ columns, data}) {
 
-    const tableInstance = useTable(
-        {
-            columns,
-            data,
-        },
-        useGlobalFilter,
-        useSortBy
-    );
 
     const {
         getTableProps,
         getTableBodyProps,
         headerGroups,
-        rows,
+        page,
+        nextPage,
+        previousPage,
+        canNextPage,
+        canPreviousPage,
+        pageIndex,
+        pageOptions,
         prepareRow,
         preGlobalFilteredRows,
         setGlobalFilter,
         state,
-        visibleColumns
-    } = tableInstance;
-
+    } = useTable(
+        {
+            columns,
+            data,
+            initialState:{pageIndex:0, pageSize:30}
+        },
+        useGlobalFilter,
+        useSortBy,
+        usePagination
+    );
+    
     return (
 
         <>
@@ -47,7 +53,7 @@ export default function TasksTable({ columns, data }) {
                     ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {rows.map((row) => {
+                    {page.map((row) => {
                         prepareRow(row);
                         return (
                             <tr {...row.getRowProps()}>
@@ -61,6 +67,9 @@ export default function TasksTable({ columns, data }) {
                     })}
                 </tbody>
             </table>
+            <button onClick={() => previousPage()} hidden={!canPreviousPage || data.length <= 30}>Anterior</button>
+            <strong hidden={data.length <= 30}>Pagina {state.pageIndex+1} de {pageOptions.length}</strong>
+            <button onClick={() => nextPage()} hidden={!canNextPage || data.length <= 30}>Siguiente</button>
         </>
     )
 }
