@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom"
-import DatePicker from "react-datepicker";
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import { emailType, labelType } from "../../state/slice/taskSlice";
 import { nanoid } from "@reduxjs/toolkit";
+import moment from "moment";
 
 const CreateTask = () => {
 
@@ -12,7 +14,9 @@ const CreateTask = () => {
     const [inputEmail, setInputEmail] = useState('');
     const [labels, setLabels] = useState([] as labelType[])
     const [emails, setEmails] = useState([] as emailType[]) 
-    const [validation, setValidation] = useState(true)
+    const [initDate, setInitDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [emailValidation, setEmailValidation] = useState(true)
     
 
     const onChangeLabel = (e) => {
@@ -53,9 +57,9 @@ const CreateTask = () => {
                 }
                 setEmails(prevState => [...prevState, addEmail]);
                 setInputEmail('');
-                setValidation(true)
+                setEmailValidation(true)
             } else {
-                setValidation(false)
+                setEmailValidation(false)
             }
         }
     };
@@ -67,10 +71,22 @@ const CreateTask = () => {
                 <input type="text" className="form-control" placeholder="Nombre de tarea" required />
 
                 <label>Fecha de inicio</label>
-                <input type="text" className="form-control" placeholder="Fecha de inicio" required />
+                <DatePicker className="form-control"
+                    selected={initDate}
+                    onChange={date => setInitDate(date)}
+                    isClearable
+                    required
+                    placeholderText="Fecha de inicio"
+                />
 
                 <label>Fecha de finalización</label>
-                <input type="text" className="form-control" placeholder="Fecha de finalizacion" />
+                <DatePicker className="form-control"
+                    selected={endDate}
+                    onChange={date => setEndDate(date)}
+                    isClearable
+                    minDate={new Date()}
+                    placeholderText="Fecha de finalización"
+                />
 
                 <div className="form-group">
                     <label>labels</label>
@@ -93,7 +109,7 @@ const CreateTask = () => {
                     <input type="file" className="form-control" placeholder="Enter email" />
                 </div>
                 <div className="form-group">
-                    <label>Estado</label>
+                    <label>Estado de la tarea</label>
                     <br></br>
                     <select className="custom-select form-control" required>
                         <option value="">Seleccione una opción</option>
@@ -112,8 +128,8 @@ const CreateTask = () => {
                         onKeyDown={onKeyDownEmail}
                         onChange={onChangeEmail}
                     />
-                    <small hidden={validation} className="text-danger">Debe ingresar un email valido</small>
-                    <br hidden={validation}/>
+                    <small hidden={emailValidation} className="text-danger">Debe ingresar un email valido</small>
+                    <br hidden={emailValidation}/>
                     <small>Oprima enter o ',' (coma) para agregar un correo</small>
                 </div>
                 <br />
