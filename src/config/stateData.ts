@@ -8,7 +8,7 @@ export const errorInState = (errorMessage: string) => {
     return `Something went wrong while fetching: ${errorMessage}`
 }
 
-export const ENDPOINT = "htttp://localhost/8080/"
+export const ENDPOINT = "http://localhost:8080"
 
 
 export type ErrorType = null | string
