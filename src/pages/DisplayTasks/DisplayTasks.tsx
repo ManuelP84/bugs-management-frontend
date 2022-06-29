@@ -82,14 +82,18 @@ const DisplayTasks = () => {
                 <div className="row border-top border-primary"></div>
                 <br />
                 <div className="text-center">
-                    <button className="btn btn-primary"><strong>Editar</strong></button>
+                    <Link to='/edit-task' className="text-decoration-none text-white">
+                        <button className="btn btn-primary"><strong>Editar</strong></button>
+                    </Link>
                     <br />
                     <br />
-                    <button className="btn btn-secondary">
-                        <Link to='/' className="text-decoration-none text-white">
+
+                    <Link to='/' className="text-decoration-none text-white">
+                        <button className="btn btn-secondary">
                             Volver
-                        </Link>
-                    </button>
+                        </button>
+                    </Link>
+
                 </div>
             </div>
         </div>
