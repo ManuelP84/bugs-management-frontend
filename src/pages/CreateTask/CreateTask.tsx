@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom"
-import DatePicker from 'react-datepicker'
+import DatePicker from "react-datepicker"
 import 'react-datepicker/dist/react-datepicker.css'
 import { emailType, labelType } from "../../state/slice/taskSlice";
 import { nanoid } from "@reduxjs/toolkit";
@@ -13,29 +13,29 @@ const CreateTask = () => {
     const [inputLabel, setInputLabel] = useState('');
     const [inputEmail, setInputEmail] = useState('');
     const [labels, setLabels] = useState([] as labelType[])
-    const [emails, setEmails] = useState([] as emailType[]) 
-    const [initDate, setInitDate] = useState('');
-    const [endDate, setEndDate] = useState('');
+    const [emails, setEmails] = useState([] as emailType[])
+    const [initDate, setInitDate] = useState() as any;
+    const [endDate, setEndDate] = useState() as any;
     const [emailValidation, setEmailValidation] = useState(true)
-    
 
-    const onChangeLabel = (e) => {
+
+    const onChangeLabel = (e: { target: { value: any; }; }) => {
         const { value } = e.target;
         setInputLabel(value);
     };
 
-    const onChangeEmail = (e) => {
+    const onChangeEmail = (e: { target: { value: any; }; }) => {
         const { value } = e.target;
         setInputEmail(value);
     };
 
-    const onKeyDownLabel = (e) => {
+    const onKeyDownLabel = (e: { preventDefault?: any; key?: any; }) => {
         const { key } = e;
         const trimmedInput = inputLabel.trim();
 
-        if (key === 'Enter' || key === ',' && trimmedInput.length && !labels.includes(trimmedInput)) {
+        if (key === 'Enter' || key === ',' && trimmedInput.length) {
             e.preventDefault();
-            const addLabel: labelType ={
+            const addLabel: labelType = {
                 id: nanoid(),
                 label: trimmedInput,
             }
@@ -45,10 +45,10 @@ const CreateTask = () => {
         }
     };
 
-    const onKeyDownEmail = (e) => {
+    const onKeyDownEmail = (e: { preventDefault?: any; key?: any; }) => {
         const { key } = e;
         const trimmedInput = inputEmail.trim();
-        if (key === 'Enter' || key === ',' && trimmedInput.length && !emails.includes(trimmedInput)) {
+        if (key === 'Enter' || key === ',' && trimmedInput.length) {
             e.preventDefault();
             if (trimmedInput.match(regexEmail)) {
                 const addEmail: emailType = {
@@ -63,6 +63,8 @@ const CreateTask = () => {
             }
         }
     };
+
+    
 
     return (
         <div className="w-25 center">
@@ -90,7 +92,7 @@ const CreateTask = () => {
 
                 <div className="form-group">
                     <label>labels</label>
-                    {labels.map((tag) => <li className="label" key={tag.id}>{tag.label}</li>)}
+                    {labels.map((tag) => <li className="label" key={nanoid()}>{tag.label}</li>)}
                     <input
                         className="form-control"
                         value={inputLabel}
@@ -120,7 +122,7 @@ const CreateTask = () => {
                 </div>
                 <div className="form-group">
                     <label>Email personas relacionadas</label>
-                    {emails.map((emails) => <li className="email" key={emails.id}>{emails.email}</li>)}
+                    {emails.map((emails) => <li className="email" key={nanoid()}>{emails.email}</li>)}
                     <input
                         className="form-control"
                         value={inputEmail}
@@ -129,7 +131,7 @@ const CreateTask = () => {
                         onChange={onChangeEmail}
                     />
                     <small hidden={emailValidation} className="text-danger">Debe ingresar un email valido</small>
-                    <br hidden={emailValidation}/>
+                    <br hidden={emailValidation} />
                     <small>Oprima enter o ',' (coma) para agregar un correo</small>
                 </div>
                 <br />
