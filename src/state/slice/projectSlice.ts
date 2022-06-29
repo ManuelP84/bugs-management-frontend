@@ -7,6 +7,9 @@ import { updateProject } from "../../services/project/updateProject"
 import { deleteProject } from "../../services/project/deleteProject"
 import { removeLeader } from "../../services/project/removeLeader"
 
+
+export const userTest = { userRol: "ADMIN", userEmail: "leader@gmail.com" };
+
 enum projectStateEnum {
     CREATED = "CREATED",
     ACTIVE = "ACTIVE",
@@ -65,12 +68,11 @@ const projectSlice = createSlice({
         })
         builder.addCase(getAllProjects.fulfilled, (state, action) => {
             state.status = possibleStatus.COMPLETED;
-            // if (user.userRol === "ADMIN") { state.projects = action.payload }
-            // if (user.userRol !== "ADMIN") {
-            //     const projectRelatedToUser = action.payload.filter(project => [...project.developerEmails, ...project.leaderEmails].includes(user.userEmail))
-            //     state.projects = projectRelatedToUser
-            // }
-            state.projects = action.payload
+            if (userTest.userRol === "ADMIN") { state.projects = action.payload }
+            if (userTest.userRol !== "ADMIN") {
+                const projectRelatedToUser = action.payload.filter(project => [...project.developerEmails, ...project.leaderEmails].includes(userTest.userEmail))
+                state.projects = projectRelatedToUser
+            }
         })
         builder.addCase(getAllProjects.rejected, (state, action) => {
             state.status = possibleStatus.FAILED;
