@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { possibleStatus } from '../../config/possibleStatus';
-import { loadPaginatedProjects, nextPage, selectProjectsStatus } from '../../state/slice/projectSlice';
+import { changePage, loadPaginatedProjects, selectProjectsStatus } from '../../state/slice/projectSlice';
 import { RootState, useAppDispatch } from '../../state/store';
 
 type Props = {}
@@ -38,10 +38,10 @@ const ProjectsPagination: React.FC<Props> = (props) => {
         <div className="row mx-2">
             <div className="d-flex col justify-content-between align-items-center">
                 <button className={`btn btn-outline-secondary ${page === 1 ? "disabled" : ""}`}
-                    onClick={() => dispatch(nextPage(page - 1))}>Previous page</button>
+                    onClick={() => dispatch(changePage(page - 1))}>Previous page</button>
                 {loading ? <h6>Loading data...</h6> : <h6>{page} of {numberOfPages}</h6>}
                 <button className={`btn btn-outline-secondary ${page === numberOfPages ? "disabled" : ""}`}
-                    onClick={() => dispatch(nextPage(page + 1))}>Next Page</button>
+                    onClick={() => dispatch(changePage(page + 1))}>Next Page</button>
             </div>
         </div>
     )

@@ -52,10 +52,7 @@ const projectSlice = createSlice({
         loadPaginatedProjects(state, action) {
             return { ...state, paginatedProjects: action.payload }
         },
-        nextPage(state, action) {
-            return { ...state, page: action.payload }
-        },
-        previousPage(state, action) {
+        changePage(state, action) {
             return { ...state, page: action.payload }
         }
     },
@@ -131,7 +128,7 @@ export type { projectType }
 export { projectStateEnum }
 export default projectSlice.reducer
 
-export const { loadProjects, loadPaginatedProjects, nextPage, previousPage } = projectSlice.actions
+export const { loadProjects, loadPaginatedProjects, changePage } = projectSlice.actions
 
 export const selectProjectsState = () => (state: RootState) => state.projects.projects
 export const selectProjectsStatus = () => (state: RootState) => state.projects.status

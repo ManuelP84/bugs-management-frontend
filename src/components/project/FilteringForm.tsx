@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { getAllProjects } from '../../services/project/getAllProjects';
-import { loadProjects, projectType } from '../../state/slice/projectSlice';
+import { changePage, loadProjects, projectType } from '../../state/slice/projectSlice';
 import { RootState, useAppDispatch } from '../../state/store';
 
 type Props = {}
@@ -29,6 +29,7 @@ const FilteringForm = (props: Props) => {
 
         if (filterBy) {
             const filteredList = projectList.filter(project => {
+
                 const fieldToFilter = project[filterBy as keyof projectType]
                 if (fieldToFilter) {
                     return fieldToFilter.toString().toLowerCase().trim().includes(filterInput.toLowerCase().trim())
@@ -36,6 +37,7 @@ const FilteringForm = (props: Props) => {
             })
 
             dispatch(loadProjects(filteredList))
+            dispatch(changePage(1))
         }
         setFilterInput("")
         setFilter("")
@@ -46,6 +48,7 @@ const FilteringForm = (props: Props) => {
         setFilterInput("")
         setFilter("")
         dispatch(getAllProjects())
+        dispatch(changePage(1))
     }
 
     return (
