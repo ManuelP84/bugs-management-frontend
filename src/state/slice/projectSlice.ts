@@ -28,6 +28,7 @@ type projectType = {
 
 type projectStateType = {
     projects: projectType[],
+    paginatedProjects: projectType[]
     status: possibleStatus,
     error: string | null,
     page: number
@@ -35,6 +36,7 @@ type projectStateType = {
 
 const initialState: projectStateType = {
     projects: [],
+    paginatedProjects: [],
     status: possibleStatus.IDLE,
     error: null,
     page: 1
@@ -46,6 +48,15 @@ const projectSlice = createSlice({
     reducers: {
         loadProjects(state, action) {
             return { ...state, projects: action.payload }
+        },
+        loadPaginatedProjects(state, action) {
+            return { ...state, paginatedProjects: action.payload }
+        },
+        nextPage(state, action) {
+            return { ...state, page: action.payload }
+        },
+        previousPage(state, action) {
+            return { ...state, page: action.payload }
         }
     },
     extraReducers: (builder) => {
@@ -120,7 +131,7 @@ export type { projectType }
 export { projectStateEnum }
 export default projectSlice.reducer
 
-export const { loadProjects } = projectSlice.actions
+export const { loadProjects, loadPaginatedProjects, nextPage, previousPage } = projectSlice.actions
 
 export const selectProjectsState = () => (state: RootState) => state.projects.projects
 export const selectProjectsStatus = () => (state: RootState) => state.projects.status

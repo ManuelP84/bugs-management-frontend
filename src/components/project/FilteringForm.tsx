@@ -11,7 +11,7 @@ const FilteringForm = (props: Props) => {
 
     const dispatch = useAppDispatch();
 
-    const projects = useSelector((state: RootState) => state.projects.projects);
+    const { projects } = useSelector((state: RootState) => state.projects);
 
     const filteringOptions = ["projectId", "name", "startDate", "endDate",
         "description", "state", "developerEmails", "leaderEmails"]

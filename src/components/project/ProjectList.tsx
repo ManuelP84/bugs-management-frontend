@@ -9,7 +9,7 @@ type Props = {}
 
 const ProjectList: React.FC<Props> = (props) => {
 
-    const projectsFromSlice = useSelector((state: RootState) => state.projects.projects);
+    const paginatedProjects = useSelector((state: RootState) => state.projects.paginatedProjects);
 
 
     return (
@@ -20,7 +20,7 @@ const ProjectList: React.FC<Props> = (props) => {
 
             <ProjectNavigation />
 
-            {projectsFromSlice.map((project: projectType) =>
+            {paginatedProjects.map((project: projectType) =>
                 <ProjectDropdown project={project} key={project.id} />
             )}
         </div>

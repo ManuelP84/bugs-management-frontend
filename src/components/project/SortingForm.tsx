@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { loadProjects, projectType } from '../../state/slice/projectSlice';
+import { loadPaginatedProjects, loadProjects, projectType } from '../../state/slice/projectSlice';
 import { RootState, useAppDispatch } from '../../state/store';
 
 type Props = {}
@@ -11,7 +11,7 @@ const SortingForm = (props: Props) => {
 
     const dispatch = useAppDispatch();
 
-    const projects = useSelector((state: RootState) => state.projects.projects as projectType[]);
+    const projects = useSelector((state: RootState) => state.projects.paginatedProjects as projectType[]);
 
     const [sortBy, setSorting] = useState("")
     const [ascending, setAscending] = useState(false)
@@ -32,7 +32,7 @@ const SortingForm = (props: Props) => {
                         (ascending ? -1 : 1) : (ascending ? 1 : -1)
                 ) : 1
             })
-            dispatch(loadProjects(sortedList))
+            dispatch(loadPaginatedProjects(sortedList))
         }
     }, [ascending, sortBy])
     return (
