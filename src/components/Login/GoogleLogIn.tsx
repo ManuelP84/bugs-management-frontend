@@ -5,7 +5,7 @@ import {
 } from "firebase/auth";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { getLogged, getUser, IUser } from "../../state/slice/loginSlice";
+import { getLogged, IUser } from "../../state/slice/loginSlice";
 import { auth } from "../../config/firebaseConfig";
 import { getUserByEmail, postUserThunk} from "../../services/loginServices";
 import { v1 as uuidv1 } from "uuid";

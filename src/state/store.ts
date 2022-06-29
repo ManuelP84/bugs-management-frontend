@@ -8,8 +8,6 @@ import persistStore from "redux-persist/es/persistStore";
 import sessionStorage from "redux-persist/es/storage/session";
 
 
-
-
 const persistConfig = {
   key: 'root',
   storage: sessionStorage,
