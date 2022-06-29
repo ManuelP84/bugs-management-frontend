@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { projectType } from '../../state/slice/projectSlice'
+import { RootState } from '../../state/store'
 
 type suggestedProject = {
     id: number,
@@ -9,25 +12,25 @@ type Props = {}
 
 const SelectProjectForm = (props: Props) => {
 
-    const projects = [
-        { id: 241241, name: "Project 1" },
-        { id: 246246, name: "Project 2" },
-        { id: 579977, name: "Testing project suggestions 1" },
-        { id: 653146, name: "Testing project suggestions 1" }]
+    const projects = useSelector((state: RootState) => state.projects.projects);
 
     const [filterBugsBy, setFilterBugsBy] = useState('')
-    const [suggestedProjects, setSuggestedProjects] = useState<suggestedProject[]>([])
+    const [suggestedProjects, setSuggestedProjects] = useState<projectType[]>([])
 
     useEffect(() => {
         setSuggestedProjects([])
         if (filterBugsBy.length > 0) {
-            const suggestions = projects.filter(project => project.id.toString().includes(filterBugsBy))
+            const suggestions = projects.filter((project: projectType) => {
+                if (project.projectId) {
+                    return project.projectId.toString().includes(filterBugsBy)
+                }
+            })
             setSuggestedProjects([...suggestions])
         }
     }, [filterBugsBy])
 
-    const onPickProject = (suggestion: suggestedProject) => {
-        console.log(suggestion.id)
+    const onPickProject = (suggestion: projectType) => {
+        console.log(suggestion.projectId)
     }
 
     return (
@@ -40,7 +43,7 @@ const SelectProjectForm = (props: Props) => {
                         value={filterBugsBy} />
 
                     <button className="btn btn-outline-primary"
-                        type="button" onClick={() => { }}>Show dashboard</button>
+                        type="button" onClick={() => { }}>Load dashboard</button>
                 </div>
             </div>
 
@@ -51,10 +54,10 @@ const SelectProjectForm = (props: Props) => {
                 <div className={`row mx-2 ${suggestedProjects.length > 0 ? "card" : ""}`}>
                     <div className="col card-body">
                         {suggestedProjects.map(suggestion => {
-                            return <div key={suggestion.id}>
+                            return <div key={suggestion.projectId}>
                                 <span className="clickable overflow-hidden text-nowrap"
-                                    onClick={() => onPickProject(suggestion)}>{`${suggestion.id}`}</span>
-                                <span className="overflow-hidden text-nowrap">{` : ${suggestion.name}`}</span><br />
+                                    onClick={() => onPickProject(suggestion)}>{`${suggestion.projectId}`}</span>
+                                <span className="overflow-hidden text-nowrap">{`: ${suggestion.name}`}</span><br />
                             </div>
                         })}
                     </div>

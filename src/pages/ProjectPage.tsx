@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import CreateProjectForm from '../components/project/CreateProjectForm'
 import ProjectList from '../components/project/ProjectList'
-import ProjectNavigation from '../components/project/ProjectNavigation'
-import { possibleStatus } from '../config/possibleStatus'
 import { getAllProjects } from '../services/project/getAllProjects'
-import { selectProjectsStatus } from '../state/slice/projectSlice'
 import { useAppDispatch } from '../state/store'
 import "/src/styles/projectStyle.css";
 
@@ -15,12 +11,8 @@ const ProjectPage = (props: Props) => {
 
     const dispatch = useAppDispatch();
 
-    const status = useSelector(selectProjectsStatus())
-
     useEffect(() => {
-        if (status === possibleStatus.IDLE) {
-            dispatch(getAllProjects())
-        }
+        dispatch(getAllProjects())
     }, [dispatch])
 
     return (

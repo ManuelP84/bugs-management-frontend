@@ -17,7 +17,7 @@ const ProjectsPagination: React.FC<Props> = (props) => {
     const [numberOfPages, setNumberOfPages] = useState(1)
 
     const [loading, setLoading] = useState(false)
-    const projectsPerPage = 3
+    const projectsPerPage = 20
 
     useEffect(() => {
         setNumberOfPages(Math.ceil(projects.length / projectsPerPage))

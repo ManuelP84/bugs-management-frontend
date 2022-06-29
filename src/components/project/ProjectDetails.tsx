@@ -33,7 +33,7 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
 
     const goToTasks = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
-        navigate("/" + project.id)
+        navigate("/tasks/" + project.id)
     }
 
     return (

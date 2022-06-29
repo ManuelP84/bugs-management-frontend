@@ -69,6 +69,10 @@ const CreateProjectForm: React.FC<Props> = (props) => {
         }
     }
 
+    const validateDate = (date: string) => {
+        const dateArray = date.split('-')
+    }
+
     const clearForm = () => {
         setProjectName("")
         setStartDate("")
