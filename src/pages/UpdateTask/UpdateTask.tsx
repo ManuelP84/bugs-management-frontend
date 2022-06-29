@@ -8,7 +8,8 @@ import moment from "moment";
 import TaskValidationModal from "../../components/TaskValidation/TaskValidationModal";
 
 
-const CreateTask = () => {
+
+const UpdateTask = () => {
 
     const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
@@ -192,7 +193,6 @@ const CreateTask = () => {
                 <br />
                 <button className="btn btn-primary" type="submit">Submit form</button>
             </form>
-            <br></br>
             <button className="btn btn-secondary">
                 <Link to='/' className="text-decoration-none text-white">
                     Volver
@@ -205,4 +205,4 @@ const CreateTask = () => {
     )
 }
 
-export default CreateTask
+export default UpdateTask
