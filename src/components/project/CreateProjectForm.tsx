@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { createProject } from '../../services/project/createProject'
-import { projectStateEnum, projectType } from '../../state/slice/projectSlice'
-import { useAppDispatch } from '../../state/store'
+import { projectStateEnum, projectType, userTest } from '../../state/slice/projectSlice'
+import { RootState, useAppDispatch } from '../../state/store'
 
 type Props = {}
 
@@ -9,7 +10,8 @@ const CreateProjectForm: React.FC<Props> = (props) => {
 
     const dispatch = useAppDispatch()
 
-    // const user = useSelector((state: RootState) => state.login.user);
+    // this is temporary while the user slice can be accessed
+    const user = userTest
 
     const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
     const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/
@@ -134,9 +136,9 @@ const CreateProjectForm: React.FC<Props> = (props) => {
                         <input className="form-check-input mt-0" type="checkbox" checked={isLeader} onChange={(e) => { setIsLeader(e.currentTarget.checked) }} />
                     </div>
 
-                    {/* {(user.userRol === "ADMIN" || user.userRol === "TESTER") ?  */}
-                    <button className="btn btn-outline-primary" type="button" onClick={onAddPersonEmail}>Add</button>
-                    {/* : <button className="btn btn-outline-primary disabled" type="button">Add</button> */}
+                    {(user.userRol === "ADMIN" || user.userRol === "TESTER") ?
+                        <button className="btn btn-outline-primary" type="button" onClick={onAddPersonEmail}>Add</button>
+                        : <button className="btn btn-outline-primary disabled" type="button">Add</button>}
                 </div>
             </div>
 
@@ -153,11 +155,11 @@ const CreateProjectForm: React.FC<Props> = (props) => {
 
             <div className="row m-2">
                 <div className="col-12">
-                    {/* {(user.userRol === "ADMIN" || user.userRol === "TESTER") ?  */}
-                    <button className="btn btn-primary w-100" type="button"
-                        onClick={(e) => onCreateProject(e)}>Create Project</button>
-                    {/* : <button className="btn btn-primary w-100 disabled" type="button"
-                        onClick={() => {}}>Create Project</button>} */}
+                    {(user.userRol === "ADMIN" || user.userRol === "TESTER") ?
+                        <button className="btn btn-primary w-100" type="button"
+                            onClick={(e) => onCreateProject(e)}>Create Project</button>
+                        : <button className="btn btn-primary w-100 disabled" type="button"
+                            onClick={() => { }}>Create Project</button>}
                 </div>
             </div>
         </div>
