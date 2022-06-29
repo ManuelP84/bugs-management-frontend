@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { projectType } from '../../state/slice/projectSlice';
-import { RootState } from '../../state/store';
+import { getAllProjects } from '../../services/project/getAllProjects';
+import { loadProjects, projectType } from '../../state/slice/projectSlice';
+import { RootState, useAppDispatch } from '../../state/store';
 import ProjectList from './ProjectList';
 
 type Props = {}
 
 const ProjectNavigation: React.FC<Props> = (props) => {
+
+    const dispatch = useAppDispatch();
 
     const filteringOptions = ["projectId", "name", "startDate", "endDate",
         "description", "state", "developerEmails", "leaderEmails"]
@@ -37,12 +40,14 @@ const ProjectNavigation: React.FC<Props> = (props) => {
                 ) : 1
             })
 
+            dispatch(loadProjects(sortedList))
             setProjectList([...sortedList])
         }
     }, [ascending, sortBy])
 
     const onReload = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault()
+        dispatch(getAllProjects())
         setProjectList([...projects])
         setFilterInput("")
         setFilter("")
@@ -60,6 +65,8 @@ const ProjectNavigation: React.FC<Props> = (props) => {
                     return fieldToFilter.toString().toLowerCase().trim().includes(filterInput.toLowerCase().trim())
                 }
             })
+
+            dispatch(loadProjects(filteredList))
             setProjectList([...filteredList])
         }
         setFilterInput("")
@@ -115,15 +122,15 @@ const ProjectNavigation: React.FC<Props> = (props) => {
                         onClick={() => setAscending(!ascending)}>⬆⬇</button>
                 </div>
             </div>
-            {/* <div className="row">
-                <div className="col-">
-                    <button>←</button>
-                    <button>→</button>
+            <div className="row mx-2">
+                <div className="d-flex col justify-content-between">
+                    <span className="clickable">Previous page</span>
+                    <span className="clickable">Next Page</span>
                 </div>
-            </div> */}
+            </div>
             <ProjectList projects={projectList} />
 
-        </div>
+        </div >
     )
 }
 

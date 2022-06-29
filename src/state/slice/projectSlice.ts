@@ -29,19 +29,24 @@ type projectType = {
 type projectStateType = {
     projects: projectType[],
     status: possibleStatus,
-    error: string | null
+    error: string | null,
+    page: number
 }
 
 const initialState: projectStateType = {
     projects: [],
     status: possibleStatus.IDLE,
-    error: null
+    error: null,
+    page: 1
 }
 
 const projectSlice = createSlice({
     name: 'project',
     initialState,
     reducers: {
+        loadProjects(state, action) {
+            return { ...state, projects: action.payload }
+        }
     },
     extraReducers: (builder) => {
 
@@ -79,7 +84,7 @@ const projectSlice = createSlice({
         })
         builder.addCase(updateProject.fulfilled, (state, action) => {
             state.status = possibleStatus.COMPLETED
-            let projectsAfterUpdate = state.projects.map(project => {
+            let projectsAfterUpdate = state.projects.map((project: projectType) => {
                 if (project.id === action.payload.id) {
                     return action.payload
                 }
@@ -100,7 +105,7 @@ const projectSlice = createSlice({
         builder.addCase(deleteProject.fulfilled, (state, action) => {
             state.status = possibleStatus.COMPLETED
             if (action.payload.status) {
-                state.projects = state.projects.filter((project) =>
+                state.projects = state.projects.filter((project: projectType) =>
                     project.id !== action.payload.id)
             }
         })
@@ -114,6 +119,8 @@ const projectSlice = createSlice({
 export type { projectType }
 export { projectStateEnum }
 export default projectSlice.reducer
+
+export const { loadProjects } = projectSlice.actions
 
 export const selectProjectsState = () => (state: RootState) => state.projects.projects
 export const selectProjectsStatus = () => (state: RootState) => state.projects.status
