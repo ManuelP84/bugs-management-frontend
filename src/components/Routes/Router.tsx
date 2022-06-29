@@ -7,6 +7,8 @@ import SingUpPage from "../../pages/SignUp";
 import { RootState } from "../../state/store";
 import PublicRoutes from "./PublicRoutes";
 import "../../styles/login.css";
+import ProjectPage from "../../pages/ProjectPage";
+import DashboardPage from "../../pages/DashboardPage";
 
 
 interface IRoutesProps {}
@@ -21,6 +23,8 @@ const Router: React.FunctionComponent<IRoutesProps> = () => {
       {logged ? (
         <Routes>
           <Route path="/main" element={<MainPage />} />
+          <Route path="/project" element={<ProjectPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="*" element={<MainPage />} />
         </Routes>
       ) : (
