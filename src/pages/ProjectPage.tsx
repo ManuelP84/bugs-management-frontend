@@ -7,7 +7,7 @@ import { possibleStatus } from '../config/possibleStatus'
 import { getAllProjects } from '../services/project/getAllProjects'
 import { selectProjectsStatus } from '../state/slice/projectSlice'
 import { useAppDispatch } from '../state/store'
-import "/src/components/project/projectStyle.css";
+import "/src/styles/projectStyle.css";
 
 type Props = {}
 
