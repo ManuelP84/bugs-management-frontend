@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { removeLeader } from '../../services/project/removeLeader'
 import { projectStateEnum, projectType } from '../../state/slice/projectSlice'
+import { useAppDispatch } from '../../state/store'
 import DeleteProjectModal from './DeleteProjectModal'
 import UpdateProjectModal from './UpdateProjectModal'
 
@@ -13,14 +15,17 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
 
     const navigate = useNavigate()
 
+    const dispatch = useAppDispatch()
+
+    // const user = useSelector((state: RootState) => state.login.user);
+    const permissions = true //(user.userRol=== "TESTER" || user.userRol=== "ADMIN")
+
     const [showUpdateModal, setShowUpdateModal] = useState(false)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
 
-    const deleteLeaderEmail = (leader: string) => {
-        console.log(leader)
-    }
-    const deleteDeveloperEmail = (dev: string) => {
-        console.log(dev)
+    const deleteLeaderEmail = (e: React.MouseEvent<HTMLElement, MouseEvent>, leader: string) => {
+        e.preventDefault()
+        dispatch(removeLeader({ project, leader }))
     }
 
     const goToTasks = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -36,38 +41,40 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
                     <p className="row text-start"><b className="row">Leaders:</b>
                         {project.leaderEmails.map(leader =>
                             <span key={leader}>{`${leader}`}
-                                <b className="clickable" style={{ color: "#dc3545" }}
-                                    onClick={(e) => deleteLeaderEmail(leader)}> ✖</b></span>
+                                {permissions ? <b className="clickable" style={{ color: "#dc3545" }}
+                                    onClick={(e) => deleteLeaderEmail(e, leader)}> ✖</b> : <></>}</span>
                         )}</p>
-                    <p className="row text-start"><b className="row"> People involved:</b>
+                    <p className="row text-start"><b className="row"> Developers:</b>
                         {project.developerEmails.map(dev =>
                             <span key={dev}>{`${dev}`}
-                                <b className="clickable" style={{ color: "#dc3545" }}
-                                    onClick={() => deleteDeveloperEmail(dev)}> ✖</b></span>
+                                {/* {permissions ? <b className="clickable" style={{ color: "#dc3545" }}
+                                    onClick={() => deleteDeveloperEmail(dev)}> ✖</b> : <></>} */}
+                            </span>
                         )}</p>
                     <p className="row text-start"><b className="row">Description:</b>{project.description}</p>
                     <div className="row my-2">
 
-                        <div className={project.state === projectStateEnum.CREATED ?
+                        <div className={permissions && (project.state === projectStateEnum.CREATED) ?
                             "col-sm-4 col-xs-4" : "col-sm-6"}>
                             <button className="btn btn-success w-100 my-2 px-0"
                                 type="button"
                                 onClick={(e) => goToTasks(e)}>Tasks</button>
                         </div>
 
-                        {project.state === projectStateEnum.CREATED ?
+                        {permissions && project.state === projectStateEnum.CREATED ?
                             <div className="col-sm-4 col-xs-4">
                                 <button className="btn btn-danger w-100 my-2 px-0"
                                     type="button"
                                     onClick={() => setShowDeleteModal(true)}>Delete Project</button>
                             </div> : <></>}
 
-                        <div className={project.state === projectStateEnum.CREATED ?
-                            "col-sm-4 col-xs-4" : "col-sm-6"}>
-                            <button className="btn btn-warning w-100 my-2 px-0"
-                                type="button"
-                                onClick={() => setShowUpdateModal(true)}>Update Project</button>
-                        </div>
+                        {permissions ?
+                            <div className={permissions && (project.state === projectStateEnum.CREATED) ?
+                                "col-sm-4 col-xs-4" : "col-sm-6"}>
+                                <button className="btn btn-warning w-100 my-2 px-0"
+                                    type="button"
+                                    onClick={() => setShowUpdateModal(true)}>Update Project</button>
+                            </div> : <></>}
                     </div>
                 </div>
             </div>

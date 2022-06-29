@@ -5,6 +5,7 @@ import { RootState } from "../store"
 import { possibleStatus } from "../../config/possibleStatus"
 import { updateProject } from "../../services/project/updateProject"
 import { deleteProject } from "../../services/project/deleteProject"
+import { removeLeader } from "../../services/project/removeLeader"
 
 enum projectStateEnum {
     CREATED = "CREATED",
@@ -64,7 +65,12 @@ const projectSlice = createSlice({
         })
         builder.addCase(getAllProjects.fulfilled, (state, action) => {
             state.status = possibleStatus.COMPLETED;
-            state.projects = action.payload;
+            // if (user.userRol === "ADMIN") { state.projects = action.payload }
+            // if (user.userRol !== "ADMIN") {
+            //     const projectRelatedToUser = action.payload.filter(project => [...project.developerEmails, ...project.leaderEmails].includes(user.userEmail))
+            //     state.projects = projectRelatedToUser
+            // }
+            state.projects = action.payload
         })
         builder.addCase(getAllProjects.rejected, (state, action) => {
             state.status = possibleStatus.FAILED;
@@ -118,6 +124,29 @@ const projectSlice = createSlice({
             }
         })
         builder.addCase(deleteProject.rejected, (state, action) => {
+            state.status = possibleStatus.FAILED;
+            state.error = "Something went wrong while deleting the project";
+        })
+
+        // DELETE A LEADER EMAIL
+        builder.addCase(removeLeader.pending, (state, action) => {
+            state.status = possibleStatus.PENDING;
+        })
+        builder.addCase(removeLeader.fulfilled, (state, action) => {
+            state.status = possibleStatus.COMPLETED
+            if (action.payload.status) {
+                state.paginatedProjects = state.paginatedProjects.map((project: projectType) => {
+                    if (project.id === action.payload.projectId) {
+                        const emailsAfterDeleteOne = project.leaderEmails
+                            .filter(email => email !== action.payload.leaderEmail)
+
+                        return { ...project, leaderEmails: emailsAfterDeleteOne }
+                    }
+                    return project
+                })
+            }
+        })
+        builder.addCase(removeLeader.rejected, (state, action) => {
             state.status = possibleStatus.FAILED;
             state.error = "Something went wrong while deleting the project";
         })

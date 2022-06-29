@@ -4,9 +4,9 @@ import { projectType } from "../../state/slice/projectSlice";
 // const LOCALPATH = "http://localhost:8080/v1/api/delete/project/"
 const PATH = "https://bugs-management-api.herokuapp.com/v1/api/delete/project/"
 
-export const deleteProject = createAsyncThunk('deleteProject', async (project: projectType) => {
-    const response = await fetch(PATH + `${project.id}`, {
+export const removeLeader = createAsyncThunk('removeLeader', async (data: { project: projectType, leader: string }) => {
+    const response = await fetch(PATH + `${data.project.id}/${data.leader}`, {
         method: 'DELETE'
     })
-    return { status: response.ok, id: project.id };
+    return { status: response.ok, projectId: data.project.id, leaderEmail: data.leader };
 })

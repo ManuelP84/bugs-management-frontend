@@ -9,6 +9,8 @@ const CreateProjectForm: React.FC<Props> = (props) => {
 
     const dispatch = useAppDispatch()
 
+    // const user = useSelector((state: RootState) => state.login.user);
+
     const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
     const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/
 
@@ -80,6 +82,10 @@ const CreateProjectForm: React.FC<Props> = (props) => {
         return Math.floor(Math.random() * 10000000)
     }
 
+    const pickSuggestedEmail = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+        console.log(e)
+    }
+
     return (
         <div className="fluid-container py-2">
             <div className="row m-2">
@@ -127,7 +133,10 @@ const CreateProjectForm: React.FC<Props> = (props) => {
                         <span className="me-2 input-inset-format">leader</span>
                         <input className="form-check-input mt-0" type="checkbox" checked={isLeader} onChange={(e) => { setIsLeader(e.currentTarget.checked) }} />
                     </div>
+
+                    {/* {(user.userRol === "ADMIN" || user.userRol === "TESTER") ?  */}
                     <button className="btn btn-outline-primary" type="button" onClick={onAddPersonEmail}>Add</button>
+                    {/* : <button className="btn btn-outline-primary disabled" type="button">Add</button> */}
                 </div>
             </div>
 
@@ -144,8 +153,11 @@ const CreateProjectForm: React.FC<Props> = (props) => {
 
             <div className="row m-2">
                 <div className="col-12">
+                    {/* {(user.userRol === "ADMIN" || user.userRol === "TESTER") ?  */}
                     <button className="btn btn-primary w-100" type="button"
                         onClick={(e) => onCreateProject(e)}>Create Project</button>
+                    {/* : <button className="btn btn-primary w-100 disabled" type="button"
+                        onClick={() => {}}>Create Project</button>} */}
                 </div>
             </div>
         </div>

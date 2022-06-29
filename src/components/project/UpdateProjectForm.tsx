@@ -33,11 +33,11 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
         e.preventDefault()
 
         if (emailRegex.test(personEmail) && isLeader) {
-            setLeaderEmails([...leaderEmails, personEmail])
+            setLeaderEmails(Array.from(new Set([...leaderEmails, personEmail])))
             setShowEmailAlert(false)
         }
         if (emailRegex.test(personEmail) && !isLeader) {
-            setDeveloperEmails([...developerEmails, personEmail])
+            setDeveloperEmails(Array.from(new Set([...developerEmails, personEmail])))
             setShowEmailAlert(false)
         }
         if (!emailRegex.test(personEmail)) {
