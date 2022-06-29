@@ -32,7 +32,7 @@ type taskType = {
     endDate?: String,
     labels: labelType[],
     description: String,
-    urls: urlType[],
+    urls?: urlType[],
     state: String,
     developerEmails: emailType[],
 }
