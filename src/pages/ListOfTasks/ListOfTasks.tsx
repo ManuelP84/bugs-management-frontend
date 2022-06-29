@@ -1,6 +1,11 @@
 import TasksTable from '../../components/Table/ReactTable'
-import { Link } from "react-router-dom";
-import { taskType } from '../../state/slice/taskSlice';
+import { Link, useLocation } from "react-router-dom";
+import { selectTasksState, taskType } from '../../state/slice/taskSlice';
+import { projectType } from '../../state/slice/projectSlice';
+import { useEffect } from 'react';
+import { getTasksByProjectId } from '../../services/Tasks/getTasksByProjectId';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../../state/store';
 
 const ListOfTasks = () => {
 
@@ -269,6 +274,23 @@ const ListOfTasks = () => {
             ],
         },
     ]
+
+    interface projectToUse {
+        projectToList: projectType
+    }
+
+    const location = useLocation()
+    const localState = location.state as projectToUse;
+    const { projectToList } = localState;
+
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {dispatch(getTasksByProjectId(projectToList))}, [dispatch])
+
+    const getTasks = useSelector(selectTasksState())
+
+    console.log(projectToList)
+    console.log(getTasks)
 
     const columns = [
         {

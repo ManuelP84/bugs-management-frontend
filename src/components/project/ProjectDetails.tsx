@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { removeLeader } from '../../services/project/removeLeader'
 import { projectStateEnum, projectType, userTest } from '../../state/slice/projectSlice'
 import { useAppDispatch } from '../../state/store'
@@ -31,11 +31,6 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
         dispatch(removeLeader({ project, leader }))
     }
 
-    const goToTasks = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault()
-        navigate("/" + project.id)
-    }
-
     return (
         <>
             <div id="collapseOne" className={`accordion-collapse collapse ${toggle ? "show" : ""}`}>
@@ -59,9 +54,12 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
 
                         <div className={permissions && (project.state === projectStateEnum.CREATED) ?
                             "col-sm-4 col-xs-4" : "col-sm-6"}>
-                            <button className="btn btn-success w-100 my-2 px-0"
-                                type="button"
-                                onClick={(e) => goToTasks(e)}>Tasks</button>
+                            <Link to={'/task-list'} state={{ projectToList: project }}>
+                                <button className="btn btn-success w-100 my-2 px-0"
+                                    type="button"
+                                >Tasks
+                                </button>
+                            </Link>
                         </div>
 
                         {permissions && project.state === projectStateEnum.CREATED ?
