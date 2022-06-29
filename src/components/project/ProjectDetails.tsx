@@ -41,20 +41,20 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
             <div id="collapseOne" className={`accordion-collapse collapse ${toggle ? "show" : ""}`}>
                 <div className="fluid-container mx-4">
                     <hr></hr>
-                    <p className="row text-start"><b className="row">Leaders:</b>
+                    <span className="row text-start"><b className="row">Leaders:</b>
                         {project.leaderEmails.map(leader =>
                             <span key={leader}>{`${leader}`}
                                 {permissions ? <b className="clickable" style={{ color: "#dc3545" }}
                                     onClick={(e) => deleteLeaderEmail(e, leader)}> ✖</b> : <></>}</span>
-                        )}</p>
-                    <p className="row text-start"><b className="row"> Developers:</b>
+                        )}</span>
+                    <span className="row text-start"><b className="row"> Developers:</b>
                         {project.developerEmails.map(dev =>
                             <span key={dev}>{`${dev}`}
                                 {/* {permissions ? <b className="clickable" style={{ color: "#dc3545" }}
                                     onClick={() => deleteDeveloperEmail(dev)}> ✖</b> : <></>} */}
                             </span>
-                        )}</p>
-                    <p className="row text-start"><b className="row">Description:</b>{project.description}</p>
+                        )}</span>
+                    <span className="row text-start"><b className="row">Description:</b>{project.description}</span>
                     <div className="row my-2">
 
                         <div className={permissions && (project.state === projectStateEnum.CREATED) ?

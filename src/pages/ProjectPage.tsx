@@ -24,9 +24,9 @@ const ProjectPage = (props: Props) => {
     }, [dispatch])
 
     return (
-        <div className="fluid-container">
+        <div className="fluid-container py-3">
 
-            <div className="row my-2">
+            <div className="row m-2 px-3">
                 <div className="col"></div>
                 <h4>Project Management</h4>
             </div>
