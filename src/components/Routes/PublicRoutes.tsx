@@ -2,6 +2,8 @@ import * as React from "react";
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "../../pages/Login";
 import SingUpPage from "../../pages/SignUp";
+import ProjectPage from "../../pages/ProjectPage";
+
 
 interface IPublicRoutesProps {}
 
