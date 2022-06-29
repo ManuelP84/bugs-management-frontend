@@ -13,7 +13,7 @@ type labelType = {
 
 type urlType = {
     id?: string,
-    fileName: string,
+    fileName?: string,
     url: string,
 }
 
