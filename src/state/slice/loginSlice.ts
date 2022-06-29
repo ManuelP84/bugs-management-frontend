@@ -35,9 +35,6 @@ export const loginSlice = createSlice({
     name: "login",
     initialState,
     reducers: {
-        getUser: (state: LoginState, action: PayloadAction<IUser>) => (
-            {...state, actualUser: action.payload}
-        ),
         getLogged: (state: LoginState, action: PayloadAction<boolean>)  => (
              {...state, isLogged: action.payload} 
         ),
@@ -75,7 +72,6 @@ export const loginSlice = createSlice({
         builder.addCase(postUserThunk.fulfilled, (state, action) => {
             state.actualUser = action.payload
             state.status = possibleStatus.COMPLETED;
-            console.log(state.actualUser);
         })
         //UPDATE
         builder.addCase(updateUserThunk.pending, (state) => {
@@ -98,5 +94,5 @@ export const loginSlice = createSlice({
 export const selectUserList = () => (state: RootState) => state.login.users
 export const selectLoginError = () => (state: RootState) => state.login.error
 export const selectLoginStatus = () => (state: RootState) => state.login.status
-export const { getLogged, getUser, logOut } = loginSlice.actions
+export const { getLogged, logOut } = loginSlice.actions
 export default loginSlice.reducer

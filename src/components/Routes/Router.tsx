@@ -6,9 +6,11 @@ import MainPage from "../../pages/MainPage";
 import SingUpPage from "../../pages/SignUp";
 import { RootState } from "../../state/store";
 import PublicRoutes from "./PublicRoutes";
+import "../../styles/login.css";
+
 
 interface IRoutesProps {}
-
+  
 const Router: React.FunctionComponent<IRoutesProps> = () => {
   const logged: boolean = useSelector(
     (state: RootState) => state.login.isLogged

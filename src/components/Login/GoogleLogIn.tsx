@@ -7,17 +7,18 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { getLogged, getUser, IUser } from "../../state/slice/loginSlice";
 import { auth } from "../../config/firebaseConfig";
-import { useAppDispatch } from "../../state/store";
-import { getUserByEmail, postUserThunk } from "../../services/loginServices";
+import { getUserByEmail, postUserThunk} from "../../services/loginServices";
 import { v1 as uuidv1 } from "uuid";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../state/store";
+import { FaGoogle } from "react-icons/fa";
+
 
 interface IGoogleLogInProps {}
 
 const providerGoogleAuth = new GoogleAuthProvider();
 
 const GoogleLogIn: React.FunctionComponent<IGoogleLogInProps> = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const getActualRol = async (email: string) => {
@@ -47,7 +48,7 @@ const GoogleLogIn: React.FunctionComponent<IGoogleLogInProps> = () => {
                   holding the information of the user that is logged in*/
 
         dispatch(
-          getUser({
+          postUserThunk({
             uid: user.uid,
             userToken: uuidv1(),
             userName: user.displayName,
@@ -80,8 +81,8 @@ const GoogleLogIn: React.FunctionComponent<IGoogleLogInProps> = () => {
   };
 
   return (
-    <div>
-      <button onClick={signInWithGoogleButton}> Log in with Google </button>
+    <div className="login100-social-item bg3">
+      <button className="fa-google" onClick={signInWithGoogleButton}> <FaGoogle style={{color: "white", fontSize: "20px", marginRight: "10px"}}/> Sing Up with Google </button>
     </div>
   );
 };
