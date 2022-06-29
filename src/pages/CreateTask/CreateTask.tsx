@@ -106,7 +106,7 @@ const CreateTask = () => {
                 state: taskState,
                 developerEmails: emails,
             }
-            
+
         }
         setTaskValidationModal(true)
 
@@ -199,8 +199,8 @@ const CreateTask = () => {
                 </Link>
             </button>
 
-            <TaskValidationModal taskValidationModal={showTaskValidationModal} setTaskValidationModal={setTaskValidationModal}/>
-              
+            <TaskValidationModal taskValidationModal={showTaskValidationModal} setTaskValidationModal={setTaskValidationModal} />
+
         </div>
     )
 }
