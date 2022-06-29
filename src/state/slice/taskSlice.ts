@@ -12,9 +12,9 @@ type labelType = {
 }
 
 type urlType = {
-    id?: String,
-    fileName: String,
-    url: String,
+    id?: string,
+    fileName: string,
+    url: string,
 }
 
 type emailType = {

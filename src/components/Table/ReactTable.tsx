@@ -1,8 +1,12 @@
 import { useFilters, useSortBy, useGlobalFilter, useTable, usePagination } from "react-table";
 import { GlobalFilter } from "../GlobalFilter/GlobalFilter";
 
+interface IAppProps {
+    columns: any;
+    data: any;
+}
 
-export default function TasksTable({ columns, data}) {
+const TasksTable: React.FC<IAppProps> = ({ columns, data}) => {
 
 
     const {
@@ -73,3 +77,5 @@ export default function TasksTable({ columns, data}) {
         </>
     )
 }
+
+export default TasksTable;

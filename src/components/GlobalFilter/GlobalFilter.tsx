@@ -5,10 +5,10 @@ export function GlobalFilter({
   preGlobalFilteredRows,
   globalFilter,
   setGlobalFilter,
-}) {
+}:any) {
   const count = preGlobalFilteredRows.length;
   const [value, setValue] = useState(globalFilter);
-  const onChange = async(value) =>{
+  const onChange = async(value:any) =>{
     setGlobalFilter(value)
   }
 

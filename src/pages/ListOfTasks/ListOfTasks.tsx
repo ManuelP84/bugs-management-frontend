@@ -273,7 +273,7 @@ const ListOfTasks = () => {
     const columns = [
         {
             Header: "Id",
-            Cell: ({ row }) => (
+            Cell: ({ row }:any) => (
                 <Link to='/task-detail' state={{ taskDetail: row.original }}>
                     {row.original.taskId}
                 </Link>
@@ -294,7 +294,7 @@ const ListOfTasks = () => {
         {
             Header: "Fecha de cierre",
             accessor: "endDate",
-            Cell: ({ cell: { value } }) => value || "-",
+            Cell: ({ cell: { value } }:any) => value || "-",
         },
         {
             Header: "Estado",
@@ -303,8 +303,8 @@ const ListOfTasks = () => {
         {
             Header: "Tags",
             id: "tags",
-            accessor: (data) =>
-                data.labels.map((item)=>(
+            accessor: (data:any) =>
+                data.labels.map((item:any)=>(
                     <div >
                         {item.label}
                     </div>
@@ -313,8 +313,8 @@ const ListOfTasks = () => {
         {
             Header: "Desarrollador asignado",
             id: "developerEmails",
-            accessor: (data) =>
-                data.developerEmails.map((item)=>(
+            accessor: (data:any) =>
+                data.developerEmails.map((item:any)=>(
                     <div >
                         {item.email}
                     </div>

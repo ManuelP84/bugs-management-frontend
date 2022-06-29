@@ -58,7 +58,7 @@ const DisplayTasks = () => {
                     <div className="col"><strong>Archivos adjuntos:</strong></div>
                     <div className="col">
                         <ul className="list-unstyled">
-                            {taskDetail.urls.map(urls => {
+                            {taskDetail.urls?.map(urls => {
                                 return (<li><a className="text-decoration-none text-dark" href={urls.url}>{urls.fileName}</a></li>)
                             })}
                         </ul>
