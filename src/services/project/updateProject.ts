@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { projectType } from "../../state/slice/projectSlice";
 
-// const LOCALPATH = 'http://localhost:8080/v1/api/update/project'
+// const LOCALPATH = 'https://bugs-management-api.herokuapp.com/v1/api/update/project'
 const PATH = 'https://bugs-management-api.herokuapp.com/v1/api/update/project'
 
 export const updateProject = createAsyncThunk('updateProject', async (project: projectType) => {

@@ -27,9 +27,23 @@ export const updateUserThunk = createAsyncThunk("update/user", async (user: IUse
     return (await response.json()) as IUser
 })
 
+export const getAllUsersHelper = async () => {
+    const users= await (await fetch(`${ENDPOINT}/v1/api/users`)).json()    
+    return users as IUser[]
+}
+
 export const getUserByEmail = async (email: string) => {
     const response = await fetch(`${ENDPOINT}/v1/api/get/user/${email}`)    
-    if (response.ok) {
+    if (getAllUsersHelper.length == 0) {
+        return {
+            userEmail: "NoUser",
+            userToken: "NoUser",
+            userRol: "Admin",
+            userImage: "",
+            userName: ""
+        } as IUser
+    }
+    else if (response.ok) {
         return (await response.json()) as IUser
     }  
     return {

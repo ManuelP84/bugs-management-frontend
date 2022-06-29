@@ -8,7 +8,7 @@ export const errorInState = (errorMessage: string) => {
     return `Something went wrong while fetching: ${errorMessage}`
 }
 
-export const ENDPOINT = "http://localhost:8080"
+export const ENDPOINT = "https://bugs-management-api.herokuapp.com"
 
 
 export type ErrorType = null | string
