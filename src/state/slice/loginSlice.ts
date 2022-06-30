@@ -152,6 +152,7 @@ export const loginSlice = createSlice({
 })
 
 export const selectUserList = () => (state: RootState) => state.login.users
+export const selectActualUser = () => (state: RootState) => state.login.actualUser
 export const selectLoginError = () => (state: RootState) => state.login.error
 export const selectLoginStatus = () => (state: RootState) => state.login.status
 export const { getLogged, logOut } = loginSlice.actions

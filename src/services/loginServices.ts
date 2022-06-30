@@ -39,7 +39,8 @@ export const getAllUsersHelper = async () => {
 
 export const getUserByEmail = async (email: string) => {
     const response = await fetch(`${ENDPOINT}/v1/api/get/user/${email}`)    
-    if (getAllUsersHelper.length == 0) {
+    const allUsersRef = await getAllUsersHelper()
+    if (allUsersRef.length == 0) {
         return {
             userEmail: "NoUser",
             userToken: "NoUser",
