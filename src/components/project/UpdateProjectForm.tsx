@@ -215,7 +215,7 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
                 <div className="row m-2">
                     <div className="col-sm--6">
                         {suggestedEmails.map(suggestion =>
-                            <span className="clickable overflow-hidden text-nowrap"
+                            <span key={suggestion} className="clickable overflow-hidden text-nowrap"
                                 onClick={() => pickSuggestedEmail(suggestion)}>{`${suggestion}`}<br /></span>)}
                     </div>
                 </div> : <></>}

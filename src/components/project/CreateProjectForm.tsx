@@ -201,18 +201,14 @@ const CreateProjectForm: React.FC<Props> = (props) => {
                     The email has an invalid format or was already added to this project</span>
             </div> : <></>}
 
-            {suggestedEmails.length > 0 ? <div className="row m-2">
-                <div className="row mx-2">
+            {suggestedEmails.length > 0 ?
+                <div className="row m-2">
                     <div className="col">
-                        {suggestedEmails.map(suggestion => {
-                            return <div key={suggestion}>
-                                <span className="clickable overflow-hidden text-nowrap"
-                                    onClick={() => pickSuggestedEmail(suggestion)}>{`${suggestion}`}</span><br />
-                            </div>
-                        })}
+                        {suggestedEmails.map(suggestion =>
+                            <span key={suggestion} className="clickable overflow-hidden text-nowrap"
+                                onClick={() => pickSuggestedEmail(suggestion)}>{`${suggestion}`}<br /></span>)}
                     </div>
-                </div>
-            </div> : <></>}
+                </div> : <></>}
 
             <div className="row m-2">
                 <div className="col-12">
