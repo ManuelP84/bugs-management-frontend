@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { removeLeader } from '../../services/project/removeLeader'
 import { projectStateEnum, projectType, userTest } from '../../state/slice/projectSlice'
-import { useAppDispatch } from '../../state/store'
+import { RootState, useAppDispatch } from '../../state/store'
 import DeleteProjectModal from './DeleteProjectModal'
 import UpdateProjectModal from './UpdateProjectModal'
 
@@ -19,9 +20,10 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
 
     // this is temporary while the user slice can be accessed. Used to test the access permissions
     const user = userTest
+    // const user = useSelector((state: RootState) => state.login.user);
 
     // const user = useSelector((state: RootState) => state.login.user);
-    const permissions = (user.userRol === "TESTER" || user.userRol === "ADMIN")
+    const permissions = (user.userRol === "Tester" || user.userRol === "Admin")
 
     const [showUpdateModal, setShowUpdateModal] = useState(false)
     const [showDeleteModal, setShowDeleteModal] = useState(false)

@@ -11,31 +11,31 @@ import ProjectPage from "../../pages/ProjectPage";
 import DashboardPage from "../../pages/DashboardPage";
 
 
-interface IRoutesProps {}
-  
-const Router: React.FunctionComponent<IRoutesProps> = () => {
-  const logged: boolean = useSelector(
-    (state: RootState) => state.login.isLogged
-  );
+interface IRoutesProps { }
 
-  return (
-    <div className="App">
-      {true ? (
-        <Routes>
-          <Route path="/main" element={<MainPage />} />
-          <Route path="/project" element={<ProjectPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="*" element={<MainPage />} />
-        </Routes>
-      ) : (
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          <Route path="/signUp" element={<SingUpPage />} />
-          <Route path="*" element={<LoginPage />} />
-        </Routes>
-      )}
-    </div>
-  );
+const Router: React.FunctionComponent<IRoutesProps> = () => {
+    const logged: boolean = useSelector(
+        (state: RootState) => state.login.isLogged
+    );
+
+    return (
+        <div className="App">
+            {logged ? (
+                <Routes>
+                    <Route path="/main" element={<MainPage />} />
+                    <Route path="/project" element={<ProjectPage />} />
+                    <Route path="/dashboard" element={<DashboardPage />} />
+                    <Route path="*" element={<MainPage />} />
+                </Routes>
+            ) : (
+                <Routes>
+                    <Route path="/" element={<LoginPage />} />
+                    <Route path="/signUp" element={<SingUpPage />} />
+                    <Route path="*" element={<LoginPage />} />
+                </Routes>
+            )}
+        </div>
+    );
 };
 
 export default Router;

@@ -10,6 +10,8 @@ const CreateProjectForm: React.FC<Props> = (props) => {
 
     const dispatch = useAppDispatch()
 
+    // const user = useSelector((state: RootState) => state.login.user);
+
     // this is temporary while the user slice can be accessed
     const user = userTest
 
@@ -190,7 +192,7 @@ const CreateProjectForm: React.FC<Props> = (props) => {
 
             <div className="row m-2">
                 <div className="col-12">
-                    {(user.userRol === "ADMIN" || user.userRol === "TESTER") ?
+                    {(user.userRol === "Admin" || user.userRol === "Tester") ?
                         <button className="btn btn-primary w-100" type="button"
                             onClick={(e) => onCreateProject(e)}>Create Project</button>
                         : <button className="btn btn-primary w-100 disabled" type="button"
