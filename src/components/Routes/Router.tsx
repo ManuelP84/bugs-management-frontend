@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "../../pages/Login";
 import MainPage from "../../pages/MainPage";
@@ -8,11 +7,13 @@ import { RootState } from "../../state/store";
 import PublicRoutes from "./PublicRoutes";
 import "../../styles/login.css";
 import ProjectPage from "../../pages/ProjectPage";
-import ListOfTasks from "../../pages/ListOfTasks/ListOfTasks";
+import DashboardPage from "../../pages/DashboardPage";
+import { useSelector } from "react-redux";
+import ListOfTasks from "../../pages/ListOfTasks/ListOfTask";
+import DisplayTasks from "../../pages/DisplayTasks/DisplayTask";
 import CreateTask from "../../pages/CreateTask/CreateTask";
 import UpdateTask from "../../pages/UpdateTask/UpdateTask";
-import DisplayTasks from "../../pages/DisplayTasks/DisplayTasks";
-import DashboardPage from "../../pages/DashboardPage";
+
 
 
 interface IRoutesProps { }

@@ -1,4 +1,4 @@
-import TasksTable from '../../components/Table/ReactTable'
+import TasksTable from '../Table/ReactTable'
 import { Link, useLocation } from "react-router-dom";
 import { selectTasksState, taskType } from '../../state/slice/taskSlice';
 import { projectType } from '../../state/slice/projectSlice';
@@ -10,7 +10,7 @@ import { nanoid } from '@reduxjs/toolkit';
 import { deleteTask } from '../../services/Tasks/deleteTask';
 import { addTempTask } from '../../state/slice/tempTaskSlice';
 
-const ListOfTasks = () => {
+const ListOfTasksComponent = () => {
 
     const project = useSelector((state: RootState) => state.tempProject)
     const projectToList = project.project
@@ -136,4 +136,4 @@ const ListOfTasks = () => {
     )
 }
 
-export default ListOfTasks
+export default ListOfTasksComponent

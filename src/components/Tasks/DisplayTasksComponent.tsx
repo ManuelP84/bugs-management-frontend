@@ -4,7 +4,7 @@ import { taskType } from "../../state/slice/taskSlice";
 import { addTempTask } from "../../state/slice/tempTaskSlice";
 import { RootState, useAppDispatch } from "../../state/store";
 
-const DisplayTasks = () => {
+const DisplayTasksComponent = () => {
 
     const task = useSelector((state: RootState) => state.tempTask)
     const taskDetail = task.task
@@ -114,4 +114,4 @@ const DisplayTasks = () => {
     )
 }
 
-export default DisplayTasks
+export default DisplayTasksComponent
