@@ -8,7 +8,7 @@ import moment from "moment";
 import TaskValidationModal from "../../components/TaskValidation/TaskValidationModal";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../state/store";
-import { updateTask } from "../../services/Tasks/updateTask";
+import { updateTask } from "../../services/Tasks/UpdateTask";
 
 const UpdateTask = () => {
 
