@@ -18,7 +18,7 @@ const ProjectPage = (props: Props) => {
 
     useEffect(() => {
         (user) ? dispatch(getAllProjects(user))
-            : dispatch(getAllProjects({ userEmail: "", userRol: "Reader" } as IUser))
+            : dispatch(getAllProjects({ userEmail: "", userRol: "Reader", userToken: "" } as IUser))
         dispatch(getAllUsersThunk())
     }, [dispatch])
 

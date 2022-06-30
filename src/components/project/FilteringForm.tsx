@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { getAllProjects } from '../../services/project/getAllProjects';
+import { IUser } from '../../state/slice/loginSlice';
 import { changePage, loadProjects, projectType } from '../../state/slice/projectSlice';
 import { RootState, useAppDispatch } from '../../state/store';
 
@@ -10,6 +11,10 @@ const FilteringForm = (props: Props) => {
 
 
     const dispatch = useAppDispatch();
+
+    const actualUser = useSelector((state: RootState) => state.login.actualUser);
+
+    const user = (actualUser) ? actualUser : { userRole: 'Reader', userEmail: "", userToken: "" }
 
     const { projects } = useSelector((state: RootState) => state.projects);
 
@@ -43,11 +48,11 @@ const FilteringForm = (props: Props) => {
         setFilter("")
     }
 
-    const onReload = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const onReloadData = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault()
         setFilterInput("")
         setFilter("")
-        dispatch(getAllProjects())
+        dispatch(getAllProjects(user))
         dispatch(changePage(1))
     }
 
@@ -72,7 +77,7 @@ const FilteringForm = (props: Props) => {
                 <button className="btn btn-primary w-100 text-nowrap px-0" onClick={onFilterProject}>Filter</button>
             </div>
             <div className="col-md-3 col-sm-6 my-2">
-                <button className="btn btn-primary w-100 text-nowrap px-0" onClick={onReload}>Reload Data</button>
+                <button className="btn btn-primary w-100 text-nowrap px-0" onClick={(e) => onReloadData(e)}>Reload Data</button>
             </div>
         </div>
     )
