@@ -102,7 +102,7 @@ const CreateTaskComponent = () => {
         if (nameTask && initStringDate && description && emails.length > 0) {
             const addTask: taskType = {
                 projectId: projectToList.projectId + '',
-                taskId: Math.floor(Math.random() * 10) + '',
+                taskId: Math.floor(Math.random() * 10000) + '',
                 projectName: projectToList.name,
                 name: nameTask,
                 date: initStringDate,
