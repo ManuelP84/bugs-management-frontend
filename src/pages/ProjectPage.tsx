@@ -4,6 +4,7 @@ import CreateProjectForm from '../components/project/CreateProjectForm'
 import ProjectList from '../components/project/ProjectList'
 import { getAllUsersThunk } from '../services/loginServices'
 import { getAllProjects } from '../services/project/getAllProjects'
+import { IUser } from '../state/slice/loginSlice'
 import { RootState, useAppDispatch } from '../state/store'
 import "/src/styles/projectStyle.css";
 
@@ -16,7 +17,8 @@ const ProjectPage = (props: Props) => {
     const user = useSelector((state: RootState) => state.login.actualUser);
 
     useEffect(() => {
-        dispatch(getAllProjects(user))
+        (user) ? dispatch(getAllProjects(user))
+            : dispatch(getAllProjects({ userEmail: "", userRol: "Reader" } as IUser))
         dispatch(getAllUsersThunk())
     }, [dispatch])
 
