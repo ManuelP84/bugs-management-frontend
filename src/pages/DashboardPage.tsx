@@ -1,10 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import Dashboards from '../components/dashboard/Dashboards'
 import SelectProjectForm from '../components/dashboard/SelectProjectForm'
+import { loadRelatedProject } from '../state/slice/dashboardSlice'
+import { RootState, useAppDispatch } from '../state/store'
 
 type Props = {}
 
 const DashboardPage = (props: Props) => {
+
+    const projects = useSelector((state: RootState) => state.projects.projects);
+
+    const defaultProjectDashboard = projects[Math.floor(Math.random() * projects.length)]
+
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(loadRelatedProject(defaultProjectDashboard))
+    }, [])
+
     return (
         <div className="fluid-container py-3">
 
