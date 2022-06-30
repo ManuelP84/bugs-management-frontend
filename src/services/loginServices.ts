@@ -3,7 +3,7 @@ import { ENDPOINT, HEADERS, HttpMethod } from "../config/stateData"
 import { IUser } from "../state/slice/loginSlice"
 
 export const getAllUsersThunk = createAsyncThunk("get/users", async () => {
-    const response = await fetch(`${ENDPOINT}user`)
+    const response = await fetch(`${ENDPOINT}/v1/api/users`)
     return (await response.json()) as IUser[]
 })
 

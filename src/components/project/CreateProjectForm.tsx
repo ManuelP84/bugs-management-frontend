@@ -28,17 +28,16 @@ const CreateProjectForm: React.FC<Props> = (props) => {
     const [showEmailAlert, setShowEmailAlert] = useState(false)
     const [showStartDateAlert, setShowStartDateAlert] = useState(false)
     const [showEndDateAlert, setShowEndDateAlert] = useState(false)
-    const [suggestedEmails, setSuggestedEmail] = useState<IUser[]>([])
+    const [suggestedEmails, setSuggestedEmail] = useState<string[]>([])
 
     useEffect(() => {
         setSuggestedEmail([])
         if (personEmail.length > 0) {
-            const suggestions = users.filter((user: IUser) => {
-                if (user.userEmail) {
-                    return user.userEmail.toString().includes(personEmail)
-                }
-            })
-            setSuggestedEmail([...suggestions])
+            const suggestions = users
+                .map((user: IUser) => user.userEmail)
+                .filter((email: string) => email.includes(personEmail))
+            const uniqueSuggestions = Array.from(new Set(suggestions)) as string[]
+            setSuggestedEmail([...uniqueSuggestions.slice(0, 5)])
         }
     }, [personEmail])
 
@@ -137,8 +136,8 @@ const CreateProjectForm: React.FC<Props> = (props) => {
         return Math.floor(Math.random() * 10000000)
     }
 
-    const pickSuggestedEmail = (suggestion: IUser) => {
-        console.log(suggestion.userEmail)
+    const pickSuggestedEmail = (suggestion: string) => {
+        setPersonEmail(suggestion)
     }
 
     return (
@@ -202,13 +201,13 @@ const CreateProjectForm: React.FC<Props> = (props) => {
                     The email has an invalid format or was already added to this project</span>
             </div> : <></>}
 
-            {suggestedEmails.length > 0 ? <div className="row m-2 mt-2">
-                <div className={`row mx-2 ${suggestedEmails.length > 0 ? "card" : ""}`}>
-                    <div className="col card-body">
+            {suggestedEmails.length > 0 ? <div className="row m-2">
+                <div className="row mx-2">
+                    <div className="col">
                         {suggestedEmails.map(suggestion => {
-                            return <div key={suggestion.userEmail}>
+                            return <div key={suggestion}>
                                 <span className="clickable overflow-hidden text-nowrap"
-                                    onClick={() => pickSuggestedEmail(suggestion)}>{`${suggestion.userEmail}`}</span><br />
+                                    onClick={() => pickSuggestedEmail(suggestion)}>{`${suggestion}`}</span><br />
                             </div>
                         })}
                     </div>

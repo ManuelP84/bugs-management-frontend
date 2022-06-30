@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { updateProject } from '../../services/project/updateProject'
+import { IUser } from '../../state/slice/loginSlice'
 import { projectStateEnum, projectType } from '../../state/slice/projectSlice'
-import { useAppDispatch } from '../../state/store'
+import { RootState, useAppDispatch } from '../../state/store'
 
 type Props = {
     project: projectType,
@@ -13,6 +15,8 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
     const { project, setShowUpdateModal } = props
 
     const dispatch = useAppDispatch()
+
+    const users = useSelector((state: RootState) => state.login.users);
 
     const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
     const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/
@@ -30,6 +34,18 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
     const [showEmailAlert, setShowEmailAlert] = useState(false)
     const [showStartDateAlert, setShowStartDateAlert] = useState(false)
     const [showEndDateAlert, setShowEndDateAlert] = useState(false)
+    const [suggestedEmails, setSuggestedEmail] = useState<string[]>([])
+
+    useEffect(() => {
+        setSuggestedEmail([])
+        if (personEmail.length > 0) {
+            const suggestions = users
+                .map((user: IUser) => user.userEmail)
+                .filter((email: string) => email.includes(personEmail))
+            const uniqueSuggestions = Array.from(new Set(suggestions)) as string[]
+            setSuggestedEmail([...uniqueSuggestions.slice(0, 5)])
+        }
+    }, [personEmail])
 
     const onAddPersonEmail = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
@@ -129,6 +145,10 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
         setLeaderEmails([...leadersAfterRemoveAnEmail])
     }
 
+    const pickSuggestedEmail = (suggestion: string) => {
+        setPersonEmail(suggestion)
+    }
+
     return (
         <div className="fluid-container py-2">
             <div className="row m-2">
@@ -190,6 +210,15 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
                 <span className="text-start" style={{ color: "red", fontSize: "13px" }}>
                     The email has an invalid format or was already added to this project</span>
             </div> : <></>}
+
+            {suggestedEmails.length > 0 ?
+                <div className="row m-2">
+                    <div className="col-sm--6">
+                        {suggestedEmails.map(suggestion =>
+                            <span className="clickable overflow-hidden text-nowrap"
+                                onClick={() => pickSuggestedEmail(suggestion)}>{`${suggestion}`}<br /></span>)}
+                    </div>
+                </div> : <></>}
 
             {/* Pick the email to be deleted*/}
             <div className="row m-2">
