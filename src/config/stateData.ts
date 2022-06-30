@@ -9,7 +9,7 @@ export const errorInState = (errorMessage: string) => {
 }
 
 export const ENDPOINT = "https://bugs-management-api.herokuapp.com"
-// export const ENDPOINT = "http://localhost:8080"
+//export const ENDPOINT = "http://localhost:8080"
 
 
 export type ErrorType = null | string
