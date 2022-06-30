@@ -20,7 +20,7 @@ const Router: React.FunctionComponent<IRoutesProps> = () => {
 
   return (
     <div className="App">
-      {logged ? (
+      {true ? (
         <Routes>
           <Route path="/main" element={<MainPage />} />
           <Route path="/project" element={<ProjectPage />} />

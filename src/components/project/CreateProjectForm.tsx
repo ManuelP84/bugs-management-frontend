@@ -14,7 +14,7 @@ const CreateProjectForm: React.FC<Props> = (props) => {
     const user = userTest
 
     const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
-    const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/
+    const dateRegex = /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/
 
     const [projectName, setProjectName] = useState("");
     const [startDate, setStartDate] = useState("");
@@ -25,31 +25,36 @@ const CreateProjectForm: React.FC<Props> = (props) => {
     const [leaderEmails, setLeaderEmails] = useState<string[]>([]);
     const [description, setDescription] = useState("");
     const [showEmailAlert, setShowEmailAlert] = useState(false)
+    const [showStartDateAlert, setShowStartDateAlert] = useState(false)
+    const [showEndDateAlert, setShowEndDateAlert] = useState(false)
 
     const onAddPersonEmail = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
 
         if (emailRegex.test(personEmail) && isLeader) {
             setLeaderEmails([...leaderEmails, personEmail])
+            setPersonEmail("")
             setShowEmailAlert(false)
         }
         if (emailRegex.test(personEmail) && !isLeader) {
             setDeveloperEmails([...developerEmails, personEmail])
+            setPersonEmail("")
             setShowEmailAlert(false)
         }
         if (!emailRegex.test(personEmail)) {
             setShowEmailAlert(true)
         }
-        setPersonEmail("")
         setIsLeader(false)
     }
 
     const onCreateProject = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
 
+        const startDateValidation = validateStartDate(startDate)
+        const endDateValidation = validateEndDate(endDate)
         if (0 < projectName.length && projectName.length < 50
-            && 0 < description.length && description.length <= 2000
-            && dateRegex.test(startDate) && dateRegex.test(startDate) && description) {
+            && startDateValidation && endDateValidation
+            && 0 < description.length && description.length <= 2000 && description) {
 
             const projectToCreate: projectType =
             {
@@ -64,13 +69,36 @@ const CreateProjectForm: React.FC<Props> = (props) => {
             }
 
             dispatch(createProject(projectToCreate))
-
             clearForm()
         }
     }
 
-    const validateDate = (date: string) => {
-        const dateArray = date.split('-')
+    const validateStartDate = (date: string): boolean => {
+        const validation = validateDate(date)
+        setShowStartDateAlert(!validation)
+        return validation
+    }
+
+    const validateEndDate = (date: string): boolean => {
+        if (date.length !== 0) {
+            const validation = validateDate(date)
+            setShowEndDateAlert(!validation)
+            return validation
+        }
+        setShowEndDateAlert(false)
+        return true
+    }
+
+    const validateDate = (date: string): boolean => {
+        if (dateRegex.test(date)) {
+            const dateArray = date.split('-')
+            const validatedMonth = parseInt(dateArray[1]) <= 12
+            const validatedDay = parseInt(dateArray[2]) <= 31
+            if (validatedMonth && validatedDay) {
+                return true
+            }
+        }
+        return false
     }
 
     const clearForm = () => {
@@ -82,6 +110,8 @@ const CreateProjectForm: React.FC<Props> = (props) => {
         setLeaderEmails([])
         setDescription("")
         setShowEmailAlert(false)
+        setShowStartDateAlert(false)
+        setShowEndDateAlert(false)
     }
 
     const randomProjectId = () => {
@@ -112,7 +142,8 @@ const CreateProjectForm: React.FC<Props> = (props) => {
                     <div className="input-group-text">
                         <span className="input-inset-format">YYYY-MM-DD</span>
                     </div>
-                    <input type="text" className="form-control" onChange={(e) => setStartDate(e.target.value)}
+                    <input type="text" className={`form-control ${showStartDateAlert ? "border-2 border-danger" : ""}`}
+                        onChange={(e) => setStartDate(e.target.value)}
                         placeholder="Start date"
                         value={startDate} />
                 </div>
@@ -123,7 +154,7 @@ const CreateProjectForm: React.FC<Props> = (props) => {
                     <div className="input-group-text">
                         <span className="input-inset-format">YYYY-MM-DD</span>
                     </div>
-                    <input type="text" className="form-control"
+                    <input type="text" className={`form-control ${showEndDateAlert ? "border-2 border-danger" : ""}`}
                         onChange={(e) => setEndDate(e.target.value)}
                         placeholder="End date (optional)"
                         value={endDate} />
