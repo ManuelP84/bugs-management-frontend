@@ -128,7 +128,7 @@ const ListOfTasks = () => {
                 </Link>
             </div>
             <div className="text-center">
-                <Link to='/projects'>
+                <Link to='/project'>
                     <button className="btn btn-secondary" >Volver</button>
                 </Link>
             </div>

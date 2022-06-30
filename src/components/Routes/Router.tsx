@@ -44,7 +44,6 @@ const Router: React.FunctionComponent<IRoutesProps> = () => {
           <Route path="/" element={<LoginPage />} />
           <Route path="/signUp" element={<SingUpPage />} />
           <Route path="*" element={<LoginPage />} />
-
         </Routes>
       )}
     </div>
