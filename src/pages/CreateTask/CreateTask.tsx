@@ -200,7 +200,9 @@ const CreateTask = () => {
                     <small>Oprima enter o ',' (coma) para agregar un correo</small>
                 </div>
                 <br />
+                <Link to='/task-list' className="text-decoration-none text-white">
                 <button className="btn btn-primary" type="submit">Submit form</button>
+                </Link>
             </form>
             <br></br>
             <button className="btn btn-secondary">
