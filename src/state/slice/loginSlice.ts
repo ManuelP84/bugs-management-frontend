@@ -143,11 +143,8 @@ export const loginSlice = createSlice({
                 state.error = errorInState(message)
             }
         })
-        builder.addCase(updateUserThunk.fulfilled, (state, action) => {
-            console.log(action.payload);
-            
-            const newState = { ...state.users.map( user => user.uid === action.payload.uid? action.payload : user)}
-            
+        builder.addCase(updateUserThunk.fulfilled, (state, action) => {        
+            const newState = [ ...state.users.map( user => user.uid === action.payload.uid? action.payload : user)]
             state.users = newState
             state.status = possibleStatus.COMPLETED
         })
