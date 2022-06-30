@@ -14,6 +14,8 @@ const CreateProjectForm: React.FC<Props> = (props) => {
     const user = useSelector((state: RootState) => state.login.actualUser);
     const users = useSelector((state: RootState) => state.login.users);
 
+    const permissions = (user) ? (user.userRol === "Admin" || user.userRol === "Tester") : false
+
     const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
     const dateRegex = /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/
 
@@ -190,7 +192,7 @@ const CreateProjectForm: React.FC<Props> = (props) => {
                             onChange={(e) => { setIsLeader(e.currentTarget.checked) }} />
                     </div>
 
-                    {(user.userRol === "Admin" || user.userRol === "Tester") ?
+                    {permissions ?
                         <button className="btn btn-outline-primary" type="button" onClick={onAddPersonEmail}>Add</button>
                         : <button className="btn btn-outline-primary disabled" type="button">Add</button>}
                 </div>
@@ -219,7 +221,7 @@ const CreateProjectForm: React.FC<Props> = (props) => {
 
             <div className="row m-2">
                 <div className="col-12">
-                    {(user.userRol === "Admin" || user.userRol === "Tester") ?
+                    {permissions ?
                         <button className="btn btn-primary w-100" type="button"
                             onClick={(e) => onCreateProject(e)}>Create Project</button>
                         : <button className="btn btn-primary w-100 disabled" type="button"

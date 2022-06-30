@@ -20,7 +20,7 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
 
     const user = useSelector((state: RootState) => state.login.actualUser);
 
-    const permissions = (user.userRol === "Tester" || user.userRol === "Admin")
+    const permissions = (user) ? (user.userRol === "Admin" || user.userRol === "Tester") : false
 
     const [showUpdateModal, setShowUpdateModal] = useState(false)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
