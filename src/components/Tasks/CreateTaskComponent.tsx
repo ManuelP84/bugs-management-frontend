@@ -189,7 +189,7 @@ const CreateTaskComponent = () => {
                     <small>Oprima enter o ',' (coma) para agregar un correo</small>
                 </div>
                 <br />
-                <button className="btn btn-primary" type="submit">Submit form</button>
+                <button className="btn btn-primary" type="submit">Crear Tareas</button>
 
             </form>
             <br></br>
