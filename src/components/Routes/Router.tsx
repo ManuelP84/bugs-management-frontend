@@ -8,10 +8,14 @@ import { RootState } from "../../state/store";
 import PublicRoutes from "./PublicRoutes";
 import "../../styles/login.css";
 import ProjectPage from "../../pages/ProjectPage";
+import ListOfTasks from "../../pages/ListOfTasks/ListOfTasks";
+import CreateTask from "../../pages/CreateTask/CreateTask";
+import UpdateTask from "../../pages/UpdateTask/UpdateTask";
+import DisplayTasks from "../../pages/DisplayTasks/DisplayTasks";
 
 
-interface IRoutesProps {}
-  
+interface IRoutesProps { }
+
 const Router: React.FunctionComponent<IRoutesProps> = () => {
   const logged: boolean = useSelector(
     (state: RootState) => state.login.isLogged
@@ -30,6 +34,10 @@ const Router: React.FunctionComponent<IRoutesProps> = () => {
           <Route path="/" element={<LoginPage />} />
           <Route path="/signUp" element={<SingUpPage />} />
           <Route path="*" element={<LoginPage />} />
+          <Route path='/task-list' element={<ListOfTasks />} />
+          <Route path='/task-detail' element={<DisplayTasks />} />
+          <Route path='/create-task' element={<CreateTask />} />
+          <Route path='/edit-task' element={<UpdateTask />} />
         </Routes>
       )}
     </div>
