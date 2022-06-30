@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import TasksTable from '../components/Table/ReactTable';
 import { deleteBugThunk, getBugsByTaskIdThunk } from '../services/bugsServices';
 import { selectBugsState } from '../state/slice/bugsSlice';
+import { IUser, selectActualUser } from '../state/slice/loginSlice';
 import { taskType } from '../state/slice/taskSlice';
 import { RootState, useAppDispatch } from '../state/store';
 
@@ -15,8 +16,9 @@ const BugsPage: React.FunctionComponent<BugsPageProps> = () => {
 
   const dispatch = useAppDispatch()
   const task = useSelector((state: RootState) => state.bugs.actualTask) as taskType
+  const actualUser = useSelector(selectActualUser()) as IUser
 
-  React.useEffect(() => { dispatch(getBugsByTaskIdThunk(task.id as string)) }, [dispatch])
+  React.useEffect(() => { dispatch(getBugsByTaskIdThunk(task.taskId as string)) }, [dispatch])
 
   const getBugs = useSelector(selectBugsState())
 
@@ -47,13 +49,9 @@ const BugsPage: React.FunctionComponent<BugsPageProps> = () => {
           Header: "Id",
           Cell: ({ row }: any) => (
               <Link key={nanoid()} to='/task-detail' state={{ taskDetail: row.original }}>
-                  {row.original.taskId}
+                  {row.original.bugId}
               </Link>
           )
-      },
-      {
-          Header: "Nombre de Proyecto",
-          accessor: "taskName",
       },
       {
           Header: "Nombre",
@@ -75,24 +73,14 @@ const BugsPage: React.FunctionComponent<BugsPageProps> = () => {
       {
           Header: "Prioridad",
           id: "priority",
-          accessor: (data: any) =>
-              data.labels.map((item: any) => (
-                  <div key={nanoid()}>
-                      {item.label}
-                  </div>
-              ))
+          accessor: "priority"
       },
       {
           Header: "Desarrollador asignado",
           id: "developerEmail",
-          accessor: (data: any) =>
-              data.developerEmails.map((item: any) => (
-                  <div key={nanoid()}>
-                      {item.email}
-                  </div>
-              ))
+          accessor: "developerEmail"
       },
-      {
+      (actualUser.userRol=="Admin" || actualUser.userRol=="Tester")&&{
           Header: "Borrar",
           Cell: ({row}:any) => (
               <button className="btn btn-danger w-100 my-2"
@@ -101,13 +89,13 @@ const BugsPage: React.FunctionComponent<BugsPageProps> = () => {
                   Borrar
               </button>
           )
-      },
+      }
   ]
   
   return (
       <div className="container m-4.text-center" >
 
-          <h1 className="text-center">Lista de tareas, Proyecto: {task.name}</h1>
+          <h1 className="text-center">Lista de bugs, Tarea: {task.name}</h1>
           <div className="text-center">
               <TasksTable
                   columns={columns}
@@ -116,14 +104,12 @@ const BugsPage: React.FunctionComponent<BugsPageProps> = () => {
           </div>
           <br />
           <div className="text-center">
-              <Link to='/create-task'>
-                  <button className="btn btn-primary" >Agregar nueva Tarea</button>
+              <Link to='/addbug'>
+                  <button className="btn btn-primary" >Agregar nuevo Bug</button>
               </Link>
           </div>
           <div className="text-center">
-              <Link to='/projects'>
-                  <button className="btn btn-secondary" >Volver</button>
-              </Link>
+                  <button onClick={() => {window.history.back()}}className="btn btn-secondary" >Volver</button>
           </div>
       </div>
   )

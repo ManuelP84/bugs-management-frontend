@@ -12,14 +12,35 @@ const LifeCycleDashboard = (props: Props) => {
 
     const bugs = useSelector((state: RootState) => state.dashboard.bugs);
 
-    useEffect(() => {
-        console.log(bugs)
-    },[])
+
+
+    const planning = bugs.filter(bug => bug.lifecycle.toLowerCase() === "planning").length;
+    const analysis = bugs.filter(bug => bug.lifecycle.toLowerCase() === "analysis").length;
+    const design = bugs.filter(bug => bug.lifecycle.toLowerCase() === "design").length;
+    const implementation = bugs.filter(bug => bug.lifecycle.toLowerCase() === "implementation").length;
+    const testing = bugs.filter(bug => bug.lifecycle.toLowerCase() === "testing").length;
+    const deployment = bugs.filter(bug => bug.lifecycle.toLowerCase() === "deployment").length;
+    const use = bugs.filter(bug => bug.lifecycle.toLowerCase() === "use").length;
+    const maintenance = bugs.filter(bug => bug.lifecycle.toLowerCase() === "maintenance").length;
+
+    const data = [planning, analysis, design, implementation, testing, deployment, use, maintenance]
+
+    const dataSetsProperties = { ...chartData.datasets[0] }
+    const dataSets = { ...dataSetsProperties, data: data, label: "No-Completed Bugs grouped by Life Cycle" }
+
+    const chartDataConfig = {
+        ...chartData,
+        labels: ["Planning", "Analysis", "Design", "Implementation", "Testing", "Deployment", "Use", "Maintenance"],
+        datasets: [dataSets]
+    }
 
     return (
-        <div className="row">
-            <div className="col">
-                <Bar data={chartData} options={chartOptions} />
+        <div className="fluid-container">
+            <div></div>
+            <div className="row mb-4">
+                <div className="col">
+                    <Bar data={chartDataConfig} options={chartOptions} />
+                </div>
             </div>
         </div>
     )

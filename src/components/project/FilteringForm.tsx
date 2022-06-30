@@ -48,7 +48,9 @@ const FilteringForm = (props: Props) => {
         setFilter("")
     }
 
-    const onReloadData = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const onReload = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        const actualUser = useSelector((state: RootState) => state.login.actualUser);
+        const user = (actualUser) ? actualUser : { userRole: 'Reader', userEmail: "", userToken: "" }
         event.preventDefault()
         setFilterInput("")
         setFilter("")
@@ -77,7 +79,7 @@ const FilteringForm = (props: Props) => {
                 <button className="btn btn-primary w-100 text-nowrap px-0" onClick={onFilterProject}>Filter</button>
             </div>
             <div className="col-md-3 col-sm-6 my-2">
-                <button className="btn btn-primary w-100 text-nowrap px-0" onClick={(e) => onReloadData(e)}>Reload Data</button>
+                <button className="btn btn-primary w-100 text-nowrap px-0" onClick={(e) => onReload(e)}>Reload Data</button>
             </div>
         </div>
     )

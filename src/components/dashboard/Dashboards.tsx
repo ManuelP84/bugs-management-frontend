@@ -15,16 +15,18 @@ const Dashboards: React.FC<Props> = (props) => {
     const relatedProject = useSelector((state: RootState) => state.dashboard.relatedProject);
 
     return (
-        <div className="fluid-container py-2 me-5">
-            <div className="row mb-2">
+        <div className="fluid-container py-2">
+            <div className="row mb-2 mx-3 mb-4">
                 <div className="col">
                     <span>{(relatedProject) ? (<b>Project: {relatedProject.projectId} - {relatedProject.name}</b>)
                         : (<b>Select a project by its ID to load the related dashboard</b>)}</span>
                 </div>
             </div>
-            <LifeCycleDashboard />
-            <BugStateDashboard />
-            <OldestBugsDashboard />
+            <div className="row mx-3">
+                <LifeCycleDashboard />
+                <BugStateDashboard />
+                <OldestBugsDashboard />
+            </div>
         </div>
     )
 }

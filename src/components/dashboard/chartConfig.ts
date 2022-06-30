@@ -1,14 +1,5 @@
 export const chartData = {
-    labels: [
-        "Assigned",
-        "Cancelled",
-        "Closed",
-        "Closed with bugs",
-        "Relapsing",
-        "Rejected",
-        "Solved"],
     datasets: [{
-        label: "Bugs by state",
         backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(255, 159, 64, 0.2)',
@@ -16,7 +7,9 @@ export const chartData = {
             'rgba(75, 192, 192, 0.2)',
             'rgba(54, 162, 235, 0.2)',
             'rgba(153, 102, 255, 0.2)',
-            'rgba(201, 203, 207, 0.2)'
+            'rgba(201, 203, 207, 0.2)',
+            'rgba(201, 105, 23, 0.2)',
+            'rgba(251, 150, 150, 0.2)'
         ],
         borderColor: [
             'rgb(255, 99, 132)',
@@ -25,12 +18,14 @@ export const chartData = {
             'rgb(75, 192, 192)',
             'rgb(54, 162, 235)',
             'rgb(153, 102, 255)',
-            'rgb(201, 203, 207)'
+            'rgb(201, 203, 207)',
+            'rgba(201, 105, 230)',
+            'rgba(201, 105, 23)',
+            'rgba(251, 150, 150)'
         ],
         borderWidth: 1,
         hoverBackgroundColor: "rgba(0,255,0,0.2)",
-        hoverBordercolor: "#FF0000",
-        data: [15, 3, 49, 2, 45, 60, 120, 40]
+        hoverBordercolor: "#FF0000"
     }]
 }
 

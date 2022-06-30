@@ -3,19 +3,10 @@ import { RootState } from "../store"
 import { possibleStatus } from "../../config/possibleStatus"
 import { getBugsByProjectId } from "../../services/dashboard/getBugsByProjectId";
 import { projectType } from "./projectSlice";
-
-type dashboardBugType = {
-    id?: string,
-    bugId?: number,
-    taskId?: number,
-    projectId?: string,
-    state: string,
-    lifeCycle: string,
-    startDate: string
-}
+import { IBug } from "./bugsSlice";
 
 type dashboardType = {
-    bugs: dashboardBugType[],
+    bugs: IBug[],
     relatedProject?: projectType,
     status: possibleStatus,
     error: string | null,
@@ -36,7 +27,6 @@ const dashboardSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-
         // GET cases
         builder.addCase(getBugsByProjectId.pending, (state, action) => {
             state.status = possibleStatus.PENDING;
@@ -53,7 +43,6 @@ const dashboardSlice = createSlice({
     }
 })
 
-export type { dashboardBugType }
 export default dashboardSlice.reducer
 
 export const { loadRelatedProject } = dashboardSlice.actions

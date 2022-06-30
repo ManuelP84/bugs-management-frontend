@@ -34,9 +34,11 @@ export const updateBugThunk = createAsyncThunk("update/bug", async (bug: IBug) =
 })
 
 export const deleteBugThunk = createAsyncThunk('delete/bug', async (id: string) => {
+    console.log(id);
+
     const response = await fetch(`${ENDPOINT}/v1/api/delete/bug/${id}`, {
         method: 'DELETE'
-    })
+    })    
     return {deleted: response.ok, bugId: id}
 })
 
