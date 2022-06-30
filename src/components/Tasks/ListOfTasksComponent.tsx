@@ -2,13 +2,14 @@ import TasksTable from '../Table/ReactTable'
 import { Link, useLocation } from "react-router-dom";
 import { selectTasksState, taskType } from '../../state/slice/taskSlice';
 import { projectType } from '../../state/slice/projectSlice';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getTasksByProjectId } from '../../services/Tasks/getTasksByProjectId';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../state/store';
 import { nanoid } from '@reduxjs/toolkit';
 import { deleteTask } from '../../services/Tasks/deleteTask';
 import { addTempTask } from '../../state/slice/tempTaskSlice';
+import TaskValidationDeleteModal from '../TaskValidationDelete/TaskValidationDeleteModal';
 
 const ListOfTasksComponent = () => {
 
@@ -45,7 +46,7 @@ const ListOfTasksComponent = () => {
         )
     }
 
-    const onDelete = (props: taskType) =>{
+    const onDelete = (props: taskType) => {
         dispatch(deleteTask(props))
     }
 
@@ -53,13 +54,15 @@ const ListOfTasksComponent = () => {
         dispatch(addTempTask(task))
     }
 
+    const [showDeleteValidationModal, setDeleteValidationModal] = useState(false)
+
     const columns = [
         {
             Header: "Id",
             Cell: ({ row }: any) => (
                 <Link key={nanoid()} to='/task-detail'>
-                    <button className="btn" onClick={() => tempTask(row.original) }>
-                    {row.original.taskId}
+                    <button className="btn" onClick={() => tempTask(row.original)}>
+                        {row.original.taskId}
                     </button>
                 </Link>
             )
@@ -107,23 +110,28 @@ const ListOfTasksComponent = () => {
         },
         {
             Header: "Borrar",
-            Cell: ({row}:any) => (
-                <button className="btn btn-danger w-100 my-2"
-                    type="button"
-                    onClick={()=>onDelete(row.original)}>
-                    Borrar
-                </button>
+            Cell: ({ row }: any) => (
+                <div>
+                    <button className="btn btn-danger w-100 my-2"
+                        type="button"
+                        onClick={() => setDeleteValidationModal(true)}
+                    >
+                        Borrar
+                    </button>
+                    <TaskValidationDeleteModal task={row.original} taskDeleteModal={showDeleteValidationModal} setTaskValidationModal={setDeleteValidationModal} />
+                </div>
             )
         },
     ]
+
 
     const columnsWithoutDelete = [
         {
             Header: "Id",
             Cell: ({ row }: any) => (
                 <Link key={nanoid()} to='/task-detail'>
-                    <button className="btn" onClick={() => tempTask(row.original) }>
-                    {row.original.taskId}
+                    <button className="btn" onClick={() => tempTask(row.original)}>
+                        {row.original.taskId}
                     </button>
                 </Link>
             )
@@ -170,7 +178,7 @@ const ListOfTasksComponent = () => {
                 ))
         },
     ]
-  
+
     return (
         <div className="container m-4.text-center" >
 
@@ -192,6 +200,7 @@ const ListOfTasksComponent = () => {
                     <button className="btn btn-secondary" >Volver</button>
                 </Link>
             </div>
+
         </div>
     )
 }

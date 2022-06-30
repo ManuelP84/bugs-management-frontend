@@ -112,7 +112,7 @@ const CreateTaskComponent = () => {
                 state: taskState,
                 developerEmails: emails,
             }
-
+            console.log(addTask)
             dispatch(createNewTask(addTask))
         }
         else{
