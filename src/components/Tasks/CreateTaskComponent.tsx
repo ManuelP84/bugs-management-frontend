@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import DatePicker from "react-datepicker"
 import 'react-datepicker/dist/react-datepicker.css'
 import { emailType, labelType, taskType } from "../../state/slice/taskSlice";
@@ -32,6 +32,7 @@ const CreateTaskComponent = () => {
 
     const [showTaskValidationModal, setTaskValidationModal] = useState(false)
 
+    const navigate = useNavigate()
 
     const onChangeLabel = (e: { target: { value: any; }; }) => {
         const { value } = e.target;
@@ -112,8 +113,8 @@ const CreateTaskComponent = () => {
                 state: taskState,
                 developerEmails: emails,
             }
-            console.log(addTask)
             dispatch(createNewTask(addTask))
+            navigate('/task-list')
         }
         else{
             setTaskValidationModal(true)
@@ -200,9 +201,8 @@ const CreateTaskComponent = () => {
                     <small>Oprima enter o ',' (coma) para agregar un correo</small>
                 </div>
                 <br />
-                <Link to='/task-list' className="text-decoration-none text-white">
                 <button className="btn btn-primary" type="submit">Submit form</button>
-                </Link>
+
             </form>
             <br></br>
             <button className="btn btn-secondary">

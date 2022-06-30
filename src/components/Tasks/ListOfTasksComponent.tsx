@@ -1,13 +1,11 @@
 import TasksTable from '../Table/ReactTable'
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { selectTasksState, taskType } from '../../state/slice/taskSlice';
-import { projectType } from '../../state/slice/projectSlice';
 import { useEffect, useState } from 'react';
 import { getTasksByProjectId } from '../../services/Tasks/getTasksByProjectId';
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../state/store';
 import { nanoid } from '@reduxjs/toolkit';
-import { deleteTask } from '../../services/Tasks/deleteTask';
 import { addTempTask } from '../../state/slice/tempTaskSlice';
 import TaskValidationDeleteModal from '../TaskValidationDelete/TaskValidationDeleteModal';
 
@@ -17,38 +15,14 @@ const ListOfTasksComponent = () => {
     const projectToList = project.project
 
     const dispatch = useAppDispatch()
-
     useEffect(() => { dispatch(getTasksByProjectId(projectToList)) }, [dispatch])
+
 
     const getTasks = useSelector(selectTasksState())
 
     const user = useSelector((state: RootState) => state.login.actualUser);
     const rol = user?.userRol
     const permissions = (rol == "Tester" || rol == "Admin")
-
-    console.log(rol)
-
-    if (getTasks.length === 0) {
-        return (
-            <div>
-                <h1 className="text-center">No Hay tareas para mostrar</h1>
-                <div className="text-center">
-                    <Link to='/create-task'>
-                        <button className="btn btn-primary" >Agregar nueva Tarea</button>
-                    </Link>
-                </div>
-                <div className="text-center">
-                    <Link to='/projects'>
-                        <button className="btn btn-secondary" >Volver</button>
-                    </Link>
-                </div>
-            </div>
-        )
-    }
-
-    const onDelete = (props: taskType) => {
-        dispatch(deleteTask(props))
-    }
 
     const tempTask = (task: taskType) => {
         dispatch(addTempTask(task))
@@ -118,12 +92,11 @@ const ListOfTasksComponent = () => {
                     >
                         Borrar
                     </button>
-                    <TaskValidationDeleteModal task={row.original} taskDeleteModal={showDeleteValidationModal} setTaskValidationModal={setDeleteValidationModal} />
+                    <TaskValidationDeleteModal task={row.original} taskDeleteModal={showDeleteValidationModal} setDeleteValidationModal={setDeleteValidationModal} />
                 </div>
             )
         },
-    ]
-
+    ]   
 
     const columnsWithoutDelete = [
         {
@@ -206,3 +179,4 @@ const ListOfTasksComponent = () => {
 }
 
 export default ListOfTasksComponent
+

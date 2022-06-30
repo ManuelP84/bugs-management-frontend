@@ -8,21 +8,22 @@ import { useAppDispatch } from "../../state/store"
 type Props ={
     task: taskType
     taskDeleteModal: boolean
-    setTaskValidationModal: Function
+    setDeleteValidationModal: Function
 }
 
 const TaskValidationDeleteModal: React.FC<Props> = (props) =>{
         
-    const {task, taskDeleteModal, setTaskValidationModal} = props
+    const {task, taskDeleteModal, setDeleteValidationModal} = props
 
     const dispatch = useAppDispatch()
 
     const handleClose = () => {
-        setTaskValidationModal(false);
+        setDeleteValidationModal(false);
     }
 
     const onDelete = () => {
         dispatch(deleteTask(task))
+        handleClose();
     }
 
     return(
@@ -42,7 +43,7 @@ const TaskValidationDeleteModal: React.FC<Props> = (props) =>{
 
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>Close</Button>
-                <Button variant="danger" onClick={()=>{(onDelete()); handleClose}}>Borrar</Button>
+                <Button variant="danger" onClick={()=>(onDelete())}>Borrar</Button>
             </Modal.Footer>
         </Modal> 
     )
