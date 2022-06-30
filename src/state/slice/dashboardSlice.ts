@@ -3,8 +3,6 @@ import { RootState } from "../store"
 import { possibleStatus } from "../../config/possibleStatus"
 import { getBugsByProjectId } from "../../services/dashboard/getBugsByProjectId";
 
-export const userTest = { userRol: "ADMIN", userEmail: "leader@gmail.com" };
-
 type dashboardBugType = {
     id?: string,
     bugId?: number,

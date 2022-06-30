@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import CreateProjectForm from '../components/project/CreateProjectForm'
 import ProjectList from '../components/project/ProjectList'
+import { getAllUsersThunk } from '../services/loginServices'
 import { getAllProjects } from '../services/project/getAllProjects'
-import { useAppDispatch } from '../state/store'
+import { RootState, useAppDispatch } from '../state/store'
 import "/src/styles/projectStyle.css";
 
 type Props = {}
@@ -11,8 +13,11 @@ const ProjectPage = (props: Props) => {
 
     const dispatch = useAppDispatch();
 
+    const user = useSelector((state: RootState) => state.login.actualUser);
+
     useEffect(() => {
-        dispatch(getAllProjects())
+        dispatch(getAllProjects(user))
+        dispatch(getAllUsersThunk())
     }, [dispatch])
 
     return (

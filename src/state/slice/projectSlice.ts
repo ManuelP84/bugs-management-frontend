@@ -1,14 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { getAllProjects } from "../../services/project/getAllProjects"
 import { createProject } from "../../services/project/createProject"
-import { RootState } from "../store"
 import { possibleStatus } from "../../config/possibleStatus"
 import { updateProject } from "../../services/project/updateProject"
 import { deleteProject } from "../../services/project/deleteProject"
 import { removeLeader } from "../../services/project/removeLeader"
-
-
-export const userTest = { userRol: "Tester", userEmail: "leader1@gmail.com" };
+import { RootState } from "../store"
 
 enum projectStateEnum {
     CREATED = "CREATED",
@@ -68,9 +65,13 @@ const projectSlice = createSlice({
         })
         builder.addCase(getAllProjects.fulfilled, (state, action) => {
             state.status = possibleStatus.COMPLETED;
-            if (userTest.userRol === "Admin") { state.projects = action.payload }
-            if (userTest.userRol !== "Admin") {
-                const projectRelatedToUser = action.payload.filter(project => [...project.developerEmails, ...project.leaderEmails].includes(userTest.userEmail))
+            if (action.payload.user.userRol === "Admin") {
+                state.projects = action.payload.retrievedProjects
+            }
+            if (action.payload.user.userRol !== "Admin") {
+                const projectRelatedToUser = action.payload.retrievedProjects
+                    .filter(project => [...project.developerEmails, ...project.leaderEmails].includes(action.payload.user.userEmail))
+
                 state.projects = projectRelatedToUser
             }
         })

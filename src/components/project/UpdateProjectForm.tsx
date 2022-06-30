@@ -34,18 +34,24 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
     const onAddPersonEmail = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
 
-        if (emailRegex.test(personEmail) && isLeader) {
+        const alreadyExistOnProject = [...developerEmails, ...leaderEmails].includes(personEmail)
+
+        if (emailRegex.test(personEmail) && isLeader && !alreadyExistOnProject) {
             setLeaderEmails(Array.from(new Set([...leaderEmails, personEmail])))
+            setPersonEmail("")
             setShowEmailAlert(false)
         }
-        if (emailRegex.test(personEmail) && !isLeader) {
+        if (emailRegex.test(personEmail) && !isLeader && !alreadyExistOnProject) {
             setDeveloperEmails(Array.from(new Set([...developerEmails, personEmail])))
+            setPersonEmail("")
             setShowEmailAlert(false)
         }
         if (!emailRegex.test(personEmail)) {
             setShowEmailAlert(true)
         }
-        setPersonEmail("")
+        if (!emailRegex.test(personEmail) || alreadyExistOnProject) {
+            setShowEmailAlert(true)
+        }
         setIsLeader(false)
     }
 
@@ -181,7 +187,8 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
             </div>
 
             {showEmailAlert ? <div className="row ms-2">
-                <span className="text-start" style={{ color: "red" }}>The email has an invalid format</span>
+                <span className="text-start" style={{ color: "red", fontSize: "13px" }}>
+                    The email has an invalid format or was already added to this project</span>
             </div> : <></>}
 
             {/* Pick the email to be deleted*/}

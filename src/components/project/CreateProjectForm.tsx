@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { createProject } from '../../services/project/createProject'
-import { projectStateEnum, projectType, userTest } from '../../state/slice/projectSlice'
+import { IUser } from '../../state/slice/loginSlice'
+import { projectStateEnum, projectType } from '../../state/slice/projectSlice'
 import { RootState, useAppDispatch } from '../../state/store'
 
 type Props = {}
@@ -10,10 +11,8 @@ const CreateProjectForm: React.FC<Props> = (props) => {
 
     const dispatch = useAppDispatch()
 
-    // const user = useSelector((state: RootState) => state.login.user);
-
-    // this is temporary while the user slice can be accessed
-    const user = userTest
+    const user = useSelector((state: RootState) => state.login.actualUser);
+    const users = useSelector((state: RootState) => state.login.users);
 
     const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
     const dateRegex = /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/
@@ -29,21 +28,39 @@ const CreateProjectForm: React.FC<Props> = (props) => {
     const [showEmailAlert, setShowEmailAlert] = useState(false)
     const [showStartDateAlert, setShowStartDateAlert] = useState(false)
     const [showEndDateAlert, setShowEndDateAlert] = useState(false)
+    const [suggestedEmails, setSuggestedEmail] = useState<IUser[]>([])
+
+    useEffect(() => {
+        setSuggestedEmail([])
+        if (personEmail.length > 0) {
+            const suggestions = users.filter((user: IUser) => {
+                if (user.userEmail) {
+                    return user.userEmail.toString().includes(personEmail)
+                }
+            })
+            setSuggestedEmail([...suggestions])
+        }
+    }, [personEmail])
 
     const onAddPersonEmail = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
 
-        if (emailRegex.test(personEmail) && isLeader) {
+        const alreadyExistOnProject = [...developerEmails, ...leaderEmails].includes(personEmail)
+
+        if (emailRegex.test(personEmail) && isLeader && !alreadyExistOnProject) {
             setLeaderEmails([...leaderEmails, personEmail])
             setPersonEmail("")
             setShowEmailAlert(false)
         }
-        if (emailRegex.test(personEmail) && !isLeader) {
+        if (emailRegex.test(personEmail) && !isLeader && !alreadyExistOnProject) {
             setDeveloperEmails([...developerEmails, personEmail])
             setPersonEmail("")
             setShowEmailAlert(false)
         }
         if (!emailRegex.test(personEmail)) {
+            setShowEmailAlert(true)
+        }
+        if (!emailRegex.test(personEmail) || alreadyExistOnProject) {
             setShowEmailAlert(true)
         }
         setIsLeader(false)
@@ -120,8 +137,8 @@ const CreateProjectForm: React.FC<Props> = (props) => {
         return Math.floor(Math.random() * 10000000)
     }
 
-    const pickSuggestedEmail = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-        console.log(e)
+    const pickSuggestedEmail = (suggestion: IUser) => {
+        console.log(suggestion.userEmail)
     }
 
     return (
@@ -170,17 +187,32 @@ const CreateProjectForm: React.FC<Props> = (props) => {
                         onChange={(e) => setPersonEmail(e.target.value)} placeholder="Person email" value={personEmail} />
                     <div className="input-group-text">
                         <span className="me-2 input-inset-format">leader</span>
-                        <input className="form-check-input mt-0" type="checkbox" checked={isLeader} onChange={(e) => { setIsLeader(e.currentTarget.checked) }} />
+                        <input className="form-check-input mt-0" type="checkbox" checked={isLeader}
+                            onChange={(e) => { setIsLeader(e.currentTarget.checked) }} />
                     </div>
 
-                    {(user.userRol === "ADMIN" || user.userRol === "TESTER") ?
+                    {(user.userRol === "Admin" || user.userRol === "Tester") ?
                         <button className="btn btn-outline-primary" type="button" onClick={onAddPersonEmail}>Add</button>
                         : <button className="btn btn-outline-primary disabled" type="button">Add</button>}
                 </div>
             </div>
 
             {showEmailAlert ? <div className="row ms-2">
-                <span className="text-start" style={{ color: "red" }}>The email has an invalid format</span>
+                <span className="text-start" style={{ color: "red", fontSize: "13px" }}>
+                    The email has an invalid format or was already added to this project</span>
+            </div> : <></>}
+
+            {suggestedEmails.length > 0 ? <div className="row m-2 mt-2">
+                <div className={`row mx-2 ${suggestedEmails.length > 0 ? "card" : ""}`}>
+                    <div className="col card-body">
+                        {suggestedEmails.map(suggestion => {
+                            return <div key={suggestion.userEmail}>
+                                <span className="clickable overflow-hidden text-nowrap"
+                                    onClick={() => pickSuggestedEmail(suggestion)}>{`${suggestion.userEmail}`}</span><br />
+                            </div>
+                        })}
+                    </div>
+                </div>
             </div> : <></>}
 
             <div className="row m-2">
