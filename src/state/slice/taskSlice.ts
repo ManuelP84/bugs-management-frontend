@@ -7,18 +7,15 @@ import { updateTask } from "../../services/Tasks/UpdateTask";
 import { RootState } from "../store";
 
 type labelType = {
-    id?: String,
     label: String,
 }
 
 type urlType = {
-    id?: string,
     fileName: string,
     url: string,
 }
 
 type emailType = {
-    id?: String,
     email: String,
 }
 

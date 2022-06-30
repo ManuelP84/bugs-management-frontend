@@ -6,9 +6,15 @@ import { emailType, labelType, taskType } from "../../state/slice/taskSlice";
 import { nanoid } from "@reduxjs/toolkit";
 import moment from "moment";
 import TaskValidationModal from "../../components/TaskValidation/TaskValidationModal";
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../state/store";
+import { createNewTask } from "../../services/Tasks/createNewTask";
 
 
 const CreateTask = () => {
+
+    const project = useSelector((state: RootState) => state.tempProject)
+    const projectToList = project.project
 
     const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
@@ -44,7 +50,6 @@ const CreateTask = () => {
         if (key === 'Enter' || key === ',' && trimmedInput.length) {
             e.preventDefault();
             const addLabel: labelType = {
-                id: nanoid(),
                 label: trimmedInput,
             }
             setLabels(prevState => [...prevState, addLabel]);
@@ -66,7 +71,6 @@ const CreateTask = () => {
             e.preventDefault();
             if (trimmedInput.match(regexEmail)) {
                 const addEmail: emailType = {
-                    id: nanoid(),
                     email: trimmedInput,
                 }
                 setEmails(prevState => [...prevState, addEmail]);
@@ -90,14 +94,16 @@ const CreateTask = () => {
     let endStringDate = moment(endDate).format("YYYY/MM/DD")
     let endDateToString = moment(endStringDate, "YYYY/MM/DD").toDate();
 
+    const dispatch = useAppDispatch()
+
     const onAddTask = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         if (nameTask && initStringDate && labels.length > 0 && description && taskState && emails.length > 0) {
             const addTask: taskType = {
-                projectId: nanoid(),
-                taskId: nanoid(),
-                projectName: "prueba",
+                projectId: projectToList.projectId+'',
+                taskId: Math.floor(Math.random()*10)+'',
+                projectName: projectToList.name,
                 name: nameTask,
                 date: initStringDate,
                 endDate: endStringDate,
@@ -107,8 +113,11 @@ const CreateTask = () => {
                 developerEmails: emails,
             }
 
+            dispatch(createNewTask(addTask))
         }
-        setTaskValidationModal(true)
+        else{
+            setTaskValidationModal(true)
+        }      
 
     }
 
@@ -160,6 +169,7 @@ const CreateTask = () => {
                     <label>Archivos adjuntos</label>
                     <input type="file" className="form-control" placeholder="Enter email" />
                 </div>
+
                 <div className="form-group">
                     <label>Estado de la tarea</label>
                     <br></br>
@@ -194,7 +204,7 @@ const CreateTask = () => {
             </form>
             <br></br>
             <button className="btn btn-secondary">
-                <Link to='/' className="text-decoration-none text-white">
+                <Link to='/task-list' className="text-decoration-none text-white">
                     Volver
                 </Link>
             </button>

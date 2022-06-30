@@ -6,7 +6,7 @@ import { taskType } from "../../state/slice/taskSlice";
 const getTaskByIdAPI = ENDPOINT + "/v1/api/get/tasks";
 
 export const getTasksByProjectId = createAsyncThunk('getTasksByProjectId', async (project: projectType) => {
-    const response = await fetch(`${getTaskByIdAPI}/${project.id}`, {
+    const response = await fetch(`${getTaskByIdAPI}/${project.projectId}`, {
         method: 'GET',
     })
     return (await response.json() as taskType[])

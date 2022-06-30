@@ -7,6 +7,7 @@ import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
 import sessionStorage from "redux-persist/es/storage/session";
 import projectReducer from "./slice/projectSlice";
+import tempProjectReducer from "./slice/tempProjectSlice";
 
 
 const persistConfig = {
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   tasks: taskReducer,
   login: loginReducer,
   projects: projectReducer,
+  tempProject: tempProjectReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

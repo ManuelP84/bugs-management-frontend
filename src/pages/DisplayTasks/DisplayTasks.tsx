@@ -88,7 +88,7 @@ const DisplayTasks = () => {
                     <br />
                     <br />
 
-                    <Link to='/' className="text-decoration-none text-white">
+                    <Link to='/task-list' className="text-decoration-none text-white">
                         <button className="btn btn-secondary">
                             Volver
                         </button>

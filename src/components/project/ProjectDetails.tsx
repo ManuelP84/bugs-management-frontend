@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { removeLeader } from '../../services/project/removeLeader'
 import { projectStateEnum, projectType, userTest } from '../../state/slice/projectSlice'
+import { addTempProject } from '../../state/slice/tempProjectSlice'
 import { useAppDispatch } from '../../state/store'
 import DeleteProjectModal from './DeleteProjectModal'
 import UpdateProjectModal from './UpdateProjectModal'
@@ -31,6 +32,10 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
         dispatch(removeLeader({ project, leader }))
     }
 
+    const tempProject = (project: projectType)=>{
+        dispatch(addTempProject(project))
+    }
+
     return (
         <>
             <div id="collapseOne" className={`accordion-collapse collapse ${toggle ? "show" : ""}`}>
@@ -54,9 +59,10 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
 
                         <div className={permissions && (project.state === projectStateEnum.CREATED) ?
                             "col-sm-4 col-xs-4" : "col-sm-6"}>
-                            <Link to={'/task-list'} state={{ projectToList: project }}>
+                            <Link to={'/task-list'}>
                                 <button className="btn btn-success w-100 my-2 px-0"
                                     type="button"
+                                    onClick={() =>(tempProject(project))}
                                 >Tasks
                                 </button>
                             </Link>

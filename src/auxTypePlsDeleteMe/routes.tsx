@@ -13,7 +13,6 @@ export default function RoutesSite() {
             <Route path='/create-task' element={<CreateTask />}/>
             <Route path='/edit-task' element={<UpdateTask />}/>
             <Route path='/projects' element={<ProjectPage />}/>
-
         </Routes>
         )
 } 

@@ -194,7 +194,7 @@ const UpdateTask = () => {
                 <button className="btn btn-primary" type="submit">Submit form</button>
             </form>
             <button className="btn btn-secondary">
-                <Link to='/' className="text-decoration-none text-white">
+                <Link to='/task-detail' className="text-decoration-none text-white">
                     Volver
                 </Link>
             </button>
