@@ -68,7 +68,7 @@ const projectSlice = createSlice({
             if (action.payload.user.userRol === "Admin") {
                 state.projects = action.payload.retrievedProjects
             }
-            if (action.payload.user.userRol !== "Admin") {
+            if (action.payload.user.userRol === "Tester" || action.payload.user.userRol === "Developer") {
                 const projectRelatedToUser = action.payload.retrievedProjects
                     .filter(project => [...project.developerEmails, ...project.leaderEmails].includes(action.payload.user.userEmail))
 

@@ -34,7 +34,7 @@ const OldestBugsDashboard = (props: Props) => {
                     {dataToShow.map(bug => {
                         return <div className="rounded border border-danger my-2 p-2" key={bug.id}>
                             <span>({bug.startDate.replace(/-/g, "/")})</span>    ---
-                            <b >Bug title: </b><span>{bug.title}</span>    ---
+                            <b > Bug title: </b><span>{bug.title}</span>    ---
                             <b > Task id: </b><span>{bug.taskId}</span>
                         </div>
                     })}
