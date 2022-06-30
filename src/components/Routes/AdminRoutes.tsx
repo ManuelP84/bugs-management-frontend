@@ -11,6 +11,7 @@ import ListOfTasks from "../../pages/ListOfTasks/ListOfTasks";
 import DisplayTasks from "../../pages/DisplayTasks/DisplayTasks";
 import CreateTask from "../../pages/CreateTask/CreateTask";
 import UpdateTask from "../../pages/UpdateTask/UpdateTask";
+import AddBugForm from "../Bugs/AddBugForm";
 
 
 interface IAdminRoutesProps {}
@@ -22,6 +23,7 @@ const AdminRoutes: React.FunctionComponent<IAdminRoutesProps> = (props) => {
           <Route path="/project" element={<ProjectPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/bugs" element={<BugsPage />} />
+          <Route path="/addbug" element={<AddBugForm />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path='/task-list' element={<ListOfTasks />} />
           <Route path='/task-detail' element={<DisplayTasks />} />
