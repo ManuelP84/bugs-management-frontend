@@ -9,9 +9,9 @@ const DisplayTasksComponent = () => {
     const task = useSelector((state: RootState) => state.tempTask)
     const taskDetail = task.task
 
-    interface stateToDisplay {
-        taskDetail: taskType
-    }
+    const user = useSelector((state: RootState) => state.login.actualUser);
+    const rol = user?.userRol
+    const permissions = (rol == "Tester" || rol == "Admin")
 
     const dispatch = useAppDispatch()
 
@@ -101,13 +101,13 @@ const DisplayTasksComponent = () => {
                     </Link>
                     <br />
                     <br />
-
-                    <Link to='/task-list' className="text-decoration-none text-white">
-                        <button className="btn btn-secondary">
-                            Volver
-                        </button>
-                    </Link>
-
+                    <div hidden={!permissions}>
+                        <Link to='/task-list' className="text-decoration-none text-white">
+                            <button className="btn btn-secondary">
+                                Volver
+                            </button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

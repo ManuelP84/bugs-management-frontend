@@ -21,6 +21,12 @@ const ListOfTasksComponent = () => {
 
     const getTasks = useSelector(selectTasksState())
 
+    const user = useSelector((state: RootState) => state.login.actualUser);
+    const rol = user?.userRol
+    const permissions = (rol == "Tester" || rol == "Admin")
+
+    console.log(rol)
+
     if (getTasks.length === 0) {
         return (
             <div>
@@ -101,7 +107,7 @@ const ListOfTasksComponent = () => {
         },
         {
             Header: "Borrar",
-            Cell: ({row}) => (
+            Cell: ({row}:any) => (
                 <button className="btn btn-danger w-100 my-2"
                     type="button"
                     onClick={()=>onDelete(row.original)}>
@@ -110,19 +116,73 @@ const ListOfTasksComponent = () => {
             )
         },
     ]
-    
+
+    const columnsWithoutDelete = [
+        {
+            Header: "Id",
+            Cell: ({ row }: any) => (
+                <Link key={nanoid()} to='/task-detail'>
+                    <button className="btn" onClick={() => tempTask(row.original) }>
+                    {row.original.taskId}
+                    </button>
+                </Link>
+            )
+        },
+        {
+            Header: "Nombre de Proyecto",
+            accessor: "projectName",
+        },
+        {
+            Header: "Nombre",
+            accessor: "name",
+        },
+        {
+            Header: "Fecha de creacion",
+            accessor: "date",
+        },
+        {
+            Header: "Fecha de cierre",
+            accessor: "endDate",
+            Cell: ({ cell: { value } }: any) => value || "-",
+        },
+        {
+            Header: "Estado",
+            accessor: "state",
+        },
+        {
+            Header: "Tags",
+            id: "tags",
+            accessor: (data: any) =>
+                data.labels.map((item: any) => (
+                    <div key={nanoid()}>
+                        {item.label}
+                    </div>
+                ))
+        },
+        {
+            Header: "Desarrollador asignado",
+            id: "developerEmails",
+            accessor: (data: any) =>
+                data.developerEmails.map((item: any) => (
+                    <div key={nanoid()}>
+                        {item.email}
+                    </div>
+                ))
+        },
+    ]
+  
     return (
         <div className="container m-4.text-center" >
 
             <h1 className="text-center">Lista de tareas, Proyecto: {projectToList.name}</h1>
             <div className="text-center">
                 <TasksTable
-                    columns={columns}
+                    columns={permissions ? columns : columnsWithoutDelete}
                     data={getTasks}
                 />
             </div>
             <br />
-            <div className="text-center">
+            <div className="text-center" hidden={!permissions}>
                 <Link to='/create-task'>
                     <button className="btn btn-primary" >Agregar nueva Tarea</button>
                 </Link>

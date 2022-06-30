@@ -202,7 +202,7 @@ const UpdateTaskComponent = () => {
 
                 <br />
                 <Link to='/task-list' className="text-decoration-none text-white">
-                    <button className="btn btn-primary" type="submit">Submit form</button>
+                    <button className="btn btn-primary" type="submit">Actualizar información</button>
                 </Link>
             </form>
 
