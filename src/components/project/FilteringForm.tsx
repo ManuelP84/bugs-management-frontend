@@ -49,8 +49,6 @@ const FilteringForm = (props: Props) => {
     }
 
     const onReload = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        const actualUser = useSelector((state: RootState) => state.login.actualUser);
-        const user = (actualUser) ? actualUser : { userRole: 'Reader', userEmail: "", userToken: "" }
         event.preventDefault()
         setFilterInput("")
         setFilter("")
