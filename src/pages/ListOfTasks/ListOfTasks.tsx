@@ -8,15 +8,16 @@ import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../state/store';
 import { nanoid } from '@reduxjs/toolkit';
 import { deleteTask } from '../../services/Tasks/deleteTask';
+import { addTempTask } from '../../state/slice/tempTaskSlice';
 
 const ListOfTasks = () => {
 
-  //  const project = useSelector((state: RootState) => state.tempProject)
-    //const projectToList = project.project
+    const project = useSelector((state: RootState) => state.tempProject)
+    const projectToList = project.project
 
     const dispatch = useAppDispatch()
 
-    //useEffect(() => { dispatch(getTasksByProjectId(projectToList)) }, [dispatch])
+    useEffect(() => { dispatch(getTasksByProjectId(projectToList)) }, [dispatch])
 
     const getTasks = useSelector(selectTasksState())
 
@@ -42,12 +43,18 @@ const ListOfTasks = () => {
         dispatch(deleteTask(props))
     }
 
+    const tempTask = (task: taskType) => {
+        dispatch(addTempTask(task))
+    }
+
     const columns = [
         {
             Header: "Id",
             Cell: ({ row }: any) => (
-                <Link key={nanoid()} to='/task-detail' state={{ taskDetail: row.original }}>
+                <Link key={nanoid()} to='/task-detail'>
+                    <button className="btn" onClick={() => tempTask(row.original) }>
                     {row.original.taskId}
+                    </button>
                 </Link>
             )
         },
@@ -107,12 +114,12 @@ const ListOfTasks = () => {
     return (
         <div className="container m-4.text-center" >
 
-            {/* {<h1 className="text-center">Lista de tareas, Proyecto: {projectToList.name}</h1>} */}
+            <h1 className="text-center">Lista de tareas, Proyecto: {projectToList.name}</h1>
             <div className="text-center">
-              {/* {  <TasksTable
+                <TasksTable
                     columns={columns}
                     data={getTasks}
-                />} */}
+                />
             </div>
             <br />
             <div className="text-center">

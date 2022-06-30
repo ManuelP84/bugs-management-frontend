@@ -1,15 +1,23 @@
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { taskType } from "../../state/slice/taskSlice";
+import { addTempTask } from "../../state/slice/tempTaskSlice";
+import { RootState, useAppDispatch } from "../../state/store";
 
 const DisplayTasks = () => {
+
+    const task = useSelector((state: RootState) => state.tempTask)
+    const taskDetail = task.task
 
     interface stateToDisplay {
         taskDetail: taskType
     }
 
-    const location = useLocation()
-    const localState = location.state as stateToDisplay;
-    const { taskDetail } = localState;
+    const dispatch = useAppDispatch()
+
+    const tempTask = (task: taskType) => {
+        dispatch(addTempTask(task))
+    }
 
     return (
         <div className="center">
@@ -83,12 +91,18 @@ const DisplayTasks = () => {
                 <br />
                 <div className="text-center">
                     <Link to='/edit-task' className="text-decoration-none text-white">
-                        <button className="btn btn-primary"><strong>Editar</strong></button>
+                        <button className="btn btn-primary"
+                            onClick={() => tempTask(taskDetail)}
+                        >
+                            <strong>
+                                Editar
+                            </strong>
+                        </button>
                     </Link>
                     <br />
                     <br />
 
-                    <Link to='/' className="text-decoration-none text-white">
+                    <Link to='/task-list' className="text-decoration-none text-white">
                         <button className="btn btn-secondary">
                             Volver
                         </button>

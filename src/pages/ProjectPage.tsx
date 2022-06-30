@@ -2,12 +2,11 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import CreateProjectForm from '../components/project/CreateProjectForm'
 import ProjectList from '../components/project/ProjectList'
-import ProjectNavigation from '../components/project/ProjectNavigation'
-import { possibleStatus } from '../config/possibleStatus'
+import { getAllUsersThunk } from '../services/loginServices'
 import { getAllProjects } from '../services/project/getAllProjects'
-import { selectProjectsStatus } from '../state/slice/projectSlice'
-import { useAppDispatch } from '../state/store'
-import "/src/components/project/projectStyle.css";
+import { IUser } from '../state/slice/loginSlice'
+import { RootState, useAppDispatch } from '../state/store'
+import "/src/styles/projectStyle.css";
 
 type Props = {}
 
@@ -15,18 +14,18 @@ const ProjectPage = (props: Props) => {
 
     const dispatch = useAppDispatch();
 
-    const status = useSelector(selectProjectsStatus())
+    const user = useSelector((state: RootState) => state.login.actualUser);
 
     useEffect(() => {
-        if (status === possibleStatus.IDLE) {
-            dispatch(getAllProjects())
-        }
+        (user) ? dispatch(getAllProjects(user))
+            : dispatch(getAllProjects({ userEmail: "", userRol: "Reader" } as IUser))
+        dispatch(getAllUsersThunk())
     }, [dispatch])
 
     return (
-        <div className="fluid-container">
+        <div className="fluid-container py-3">
 
-            <div className="row my-2">
+            <div className="row m-2 px-3">
                 <div className="col"></div>
                 <h4>Project Management</h4>
             </div>

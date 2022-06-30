@@ -7,6 +7,9 @@ import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
 import sessionStorage from "redux-persist/es/storage/session";
 import projectReducer from "./slice/projectSlice";
+import tempProjectReducer from "./slice/tempProjectSlice";
+import tempTaskReducer from "./slice/tempTaskSlice";
+import dashboardReducer from "./slice/dashboardSlice";
 import bugsReducer from "./slice/bugsSlice";
 
 
@@ -19,6 +22,9 @@ const rootReducer = combineReducers({
   tasks: taskReducer,
   login: loginReducer,
   projects: projectReducer,
+  tempProject: tempProjectReducer,
+  tempTask: tempTaskReducer,
+  dashboard: dashboardReducer,
   bugs: bugsReducer
 })
 

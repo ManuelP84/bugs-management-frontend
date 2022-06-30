@@ -11,17 +11,18 @@ import ProjectPage from "../../pages/ProjectPage";
 import AdminPage from "../../pages/AdminPage";
 import BugsPage from "../../pages/BugsPage";
 import ListOfTasks from "../../pages/ListOfTasks/ListOfTasks";
-import DisplayTasks from "../../pages/DisplayTasks/DisplayTasks";
 import CreateTask from "../../pages/CreateTask/CreateTask";
 import UpdateTask from "../../pages/UpdateTask/UpdateTask";
+import DisplayTasks from "../../pages/DisplayTasks/DisplayTasks";
+import DashboardPage from "../../pages/DashboardPage";
 
 
-interface IRoutesProps {}
-  
+interface IRoutesProps { }
+
 const Router: React.FunctionComponent<IRoutesProps> = () => {
-  const logged: boolean = useSelector(
-    (state: RootState) => state.login.isLogged
-  );
+    const logged: boolean = useSelector(
+        (state: RootState) => state.login.isLogged
+    );
 
   return (
     <div className="App">
@@ -32,16 +33,18 @@ const Router: React.FunctionComponent<IRoutesProps> = () => {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/bugs" element={<BugsPage />} />
           <Route path="*" element={<MainPage />} />
-          <Route path='/task-list' element={<ListOfTasks />}/>
-            <Route path='/task-detail' element={<DisplayTasks />}/>
-            <Route path='/create-task' element={<CreateTask />}/>
-            <Route path='/edit-task' element={<UpdateTask />}/>
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path='/task-list' element={<ListOfTasks />} />
+          <Route path='/task-detail' element={<DisplayTasks />} />
+          <Route path='/create-task' element={<CreateTask />} />
+          <Route path='/edit-task' element={<UpdateTask />} />
         </Routes>
       ) : (
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/signUp" element={<SingUpPage />} />
           <Route path="*" element={<LoginPage />} />
+
         </Routes>
       )}
     </div>
