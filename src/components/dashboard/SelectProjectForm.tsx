@@ -43,7 +43,6 @@ const SelectProjectForm: React.FC<Props> = (props) => {
 
     // To load the dashboard related to the selected project
     const onLoadDashboard = () => {
-        console.log(selectedProject)
         dispatch(getBugsByProjectId(selectedProject as projectType))
         dispatch(loadRelatedProject(selectedProject as projectType))
     }

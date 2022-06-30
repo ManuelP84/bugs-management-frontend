@@ -12,7 +12,6 @@ import tempTaskReducer from "./slice/tempTaskSlice";
 import dashboardReducer from "./slice/dashboardSlice";
 import bugsReducer from "./slice/bugsSlice";
 
-
 const persistConfig = {
   key: 'root',
   storage: sessionStorage,
