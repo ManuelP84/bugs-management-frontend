@@ -12,11 +12,18 @@
     "bootstrap": "^5.1.3",
     "chart.js": "^3.8.0",
     "firebase": "^9.8.4",
-    "react": "^18.0.0",
+    "moment": "^2.29.3",
+    "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",
+<<<<<<< HEAD
     "react-chartjs-2": "^4.2.0",
     "react-dom": "^18.0.0",
+=======
+    "react-datepicker": "^4.8.0",
+    "react-dom": "^18.2.0",
+>>>>>>> cce55c1677e29cd8005892da16b80c52b7b0828d
     "react-icons": "^4.4.0",
+    "react-moment": "^1.1.2",
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "react-table": "^7.8.0",
@@ -26,7 +33,10 @@
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
+    "@types/react-datepicker": "^4.4.2",
     "@types/react-dom": "^18.0.0",
+    "@types/react-table": "^7.7.12",
+    "@types/uuid": "^8.3.4",
     "@vitejs/plugin-react": "^1.3.0",
     "typescript": "^4.6.3",
     "vite": "^2.9.9"
