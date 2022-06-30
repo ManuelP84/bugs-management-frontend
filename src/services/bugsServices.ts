@@ -1,35 +1,43 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import { ENDPOINT, HEADERS, HttpMethod } from "../config/stateData"
+import { IBug } from "../state/slice/bugsSlice"
 import { IUser } from "../state/slice/loginSlice"
 
-export const getAllUsersThunk = createAsyncThunk("get/users", async () => {
-    const response = await fetch(`${ENDPOINT}/v1/api/users`)
-    const users = await response.json()
+export const getBugsByTaskIdThunk = createAsyncThunk("get/bugs", async (id: string) => {
+    const response = await fetch(`${ENDPOINT}/v1/api/get/bugs/${id}`)
+    const bugs = await response.json()
     
-    return users as IUser[]
+    return bugs as IBug[]
 })
 
-export const postUserThunk = createAsyncThunk("post/user", async (user: IUser) => {
-    const response = await fetch(`${ENDPOINT}/v1/api/save/user`, {
+export const postBugThunk = createAsyncThunk("post/bug", async (bug: IBug) => {
+    const response = await fetch(`${ENDPOINT}/v1/api/save/bug`, {
         method: HttpMethod.POST,
         headers: HEADERS,
-        body: JSON.stringify(user)
+        body: JSON.stringify(bug)
     })
     const data = await response.json();
 
-    return data as IUser
+    return data as IBug
 })
 
-export const updateUserThunk = createAsyncThunk("update/user", async (user: IUser) => {
-    const response = await fetch(`${ENDPOINT}/v1/api/update/user`, {
+export const updateBugThunk = createAsyncThunk("update/bug", async (bug: IBug) => {
+    const response = await fetch(`${ENDPOINT}/v1/api/update/bug`, {
         method: HttpMethod.PUT,
         headers: HEADERS,
-        body: JSON.stringify(user)
+        body: JSON.stringify(bug)
     })
     const result = await response.json()
     console.log(result);
     
-    return result as IUser
+    return result as IBug
+})
+
+export const deleteBugThunk = createAsyncThunk('delete/bug', async (id: string) => {
+    const response = await fetch(`${ENDPOINT}/v1/api/delete/bug/${id}`, {
+        method: 'DELETE'
+    })
+    return {deleted: response.ok, bugId: id}
 })
 
 export const getAllUsersHelper = async () => {
@@ -39,8 +47,7 @@ export const getAllUsersHelper = async () => {
 
 export const getUserByEmail = async (email: string) => {
     const response = await fetch(`${ENDPOINT}/v1/api/get/user/${email}`)    
-    const allUsersRef = await getAllUsersHelper()
-    if (allUsersRef.length == 0) {
+    if (getAllUsersHelper.length == 0) {
         return {
             userEmail: "NoUser",
             userToken: "NoUser",

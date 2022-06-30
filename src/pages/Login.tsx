@@ -2,7 +2,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import * as React from "react";
 import { auth } from "../config/firebaseConfig";
 import GoogleLogIn from "../components/Login/GoogleLogIn";
-import { getUserByEmail, postUserThunk } from "../services/loginServices";
+import { getAllUsersThunk, getUserByEmail, postUserThunk } from "../services/loginServices";
 import { v1 as uuidv1 } from "uuid";
 import { useAppDispatch } from "../state/store";
 import { getLogged, IUser } from "../state/slice/loginSlice";
@@ -47,7 +47,8 @@ const LoginPage: React.FunctionComponent<ILoginProps> = (props) => {
           dispatch(
             getLogged(true)
           )
-          navigate("/project")
+          dispatch(getAllUsersThunk())
+          navigate("/admin")
 
           /*Whit the information of the user you can populate an state that is mainly focused on 
         holding the information of the user that is logged in*/
@@ -65,8 +66,7 @@ const LoginPage: React.FunctionComponent<ILoginProps> = (props) => {
       setUserEmail("");
     }
   };
-
-  return (
+    return (
     <div className="limiter back">
       <div className="container-login100">
         <div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
@@ -137,6 +137,7 @@ const LoginPage: React.FunctionComponent<ILoginProps> = (props) => {
       </div>
     </div>
   );
+  
 };
 
 export default LoginPage;

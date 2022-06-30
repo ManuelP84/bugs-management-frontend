@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import { RootState } from "../store"
 import { possibleStatus } from "../../config/possibleStatus"
 import { getBugsByProjectId } from "../../services/dashboard/getBugsByProjectId";
+import { projectType } from "./projectSlice";
 
 type dashboardBugType = {
     id?: string,
@@ -9,12 +10,13 @@ type dashboardBugType = {
     taskId?: number,
     projectId?: string,
     state: string,
-    lifecycle: string,
+    lifeCycle: string,
     startDate: string
 }
 
 type dashboardType = {
     bugs: dashboardBugType[],
+    relatedProject?: projectType,
     status: possibleStatus,
     error: string | null,
 }
@@ -29,6 +31,9 @@ const dashboardSlice = createSlice({
     name: 'dashboard',
     initialState,
     reducers: {
+        loadRelatedProject(state, action) {
+            return { ...state, relatedProject: action.payload }
+        }
     },
     extraReducers: (builder) => {
 
@@ -50,6 +55,8 @@ const dashboardSlice = createSlice({
 
 export type { dashboardBugType }
 export default dashboardSlice.reducer
+
+export const { loadRelatedProject } = dashboardSlice.actions
 
 export const selectDashboardState = () => (state: RootState) => state.dashboard.bugs
 export const selectDashboardStatus = () => (state: RootState) => state.dashboard.status

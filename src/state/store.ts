@@ -10,6 +10,7 @@ import projectReducer from "./slice/projectSlice";
 import tempProjectReducer from "./slice/tempProjectSlice";
 import tempTaskReducer from "./slice/tempTaskSlice";
 import dashboardReducer from "./slice/dashboardSlice";
+import bugsReducer from "./slice/bugsSlice";
 
 
 const persistConfig = {
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
   projects: projectReducer,
   tempProject: tempProjectReducer,
   tempTask: tempTaskReducer,
-  dashboard: dashboardReducer
+  dashboard: dashboardReducer,
+  bugs: bugsReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
