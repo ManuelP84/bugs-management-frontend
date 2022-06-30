@@ -90,6 +90,18 @@ const DisplayTasksComponent = () => {
                 <div className="row border-top border-primary"></div>
                 <br />
                 <div className="text-center">
+                <div hidden={!permissions}>
+                        <Link to='/bugs' className="text-decoration-none text-white">
+                            <button className="btn btn-primary"
+                                onClick={() => tempTask(taskDetail)}
+                            >
+                                <strong>
+                                    Bugs
+                                </strong>
+                            </button>
+                        </Link>
+                    </div>
+                    <br/>
                     <div hidden={!permissions}>
                         <Link to='/edit-task' className="text-decoration-none text-white">
                             <button className="btn btn-primary"
@@ -101,7 +113,6 @@ const DisplayTasksComponent = () => {
                             </button>
                         </Link>
                     </div>
-                    <br />
                     <br />
                     <div>
                         <Link to='/task-list' className="text-decoration-none text-white">
