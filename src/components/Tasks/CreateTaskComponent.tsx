@@ -28,7 +28,6 @@ const CreateTaskComponent = () => {
 
     const [nameTask, setNameTask] = useState('')
     const [description, setDescription] = useState('')
-    const [taskState, setTaskState] = useState('')
 
     const [showTaskValidationModal, setTaskValidationModal] = useState(false)
 
@@ -100,25 +99,25 @@ const CreateTaskComponent = () => {
     const onAddTask = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        if (nameTask && initStringDate && description && taskState && emails.length > 0) {
+        if (nameTask && initStringDate && description && emails.length > 0) {
             const addTask: taskType = {
-                projectId: projectToList.projectId+'',
-                taskId: Math.floor(Math.random()*10)+'',
+                projectId: projectToList.projectId + '',
+                taskId: Math.floor(Math.random() * 10) + '',
                 projectName: projectToList.name,
                 name: nameTask,
                 date: initStringDate,
                 endDate: endStringDate,
                 labels: labels,
                 description: description,
-                state: taskState,
+                state: "Abierta",
                 developerEmails: emails,
             }
             dispatch(createNewTask(addTask))
             navigate('/task-list')
         }
-        else{
+        else {
             setTaskValidationModal(true)
-        }      
+        }
     }
 
     return (
@@ -172,17 +171,6 @@ const CreateTaskComponent = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>Estado de la tarea</label>
-                    <br></br>
-                    <select className="custom-select form-control" required onChange={(e) => setTaskState(e.target.value)}>
-                        <option value="">Seleccione una opción</option>
-                        <option value="Abierta">Abierta</option>
-                        <option value="Cerrada">Cerrada</option>
-                        <option value="Impedimento">Impedimento</option>
-                    </select>
-                </div>
-
-                <div className="form-group">
                     <label>Email personas relacionadas</label>
                     {emails.map((emails, indexEmail) =>
                         <li className="email" key={nanoid()}>
@@ -205,11 +193,11 @@ const CreateTaskComponent = () => {
 
             </form>
             <br></br>
-            <button className="btn btn-secondary">
-                <Link to='/task-list' className="text-decoration-none text-white">
+            <Link to='/task-list' className="text-decoration-none text-white">
+                <button className="btn btn-secondary">
                     Volver
-                </Link>
-            </button>
+                </button>
+            </Link>
 
             <TaskValidationModal taskValidationModal={showTaskValidationModal} setTaskValidationModal={setTaskValidationModal} />
 

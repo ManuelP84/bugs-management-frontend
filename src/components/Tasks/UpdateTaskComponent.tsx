@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import DatePicker from "react-datepicker"
 import 'react-datepicker/dist/react-datepicker.css'
 import { emailType, labelType, taskType } from "../../state/slice/taskSlice";
@@ -8,7 +8,9 @@ import moment from "moment";
 import TaskValidationModal from "../TaskValidation/TaskValidationModal";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../state/store";
-import { updateTask } from "../../services/Tasks/updateTask";
+import { updateTask } from "../../services/Tasks/UpdateTask";
+import { addTempTask } from "../../state/slice/tempTaskSlice";
+
 
 const UpdateTaskComponent = () => {
 
@@ -88,6 +90,8 @@ const UpdateTaskComponent = () => {
         setEmails(emailToEdit)
     }
 
+    const navigate = useNavigate()
+
     let initStringDate = moment(initDate).format("YYYY/MM/DD")
 
     let endStringDate = moment(endDate).format("YYYY/MM/DD")
@@ -112,6 +116,8 @@ const UpdateTaskComponent = () => {
                 developerEmails: emails,
             }
             dispatch(updateTask(updatedTask))
+            dispatch(addTempTask(updatedTask))
+            navigate('/task-detail')
         }
         else {
             setTaskValidationModal(true)
@@ -174,7 +180,7 @@ const UpdateTaskComponent = () => {
                 <div className="form-group">
                     <label>Estado de la tarea</label>
                     <br></br>
-                    <select className="custom-select form-control" required onChange={(e) => setTaskState(e.target.value)}>
+                    <select className="custom-select form-control" required value={taskState} onChange={(e) => setTaskState(e.target.value)}>
                         <option value="">Seleccione una opción</option>
                         <option value="Abierta">Abierta</option>
                         <option value="Cerrada">Cerrada</option>
@@ -202,9 +208,7 @@ const UpdateTaskComponent = () => {
                 </div>
 
                 <br />
-                <Link to='/task-list' className="text-decoration-none text-white">
-                    <button className="btn btn-primary" type="submit">Actualizar información</button>
-                </Link>
+                <button className="btn btn-primary" type="submit">Actualizar información</button>
             </form>
 
             <Link to='/task-detail' className="text-decoration-none text-white">
@@ -212,6 +216,7 @@ const UpdateTaskComponent = () => {
                     Volver
                 </button>
             </Link>
+
 
             <TaskValidationModal taskValidationModal={showTaskValidationModal} setTaskValidationModal={setTaskValidationModal} />
 
