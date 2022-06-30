@@ -65,7 +65,7 @@ const projectSlice = createSlice({
         })
         builder.addCase(getAllProjects.fulfilled, (state, action) => {
             state.status = possibleStatus.COMPLETED;
-            if (action.payload.user.userRol === "Admin") {
+            if (action.payload.user.userRol === "Admin" || action.payload.user.userRol === "Reader") {
                 state.projects = action.payload.retrievedProjects
             }
             if (action.payload.user.userRol === "Tester" || action.payload.user.userRol === "Developer") {
