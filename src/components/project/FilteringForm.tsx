@@ -9,7 +9,6 @@ type Props = {}
 
 const FilteringForm = (props: Props) => {
 
-
     const dispatch = useAppDispatch();
 
     const actualUser = useSelector((state: RootState) => state.login.actualUser);
