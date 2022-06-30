@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../../state/store';
 import { nanoid } from '@reduxjs/toolkit';
 import { deleteTask } from '../../services/Tasks/deleteTask';
+import { addTempTask } from '../../state/slice/tempTaskSlice';
 
 const ListOfTasks = () => {
 
@@ -42,12 +43,18 @@ const ListOfTasks = () => {
         dispatch(deleteTask(props))
     }
 
+    const tempTask = (task: taskType) => {
+        dispatch(addTempTask(task))
+    }
+
     const columns = [
         {
             Header: "Id",
             Cell: ({ row }: any) => (
-                <Link key={nanoid()} to='/task-detail' state={{ taskDetail: row.original }}>
+                <Link key={nanoid()} to='/task-detail'>
+                    <button className="btn" onClick={() => tempTask(row.original) }>
                     {row.original.taskId}
+                    </button>
                 </Link>
             )
         },

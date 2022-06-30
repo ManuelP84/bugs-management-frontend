@@ -1,17 +1,17 @@
+import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import { taskType } from "../../state/slice/taskSlice";
 import { addTempTask } from "../../state/slice/tempTaskSlice";
-import { useAppDispatch } from "../../state/store";
+import { RootState, useAppDispatch } from "../../state/store";
 
 const DisplayTasks = () => {
+
+    const task = useSelector((state: RootState) => state.tempTask)
+    const taskDetail = task.task
 
     interface stateToDisplay {
         taskDetail: taskType
     }
-
-    const location = useLocation()
-    const localState = location.state as stateToDisplay;
-    const { taskDetail } = localState;
 
     const dispatch = useAppDispatch()
 

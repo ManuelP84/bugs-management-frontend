@@ -113,10 +113,10 @@ const UpdateTask = () => {
             }
             dispatch(updateTask(updatedTask))
         }
-        else{
+        else {
             setTaskValidationModal(true)
         }
-       
+
     }
 
     return (
@@ -160,13 +160,16 @@ const UpdateTask = () => {
                     <small>Oprima enter o ',' (coma) para agregar un label</small>
                 </div>
 
-                <label>Descripción</label>
-                <textarea className="form-control" placeholder="Descripción" required value={description} onChange={(e) => setDescription(e.target.value)} />
+                <div className="form-group">
+                    <label>Descripción</label>
+                    <textarea className="form-control" placeholder="Descripción" required value={description} onChange={(e) => setDescription(e.target.value)} />
+                </div>
 
                 <div className="form-group">
                     <label>Archivos adjuntos</label>
                     <input type="file" className="form-control" placeholder="Enter email" />
                 </div>
+
                 <div className="form-group">
                     <label>Estado de la tarea</label>
                     <br></br>
@@ -196,19 +199,21 @@ const UpdateTask = () => {
                     <br hidden={emailValidation} />
                     <small>Oprima enter o ',' (coma) para agregar un correo</small>
                 </div>
+
                 <br />
                 <Link to='/task-list' className="text-decoration-none text-white">
-                <button className="btn btn-primary" type="submit">Submit form</button>
+                    <button className="btn btn-primary" type="submit">Submit form</button>
                 </Link>
             </form>
-            <button className="btn btn-secondary">
-                <Link to='/task-detail' className="text-decoration-none text-white">
-                    Volver
-                </Link>
-            </button>
 
-            <TaskValidationModal taskValidationModal={showTaskValidationModal} setTaskValidationModal={setTaskValidationModal}/>
-              
+            <Link to='/task-detail' className="text-decoration-none text-white">
+                <button className="btn btn-secondary">
+                    Volver
+                </button>
+            </Link>
+
+            <TaskValidationModal taskValidationModal={showTaskValidationModal} setTaskValidationModal={setTaskValidationModal} />
+
         </div>
     )
 }
