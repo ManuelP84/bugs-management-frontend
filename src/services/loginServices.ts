@@ -3,8 +3,10 @@ import { ENDPOINT, HEADERS, HttpMethod } from "../config/stateData"
 import { IUser } from "../state/slice/loginSlice"
 
 export const getAllUsersThunk = createAsyncThunk("get/users", async () => {
-    const response = await fetch(`${ENDPOINT}user`)
-    return (await response.json()) as IUser[]
+    const response = await fetch(`${ENDPOINT}/v1/api/users`)
+    const users = await response.json()
+    
+    return users as IUser[]
 })
 
 export const postUserThunk = createAsyncThunk("post/user", async (user: IUser) => {
@@ -24,7 +26,10 @@ export const updateUserThunk = createAsyncThunk("update/user", async (user: IUse
         headers: HEADERS,
         body: JSON.stringify(user)
     })
-    return (await response.json()) as IUser
+    const result = await response.json()
+    console.log(result);
+    
+    return result as IUser
 })
 
 export const getAllUsersHelper = async () => {

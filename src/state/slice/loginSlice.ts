@@ -15,6 +15,65 @@ export interface IUser {
 }
 /**/
 
+const data: IUser[] = [
+    {
+        uid: "1",
+        userImage: "img",
+        userName: "Jehison",
+        userEmail: "email",
+        userToken: "token",
+        userRol: "Reader"
+    }, 
+    {
+        uid: "2",
+        userImage: "img",
+        userName: "Mateo",
+        userEmail: "email",
+        userToken: "token",
+        userRol: "Reader"
+    },
+    {
+        uid: "3",
+        userImage: "img",
+        userName: "Manu",
+        userEmail: "email",
+        userToken: "token",
+        userRol: "Reader"
+    }, 
+    {
+        uid: "4",
+        userImage: "img",
+        userName: "Andres",
+        userEmail: "email",
+        userToken: "token",
+        userRol: "Reader"
+    },    
+    {
+        uid: "5",
+        userImage: "img",
+        userName: "Caro",
+        userEmail: "email",
+        userToken: "token",
+        userRol: "Reader"
+    }, 
+    {
+        uid: "6",
+        userImage: "img",
+        userName: "Bryan",
+        userEmail: "email",
+        userToken: "token",
+        userRol: "Reader"
+    },
+    {
+        uid: "7",
+        userImage: "img",
+        userName: "Angel",
+        userEmail: "email",
+        userToken: "token",
+        userRol: "Reader"
+    }
+]
+
 interface LoginState {
     actualUser: IUser | null
     users: IUser[]
@@ -85,7 +144,11 @@ export const loginSlice = createSlice({
             }
         })
         builder.addCase(updateUserThunk.fulfilled, (state, action) => {
-            state.users = { ...state.users.map( user => user.uid === action.payload.uid? action.payload : user)}
+            console.log(action.payload);
+            
+            const newState = { ...state.users.map( user => user.uid === action.payload.uid? action.payload : user)}
+            
+            state.users = newState
             state.status = possibleStatus.COMPLETED
         })
     }

@@ -8,6 +8,7 @@ import { RootState } from "../../state/store";
 import PublicRoutes from "./PublicRoutes";
 import "../../styles/login.css";
 import ProjectPage from "../../pages/ProjectPage";
+import AdminPage from "../../pages/AdminPage";
 
 
 interface IRoutesProps {}
@@ -23,6 +24,7 @@ const Router: React.FunctionComponent<IRoutesProps> = () => {
         <Routes>
           <Route path="/main" element={<MainPage />} />
           <Route path="/project" element={<ProjectPage />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<MainPage />} />
         </Routes>
       ) : (
