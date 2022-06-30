@@ -27,19 +27,15 @@ const dashboardSlice = createSlice({
         }
     },
     extraReducers: (builder) => {
-
         // GET cases
         builder.addCase(getBugsByProjectId.pending, (state, action) => {
-            console.log("ON PENDING")
             state.status = possibleStatus.PENDING;
         })
         builder.addCase(getBugsByProjectId.fulfilled, (state, action) => {
-            console.log("ON COMPLETE")
             state.status = possibleStatus.COMPLETED;
             state.bugs = action.payload
         })
         builder.addCase(getBugsByProjectId.rejected, (state, action) => {
-            console.log("ON REJECTED")
             state.status = possibleStatus.FAILED;
             state.error = "Something went wrong fetching the bugs by project id"
             state.bugs = []

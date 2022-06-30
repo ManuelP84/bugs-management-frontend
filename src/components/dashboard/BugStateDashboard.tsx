@@ -24,7 +24,7 @@ const BugStateDashboard = (props: Props) => {
     const data = [assigned, cancelled, closed, closedWithBugs, relapsing, rejected, solved, maintenance]
 
     const dataSetsProperties = { ...chartData.datasets[0] }
-    const dataSets = { ...dataSetsProperties, data: data, label: "Bugs by Status" }
+    const dataSets = { ...dataSetsProperties, data: data, label: "Bugs grouped by Status" }
 
     const chartDataConfig = {
         ...chartData,

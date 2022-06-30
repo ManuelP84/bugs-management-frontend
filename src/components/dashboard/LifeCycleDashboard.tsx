@@ -26,7 +26,7 @@ const LifeCycleDashboard = (props: Props) => {
     const data = [planning, analysis, design, implementation, testing, deployment, use, maintenance]
 
     const dataSetsProperties = { ...chartData.datasets[0] }
-    const dataSets = { ...dataSetsProperties, data: data, label: "No-Completed Bugs by Life Cycle" }
+    const dataSets = { ...dataSetsProperties, data: data, label: "No-Completed Bugs grouped by Life Cycle" }
 
     const chartDataConfig = {
         ...chartData,

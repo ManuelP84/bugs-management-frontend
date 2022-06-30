@@ -7,10 +7,10 @@ import MainPage from "../../pages/MainPage";
 import AdminPage from "../../pages/AdminPage";
 import BugsPage from "../../pages/BugsPage";
 import DashboardPage from "../../pages/DashboardPage";
-import ListOfTasks from "../../pages/ListOfTasks/ListOfTasks";
-import DisplayTasks from "../../pages/DisplayTasks/DisplayTasks";
 import CreateTask from "../../pages/CreateTask/CreateTask";
 import UpdateTask from "../../pages/UpdateTask/UpdateTask";
+import ListOfTasks from "../../pages/ListOfTasks/ListOfTask";
+import DisplayTasks from "../../pages/DisplayTasks/DisplayTask";
 import NavigationBar from "../shared/NavigationBar";
 
 

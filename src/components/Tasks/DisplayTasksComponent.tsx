@@ -4,14 +4,14 @@ import { taskType } from "../../state/slice/taskSlice";
 import { addTempTask } from "../../state/slice/tempTaskSlice";
 import { RootState, useAppDispatch } from "../../state/store";
 
-const DisplayTasks = () => {
+const DisplayTasksComponent = () => {
 
     const task = useSelector((state: RootState) => state.tempTask)
     const taskDetail = task.task
 
-    interface stateToDisplay {
-        taskDetail: taskType
-    }
+    const user = useSelector((state: RootState) => state.login.actualUser);
+    const rol = user?.userRol
+    const permissions = (rol == "Tester" || rol == "Admin")
 
     const dispatch = useAppDispatch()
 
@@ -90,28 +90,41 @@ const DisplayTasks = () => {
                 <div className="row border-top border-primary"></div>
                 <br />
                 <div className="text-center">
-                    <Link to='/edit-task' className="text-decoration-none text-white">
-                        <button className="btn btn-primary"
-                            onClick={() => tempTask(taskDetail)}
-                        >
-                            <strong>
-                                Editar
-                            </strong>
-                        </button>
-                    </Link>
+                <div hidden={!permissions}>
+                        <Link to='/bugs' className="text-decoration-none text-white">
+                            <button className="btn btn-primary"
+                                onClick={() => tempTask(taskDetail)}
+                            >
+                                <strong>
+                                    Bugs
+                                </strong>
+                            </button>
+                        </Link>
+                    </div>
+                    <br/>
+                    <div hidden={!permissions}>
+                        <Link to='/edit-task' className="text-decoration-none text-white">
+                            <button className="btn btn-primary"
+                                onClick={() => tempTask(taskDetail)}
+                            >
+                                <strong>
+                                    Editar
+                                </strong>
+                            </button>
+                        </Link>
+                    </div>
                     <br />
-                    <br />
-
-                    <Link to='/task-list' className="text-decoration-none text-white">
-                        <button className="btn btn-secondary">
-                            Volver
-                        </button>
-                    </Link>
-
+                    <div>
+                        <Link to='/task-list' className="text-decoration-none text-white">
+                            <button className="btn btn-secondary">
+                                Volver
+                            </button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
     )
 }
 
-export default DisplayTasks
+export default DisplayTasksComponent

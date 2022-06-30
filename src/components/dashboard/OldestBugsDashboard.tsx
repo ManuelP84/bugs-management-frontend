@@ -24,14 +24,17 @@ const OldestBugsDashboard = (props: Props) => {
 
     return (
         <div className="fluid-container">
-            <div className="row"><h6>Bugs for the product with id: {dataToShow[0].projectId} (sorted ascending)</h6></div>
+            {dataToShow.length > 0 ?
+                <div className="row">
+                    <h6>Bugs for the product with id: {dataToShow[0].projectId} (sorted ascending by date)</h6>
+                </div> : <></>}
             <div className="row">
                 {/* <span><b >Project id: </b> {dataToShow[0].projectId}</span> */}
                 {dataToShow.length > 0 ? <div className="col">
                     {dataToShow.map(bug => {
                         return <div className="rounded border border-danger my-2 p-2" key={bug.id}>
-                            <b >Bug title: </b><span>{bug.title}</span>    ---
-                            <b > Start date: </b><span>{bug.startDate}</span>    ---
+                            <span>({bug.startDate.replace(/-/g, "/")})</span>    ---
+                            <b > Bug title: </b><span>{bug.title}</span>    ---
                             <b > Task id: </b><span>{bug.taskId}</span>
                         </div>
                     })}

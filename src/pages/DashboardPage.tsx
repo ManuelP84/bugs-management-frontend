@@ -15,8 +15,10 @@ const DashboardPage = (props: Props) => {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(loadRelatedProject(projects[0]))
-        dispatch(getBugsByProjectId(projects[0]))
+        setInterval(() => {
+            dispatch(loadRelatedProject(projects[0]))
+            dispatch(getBugsByProjectId(projects[0]))
+        }, 120000)
     }, [])
 
     return (
