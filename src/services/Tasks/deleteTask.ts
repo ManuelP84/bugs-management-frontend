@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { urlApi } from "../../auxTypePlsDeleteMe/urlApi";
+import { ENDPOINT } from "../../config/stateData";
 import { taskType } from "../../state/slice/taskSlice";
 
-const deleteTaskAPI = urlApi + "/v1/api/deleteTask";
+const deleteTaskAPI = ENDPOINT + "/v1/api/delete/task";
 
 export const deleteTask = createAsyncThunk('deleteTask', async (task: taskType) => {
     const response = await fetch(`${deleteTaskAPI}/${task.id}`, {

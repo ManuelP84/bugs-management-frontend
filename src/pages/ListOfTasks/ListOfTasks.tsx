@@ -1,281 +1,60 @@
 import TasksTable from '../../components/Table/ReactTable'
-import { Link } from "react-router-dom";
-import { taskType } from '../../state/slice/taskSlice';
+import { Link, useLocation } from "react-router-dom";
+import { selectTasksState, taskType } from '../../state/slice/taskSlice';
+import { projectType } from '../../state/slice/projectSlice';
+import { useEffect } from 'react';
+import { getTasksByProjectId } from '../../services/Tasks/getTasksByProjectId';
+import { useSelector } from 'react-redux';
+import { RootState, useAppDispatch } from '../../state/store';
+import { nanoid } from '@reduxjs/toolkit';
+import { deleteTask } from '../../services/Tasks/deleteTask';
+import { addTempTask } from '../../state/slice/tempTaskSlice';
 
 const ListOfTasks = () => {
 
-    const data:taskType[] = [
-        {
-            "id": "0b4265d6-d06e-4a51-b595-8304f72e67b7",
-            "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
-            "taskId": "1",
-            "projectName": "Prodder",
-            "name": "Husain Tigner",
-            "date": "1999",
-            "endDate": "2011",
-            "labels": [
-                {"label":"Sub-Ex"},
-                {"label":"Sub-Ex2"}
-            ],
-            "description": "fentanyl citrate",
-            "urls": [
-                {   "fileName":"test",
-                    "url":"https://cdn2.thecatapi.com/images/kZvqdDvvy.jpg"},
-                {   "fileName":"test2",
-                    "url":"https://cdn2.thecatapi.com/images/8is.jpg"}
-            ],
-            "state": "Abierto",
-            "developerEmails": [
-                {"email":"htigner0@hc360.com"},
-                {"email":"htigner0@hc360.com"}
-            ],
-        },
-        {
-            "id": "0b4265d6-d06e-4a51-b595-8304f72e67b8",
-            "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
-            "taskId": "2",
-            "projectName": "Prodder2",
-            "name": "Husain Tigner2",
-            "date": "2000",
-            "endDate": "2012",
-            "labels": [
-                {"label":"Sub-Ex"},
-                {"label":"Sub-Ex2"},
-                {"label":"Sub-Ex3"},
-                {"label":"Sub-Ex4"}
-            ],
-            "description": "fentanyl citrate",
-            "urls": [
-                {"url":"https://cdn2.thecatapi.com/images/kZvqdDvvy.jpg"},
-                {"url":"https://cdn2.thecatapi.com/images/8is.jpg"},
-                {"url":"https://cdn2.thecatapi.com/images/b9e.jpg"}
-            ],
-            "state": "Abierto",
-            "developerEmails": [
-                {"email":"htigner0@hc360.com"},
-                {"email":"htigner0@hc370.com"},
-                {"email":"htigner0@hc380.com"},
-                {"email":"htigner0@hc390.com"},
-                {"email":"htigner0@hc400.com"},
-            ],
-        },
-        {
-            "id": "81717e2c-90d1-4a32-8536-94050b5130ea",
-            "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
-            "taskId": "3",
-            "projectName": "Prodder",
-            "name": "Husain Tigner",
-            "date": "1999",
-            "endDate": "2011",
-            "labels": [
-                {"label":"Sub-Ex"},
-                {"label":"Sub-Ex2"}
-            ],
-            "description": "fentanyl citrate",
-            "urls": [
-                {"fileName":"test",
-                "url":"https://cdn2.thecatapi.com/images/kZvqdDvvy.jpg"},
-                {"fileName":"test",
-                "url":"https://cdn2.thecatapi.com/images/8is.jpg"}
-            ],
-            "state": "Abierto",
-            "developerEmails": [
-                {"email":"htigner0@hc360.com"},
-                {"email":"htigner0@hc360.com"}
-            ],
-        },
-        {
-            "id": "0b4265d6-d06e-4a51-b595-8304f72e67b7",
-            "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
-            "taskId": "4",
-            "projectName": "Prodder",
-            "name": "Husain Tigner",
-            "date": "1999",
-            "endDate": "2011",
-            "labels": [
-                {"label":"Sub-Ex"},
-                {"label":"Sub-Ex2"}
-            ],
-            "description": "fentanyl citrate",
-            "urls": [
-                {"url":"https://cdn2.thecatapi.com/images/kZvqdDvvy.jpg"},
-                {"url":"https://cdn2.thecatapi.com/images/8is.jpg"}
-            ],
-            "state": "Abierto",
-            "developerEmails": [
-                {"email":"htigner0@hc360.com"},
-                {"email":"htigner0@hc360.com"}
-            ],
-        },
-        {
-            "id": "0b4265d6-d06e-4a51-b595-8304f72e67b7",
-            "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
-            "taskId": "5",
-            "projectName": "Prodder",
-            "name": "Husain Tigner",
-            "date": "1999",
-            "endDate": "2011",
-            "labels": [
-                {"label":"Sub-Ex"},
-                {"label":"Sub-Ex2"}
-            ],
-            "description": "fentanyl citrate",
-            "urls": [
-                {"url":"https://cdn2.thecatapi.com/images/kZvqdDvvy.jpg"},
-                {"url":"https://cdn2.thecatapi.com/images/8is.jpg"}
-            ],
-            "state": "Abierto",
-            "developerEmails": [
-                {"email":"htigner0@hc360.com"},
-                {"email":"htigner0@hc360.com"}
-            ],
-        },
-        {
-            "id": "0b4265d6-d06e-4a51-b595-8304f72e67b7",
-            "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
-            "taskId": "6",
-            "projectName": "Prodder",
-            "name": "Husain Tigner",
-            "date": "1999",
-            "endDate": "2011",
-            "labels": [
-                {"label":"Sub-Ex"},
-                {"label":"Sub-Ex2"}
-            ],
-            "description": "fentanyl citrate",
-            "urls": [
-                {"url":"https://cdn2.thecatapi.com/images/kZvqdDvvy.jpg"},
-                {"url":"https://cdn2.thecatapi.com/images/8is.jpg"}
-            ],
-            "state": "Abierto",
-            "developerEmails": [
-                {"email":"htigner0@hc360.com"},
-                {"email":"htigner0@hc360.com"}
-            ],
-        },
-        {
-            "id": "0b4265d6-d06e-4a51-b595-8304f72e67b7",
-            "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
-            "taskId": "7",
-            "projectName": "Prodder",
-            "name": "Husain Tigner",
-            "date": "1999",
-            "endDate": "2011",
-            "labels": [
-                {"label":"Sub-Ex"},
-                {"label":"Sub-Ex2"}
-            ],
-            "description": "fentanyl citrate",
-            "urls": [
-                {"url":"https://cdn2.thecatapi.com/images/kZvqdDvvy.jpg"},
-                {"url":"https://cdn2.thecatapi.com/images/8is.jpg"}
-            ],
-            "state": "Abierto",
-            "developerEmails": [
-                {"email":"htigner0@hc360.com"},
-                {"email":"htigner0@hc360.com"}
-            ],
-        },
-        {
-            "id": "0b4265d6-d06e-4a51-b595-8304f72e67b7",
-            "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
-            "taskId": "8",
-            "projectName": "Prodder",
-            "name": "Husain Tigner",
-            "date": "1999",
-            "endDate": "2011",
-            "labels": [
-                {"label":"Sub-Ex"},
-                {"label":"Sub-Ex2"}
-            ],
-            "description": "fentanyl citrate",
-            "urls": [
-                {"url":"https://cdn2.thecatapi.com/images/kZvqdDvvy.jpg"},
-                {"url":"https://cdn2.thecatapi.com/images/8is.jpg"}
-            ],
-            "state": "Abierto",
-            "developerEmails": [
-                {"email":"htigner0@hc360.com"},
-                {"email":"htigner0@hc360.com"}
-            ],
-        },
-        {
-            "id": "0b4265d6-d06e-4a51-b595-8304f72e67b7",
-            "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
-            "taskId": "9",
-            "projectName": "Prodder",
-            "name": "Husain Tigner",
-            "date": "1999",
-            "endDate": "2011",
-            "labels": [
-                {"label":"Sub-Ex"},
-                {"label":"Sub-Ex2"}
-            ],
-            "description": "fentanyl citrate",
-            "urls": [
-                {"url":"https://cdn2.thecatapi.com/images/kZvqdDvvy.jpg"},
-                {"url":"https://cdn2.thecatapi.com/images/8is.jpg"}
-            ],
-            "state": "Abierto",
-            "developerEmails": [
-                {"email":"htigner0@hc360.com"},
-                {"email":"htigner0@hc360.com"}
-            ],
-        },
-        {
-            "id": "0b4265d6-d06e-4a51-b595-8304f72e67b7",
-            "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
-            "taskId": "10",
-            "projectName": "Prodder",
-            "name": "Husain Tigner",
-            "date": "1999",
-            "endDate": "2011",
-            "labels": [
-                {"label":"Sub-Ex"},
-                {"label":"Sub-Ex2"}
-            ],
-            "description": "fentanyl citrate",
-            "urls": [
-                {"url":"https://cdn2.thecatapi.com/images/kZvqdDvvy.jpg"},
-                {"url":"https://cdn2.thecatapi.com/images/8is.jpg"}
-            ],
-            "state": "Abierto",
-            "developerEmails": [
-                {"email":"htigner0@hc360.com"},
-                {"email":"htigner0@hc360.com"}
-            ],
-        },
-        {
-            "id": "0b4265d6-d06e-4a51-b595-8304f72e67b7",
-            "projectId": "adacf0b0-2a9e-4091-a262-864157bf4097",
-            "taskId": "11",
-            "projectName": "Prodder",
-            "name": "Husain Tigner",
-            "date": "1999",
-            "endDate": "2011",
-            "labels": [
-                {"label":"Sub-Ex"},
-                {"label":"Sub-Ex2"}
-            ],
-            "description": "fentanyl citrate",
-            "urls": [
-                {"url":"https://cdn2.thecatapi.com/images/kZvqdDvvy.jpg"},
-                {"url":"https://cdn2.thecatapi.com/images/8is.jpg"}
-            ],
-            "state": "Abierto",
-            "developerEmails": [
-                {"email":"htigner0@hc360.com"},
-                {"email":"htigner0@hc360.com"}
-            ],
-        },
-    ]
+    const project = useSelector((state: RootState) => state.tempProject)
+    const projectToList = project.project
+
+    const dispatch = useAppDispatch()
+
+    useEffect(() => { dispatch(getTasksByProjectId(projectToList)) }, [dispatch])
+
+    const getTasks = useSelector(selectTasksState())
+
+    if (getTasks.length === 0) {
+        return (
+            <div>
+                <h1 className="text-center">No Hay tareas para mostrar</h1>
+                <div className="text-center">
+                    <Link to='/create-task'>
+                        <button className="btn btn-primary" >Agregar nueva Tarea</button>
+                    </Link>
+                </div>
+                <div className="text-center">
+                    <Link to='/projects'>
+                        <button className="btn btn-secondary" >Volver</button>
+                    </Link>
+                </div>
+            </div>
+        )
+    }
+
+    const onDelete = (props: taskType) =>{
+        dispatch(deleteTask(props))
+    }
+
+    const tempTask = (task: taskType) => {
+        dispatch(addTempTask(task))
+    }
 
     const columns = [
         {
             Header: "Id",
-            Cell: ({ row }:any) => (
-                <Link to='/task-detail' state={{ taskDetail: row.original }}>
+            Cell: ({ row }: any) => (
+                <Link key={nanoid()} to='/task-detail'>
+                    <button className="btn" onClick={() => tempTask(row.original) }>
                     {row.original.taskId}
+                    </button>
                 </Link>
             )
         },
@@ -294,7 +73,7 @@ const ListOfTasks = () => {
         {
             Header: "Fecha de cierre",
             accessor: "endDate",
-            Cell: ({ cell: { value } }:any) => value || "-",
+            Cell: ({ cell: { value } }: any) => value || "-",
         },
         {
             Header: "Estado",
@@ -303,9 +82,9 @@ const ListOfTasks = () => {
         {
             Header: "Tags",
             id: "tags",
-            accessor: (data:any) =>
-                data.labels.map((item:any)=>(
-                    <div >
+            accessor: (data: any) =>
+                data.labels.map((item: any) => (
+                    <div key={nanoid()}>
                         {item.label}
                     </div>
                 ))
@@ -313,38 +92,44 @@ const ListOfTasks = () => {
         {
             Header: "Desarrollador asignado",
             id: "developerEmails",
-            accessor: (data:any) =>
-                data.developerEmails.map((item:any)=>(
-                    <div >
+            accessor: (data: any) =>
+                data.developerEmails.map((item: any) => (
+                    <div key={nanoid()}>
                         {item.email}
                     </div>
                 ))
         },
         {
             Header: "Borrar",
-            Cell: () => (
+            Cell: ({row}) => (
                 <button className="btn btn-danger w-100 my-2"
-                type="button">
+                    type="button"
+                    onClick={()=>onDelete(row.original)}>
                     Borrar
                 </button>
             )
         },
     ]
-
+    
     return (
         <div className="container m-4.text-center" >
 
-            <h1 className="text-center">Lista de tareas, Proyecto X</h1>
+            <h1 className="text-center">Lista de tareas, Proyecto: {projectToList.name}</h1>
             <div className="text-center">
                 <TasksTable
                     columns={columns}
-                    data={data}
+                    data={getTasks}
                 />
             </div>
-            <br/>
+            <br />
             <div className="text-center">
                 <Link to='/create-task'>
-                    <button  className="btn btn-primary" >Agregar nueva Tarea</button>
+                    <button className="btn btn-primary" >Agregar nueva Tarea</button>
+                </Link>
+            </div>
+            <div className="text-center">
+                <Link to='/projects'>
+                    <button className="btn btn-secondary" >Volver</button>
                 </Link>
             </div>
         </div>

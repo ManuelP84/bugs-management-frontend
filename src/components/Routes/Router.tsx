@@ -8,6 +8,10 @@ import { RootState } from "../../state/store";
 import PublicRoutes from "./PublicRoutes";
 import "../../styles/login.css";
 import ProjectPage from "../../pages/ProjectPage";
+import ListOfTasks from "../../pages/ListOfTasks/ListOfTasks";
+import CreateTask from "../../pages/CreateTask/CreateTask";
+import UpdateTask from "../../pages/UpdateTask/UpdateTask";
+import DisplayTasks from "../../pages/DisplayTasks/DisplayTasks";
 import DashboardPage from "../../pages/DashboardPage";
 
 
@@ -18,24 +22,29 @@ const Router: React.FunctionComponent<IRoutesProps> = () => {
         (state: RootState) => state.login.isLogged
     );
 
-    return (
-        <div className="App">
-            {logged ? (
-                <Routes>
-                    <Route path="/main" element={<MainPage />} />
-                    <Route path="/project" element={<ProjectPage />} />
-                    <Route path="/dashboard" element={<DashboardPage />} />
-                    <Route path="*" element={<MainPage />} />
-                </Routes>
-            ) : (
-                <Routes>
-                    <Route path="/" element={<LoginPage />} />
-                    <Route path="/signUp" element={<SingUpPage />} />
-                    <Route path="*" element={<LoginPage />} />
-                </Routes>
-            )}
-        </div>
-    );
+  return (
+    <div className="App">
+      {logged ? (
+        <Routes>
+          <Route path="/main" element={<MainPage />} />
+          <Route path="/project" element={<ProjectPage />} />
+          <Route path="*" element={<MainPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path='/task-list' element={<ListOfTasks />} />
+          <Route path='/task-detail' element={<DisplayTasks />} />
+          <Route path='/create-task' element={<CreateTask />} />
+          <Route path='/edit-task' element={<UpdateTask />} />
+        </Routes>
+      ) : (
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/signUp" element={<SingUpPage />} />
+          <Route path="*" element={<LoginPage />} />
+
+        </Routes>
+      )}
+    </div>
+  );
 };
 
 export default Router;
