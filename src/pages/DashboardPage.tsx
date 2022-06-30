@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import Dashboards from '../components/dashboard/Dashboards'
 import SelectProjectForm from '../components/dashboard/SelectProjectForm'
+import { getBugsByProjectId } from '../services/dashboard/getBugsByProjectId'
 import { loadRelatedProject } from '../state/slice/dashboardSlice'
 import { RootState, useAppDispatch } from '../state/store'
 
@@ -11,12 +12,11 @@ const DashboardPage = (props: Props) => {
 
     const projects = useSelector((state: RootState) => state.projects.projects);
 
-    const defaultProjectDashboard = projects[Math.floor(Math.random() * projects.length)]
-
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        dispatch(loadRelatedProject(defaultProjectDashboard))
+        dispatch(loadRelatedProject(projects[0]))
+        dispatch(getBugsByProjectId(projects[0]))
     }, [])
 
     return (
@@ -29,10 +29,10 @@ const DashboardPage = (props: Props) => {
             </div>
 
             <div className="row">
-                <div className="col-md-5 py-2">
+                <div className="col-md-4 py-2">
                     <SelectProjectForm />
                 </div>
-                <div className="col-md-7 py-2">
+                <div className="col-md-8 py-2">
                     <Dashboards />
                 </div>
             </div>
