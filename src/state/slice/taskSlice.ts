@@ -4,10 +4,11 @@ import { createNewTask } from "../../services/Tasks/createNewTask";
 import { deleteTask } from "../../services/Tasks/deleteTask";
 import { getTasksByProjectId } from "../../services/Tasks/getTasksByProjectId";
 import { updateTask } from "../../services/Tasks/UpdateTask";
+
 import { RootState } from "../store";
 
 type labelType = {
-    label: String,
+    label: string,
 }
 
 type urlType = {
@@ -16,21 +17,21 @@ type urlType = {
 }
 
 type emailType = {
-    email: String,
+    email: string,
 }
 
 type taskType = {
-    id?: String,
-    projectId: String,
-    taskId: String,
-    projectName: String,
-    name: String,
-    date: String,
-    endDate?: String,
+    id?: string,
+    projectId: string,
+    taskId: string,
+    projectName: string,
+    name: string,
+    date: string,
+    endDate?: string,
     labels: labelType[],
-    description: String,
+    description: string,
     urls?: urlType[],
-    state: String,
+    state: string,
     developerEmails: emailType[],
 }
 

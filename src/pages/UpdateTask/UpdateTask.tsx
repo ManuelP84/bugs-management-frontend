@@ -6,27 +6,32 @@ import { emailType, labelType, taskType } from "../../state/slice/taskSlice";
 import { nanoid } from "@reduxjs/toolkit";
 import moment from "moment";
 import TaskValidationModal from "../../components/TaskValidation/TaskValidationModal";
-
-
+import { useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "../../state/store";
+import { updateTask } from "../../services/Tasks/updateTask";
 
 const UpdateTask = () => {
+
+    const task = useSelector((state: RootState) => state.tempTask)
+    const taskToUpdate = task.task
+
+    console.log(taskToUpdate)
 
     const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
     const [inputLabel, setInputLabel] = useState('');
     const [inputEmail, setInputEmail] = useState('');
-    const [labels, setLabels] = useState([] as labelType[])
-    const [emails, setEmails] = useState([] as emailType[])
-    const [initDate, setInitDate] = useState() as any;
-    const [endDate, setEndDate] = useState() as any;
+    const [labels, setLabels] = useState(taskToUpdate.labels)
+    const [emails, setEmails] = useState(taskToUpdate.developerEmails)
+    const [initDate, setInitDate] = useState(moment(taskToUpdate.date, "YYYY/MM/DD").toDate()) as any;
+    const [endDate, setEndDate] = useState(moment(taskToUpdate.endDate, "YYYY/MM/DD").toDate()) as any;
     const [emailValidation, setEmailValidation] = useState(true)
 
-    const [nameTask, setNameTask] = useState('')
-    const [description, setDescription] = useState('')
-    const [taskState, setTaskState] = useState('')
+    const [nameTask, setNameTask] = useState(taskToUpdate.name)
+    const [description, setDescription] = useState(taskToUpdate.description)
+    const [taskState, setTaskState] = useState(taskToUpdate.state)
 
     const [showTaskValidationModal, setTaskValidationModal] = useState(false)
-
 
     const onChangeLabel = (e: { target: { value: any; }; }) => {
         const { value } = e.target;
@@ -45,7 +50,6 @@ const UpdateTask = () => {
         if (key === 'Enter' || key === ',' && trimmedInput.length) {
             e.preventDefault();
             const addLabel: labelType = {
-                id: nanoid(),
                 label: trimmedInput,
             }
             setLabels(prevState => [...prevState, addLabel]);
@@ -67,7 +71,6 @@ const UpdateTask = () => {
             e.preventDefault();
             if (trimmedInput.match(regexEmail)) {
                 const addEmail: emailType = {
-                    id: nanoid(),
                     email: trimmedInput,
                 }
                 setEmails(prevState => [...prevState, addEmail]);
@@ -86,19 +89,20 @@ const UpdateTask = () => {
     }
 
     let initStringDate = moment(initDate).format("YYYY/MM/DD")
-    let initDateToString = moment(initStringDate, "YYYY/MM/DD").toDate();
 
     let endStringDate = moment(endDate).format("YYYY/MM/DD")
-    let endDateToString = moment(endStringDate, "YYYY/MM/DD").toDate();
 
-    const onAddTask = async (e: React.FormEvent<HTMLFormElement>) => {
+    const dispatch = useAppDispatch()
+
+    const onEditTask = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         if (nameTask && initStringDate && labels.length > 0 && description && taskState && emails.length > 0) {
-            const addTask: taskType = {
-                projectId: nanoid(),
-                taskId: nanoid(),
-                projectName: "prueba",
+            const updatedTask: taskType = {
+                id: taskToUpdate.id,
+                projectId: taskToUpdate.projectId,
+                taskId: taskToUpdate.taskId,
+                projectName: taskToUpdate.projectName,
                 name: nameTask,
                 date: initStringDate,
                 endDate: endStringDate,
@@ -107,17 +111,19 @@ const UpdateTask = () => {
                 state: taskState,
                 developerEmails: emails,
             }
-            
+            dispatch(updateTask(updatedTask))
         }
-        setTaskValidationModal(true)
-
+        else{
+            setTaskValidationModal(true)
+        }
+       
     }
 
     return (
         <div className="w-25 center">
-            <form onSubmit={(e) => onAddTask(e)}>
+            <form onSubmit={(e) => onEditTask(e)}>
                 <label>Nombre de tarea</label>
-                <input type="text" className="form-control" placeholder="Nombre de tarea" required onChange={(e) => setNameTask(e.target.value)} />
+                <input type="text" className="form-control" placeholder="Nombre de tarea" required value={nameTask} onChange={(e) => setNameTask(e.target.value)} />
 
                 <label>Fecha de inicio</label>
                 <DatePicker className="form-control"
@@ -155,7 +161,7 @@ const UpdateTask = () => {
                 </div>
 
                 <label>Descripción</label>
-                <textarea className="form-control" placeholder="Descripción" required onChange={(e) => setDescription(e.target.value)} />
+                <textarea className="form-control" placeholder="Descripción" required value={description} onChange={(e) => setDescription(e.target.value)} />
 
                 <div className="form-group">
                     <label>Archivos adjuntos</label>
@@ -191,7 +197,9 @@ const UpdateTask = () => {
                     <small>Oprima enter o ',' (coma) para agregar un correo</small>
                 </div>
                 <br />
+                <Link to='/task-list' className="text-decoration-none text-white">
                 <button className="btn btn-primary" type="submit">Submit form</button>
+                </Link>
             </form>
             <button className="btn btn-secondary">
                 <Link to='/task-detail' className="text-decoration-none text-white">

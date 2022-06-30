@@ -7,31 +7,31 @@ interface initialStateType {
 
 const initialState: initialStateType = {
     task: {
-        id?: String,
-        projectId: String,
-        taskId: String,
-        projectName: String,
-        name: String,
-        date: String,
-        endDate?: String,
-        labels: labelType[],
-        description: String,
-        urls?: urlType[],
-        state: String,
-        developerEmails: emailType[],
+        id: "",
+        projectId: "",
+        taskId: "",
+        projectName: "",
+        name: "",
+        date: "",
+        endDate: "",
+        labels: [],
+        description: "",
+        urls: [],
+        state: "",
+        developerEmails: [],
     }
 }
 
-const tempProjectSlice = createSlice({
-    name: 'tempProject',
+const tempTaskSlice = createSlice({
+    name: 'tempTask',
     initialState,
     reducers: {
-        addTempProject(state, action) {
-            state.project = action.payload
+        addTempTask(state, action) {
+            state.task = action.payload
         }
     }
 })
 
-export default tempProjectSlice.reducer
-export const { addTempProject } = tempProjectSlice.actions
+export default tempTaskSlice.reducer
+export const { addTempTask } = tempTaskSlice.actions
 

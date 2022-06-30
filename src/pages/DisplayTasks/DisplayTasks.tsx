@@ -1,5 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { taskType } from "../../state/slice/taskSlice";
+import { addTempTask } from "../../state/slice/tempTaskSlice";
+import { useAppDispatch } from "../../state/store";
 
 const DisplayTasks = () => {
 
@@ -10,6 +12,12 @@ const DisplayTasks = () => {
     const location = useLocation()
     const localState = location.state as stateToDisplay;
     const { taskDetail } = localState;
+
+    const dispatch = useAppDispatch()
+
+    const tempTask = (task: taskType) => {
+        dispatch(addTempTask(task))
+    }
 
     return (
         <div className="center">
@@ -83,7 +91,13 @@ const DisplayTasks = () => {
                 <br />
                 <div className="text-center">
                     <Link to='/edit-task' className="text-decoration-none text-white">
-                        <button className="btn btn-primary"><strong>Editar</strong></button>
+                        <button className="btn btn-primary"
+                            onClick={() => tempTask(taskDetail)}
+                        >
+                            <strong>
+                                Editar
+                            </strong>
+                        </button>
                     </Link>
                     <br />
                     <br />
