@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { removeLeader } from '../../services/project/removeLeader'
-import { projectStateEnum, projectType, userTest } from '../../state/slice/projectSlice'
+import { projectStateEnum, projectType} from '../../state/slice/projectSlice'
 import { addTempProject } from '../../state/slice/tempProjectSlice'
-import { useAppDispatch } from '../../state/store'
+import { RootState, useAppDispatch } from '../../state/store'
+import { useSelector } from 'react-redux'
 import DeleteProjectModal from './DeleteProjectModal'
 import UpdateProjectModal from './UpdateProjectModal'
 
@@ -18,11 +19,9 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
 
     const dispatch = useAppDispatch()
 
-    // this is temporary while the user slice can be accessed. Used to test the access permissions
-    const user = userTest
+    const user = useSelector((state: RootState) => state.login.actualUser);
 
-    // const user = useSelector((state: RootState) => state.login.user);
-    const permissions = (user.userRol === "TESTER" || user.userRol === "ADMIN")
+    const permissions = (user) ? (user.userRol === "Admin" || user.userRol === "Tester") : false
 
     const [showUpdateModal, setShowUpdateModal] = useState(false)
     const [showDeleteModal, setShowDeleteModal] = useState(false)
@@ -41,20 +40,20 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
             <div id="collapseOne" className={`accordion-collapse collapse ${toggle ? "show" : ""}`}>
                 <div className="fluid-container mx-4">
                     <hr></hr>
-                    <p className="row text-start"><b className="row">Leaders:</b>
+                    <span className="row text-start"><b className="row">Leaders:</b>
                         {project.leaderEmails.map(leader =>
                             <span key={leader}>{`${leader}`}
                                 {permissions ? <b className="clickable" style={{ color: "#dc3545" }}
                                     onClick={(e) => deleteLeaderEmail(e, leader)}> ✖</b> : <></>}</span>
-                        )}</p>
-                    <p className="row text-start"><b className="row"> Developers:</b>
+                        )}</span>
+                    <span className="row text-start"><b className="row"> Developers:</b>
                         {project.developerEmails.map(dev =>
                             <span key={dev}>{`${dev}`}
                                 {/* {permissions ? <b className="clickable" style={{ color: "#dc3545" }}
                                     onClick={() => deleteDeveloperEmail(dev)}> ✖</b> : <></>} */}
                             </span>
-                        )}</p>
-                    <p className="row text-start"><b className="row">Description:</b>{project.description}</p>
+                        )}</span>
+                    <span className="row text-start"><b className="row">Description:</b>{project.description}</span>
                     <div className="row my-2">
 
                         <div className={permissions && (project.state === projectStateEnum.CREATED) ?

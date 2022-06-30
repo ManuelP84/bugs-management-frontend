@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { updateProject } from '../../services/project/updateProject'
+import { IUser } from '../../state/slice/loginSlice'
 import { projectStateEnum, projectType } from '../../state/slice/projectSlice'
-import { useAppDispatch } from '../../state/store'
+import { RootState, useAppDispatch } from '../../state/store'
 
 type Props = {
     project: projectType,
@@ -14,12 +16,14 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
 
     const dispatch = useAppDispatch()
 
+    const users = useSelector((state: RootState) => state.login.users);
+
     const emailRegex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
     const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/
 
     const [projectName, setProjectName] = useState(project.name);
     const [startDate, setStartDate] = useState(project.startDate);
-    const [endDate, setEndDate] = useState(project.endDate);
+    const [endDate, setEndDate] = useState(project.endDate as string);
     const [personEmail, setPersonEmail] = useState("");
     const [isLeader, setIsLeader] = useState(false);
     const [developerEmails, setDeveloperEmails] = useState<string[]>(project.developerEmails);
@@ -28,31 +32,53 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
     const [description, setDescription] = useState(project.description);
     const [projectState, setProjectState] = useState(project.state as string);
     const [showEmailAlert, setShowEmailAlert] = useState(false)
+    const [showStartDateAlert, setShowStartDateAlert] = useState(false)
+    const [showEndDateAlert, setShowEndDateAlert] = useState(false)
+    const [suggestedEmails, setSuggestedEmail] = useState<string[]>([])
+
+    useEffect(() => {
+        setSuggestedEmail([])
+        if (personEmail.length > 0) {
+            const suggestions = users
+                .map((user: IUser) => user.userEmail)
+                .filter((email: string) => email.includes(personEmail))
+            const uniqueSuggestions = Array.from(new Set(suggestions)) as string[]
+            setSuggestedEmail([...uniqueSuggestions.slice(0, 5)])
+        }
+    }, [personEmail])
 
     const onAddPersonEmail = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
 
-        if (emailRegex.test(personEmail) && isLeader) {
+        const alreadyExistOnProject = [...developerEmails, ...leaderEmails].includes(personEmail)
+
+        if (emailRegex.test(personEmail) && isLeader && !alreadyExistOnProject) {
             setLeaderEmails(Array.from(new Set([...leaderEmails, personEmail])))
+            setPersonEmail("")
             setShowEmailAlert(false)
         }
-        if (emailRegex.test(personEmail) && !isLeader) {
+        if (emailRegex.test(personEmail) && !isLeader && !alreadyExistOnProject) {
             setDeveloperEmails(Array.from(new Set([...developerEmails, personEmail])))
+            setPersonEmail("")
             setShowEmailAlert(false)
         }
         if (!emailRegex.test(personEmail)) {
             setShowEmailAlert(true)
         }
-        setPersonEmail("")
+        if (!emailRegex.test(personEmail) || alreadyExistOnProject) {
+            setShowEmailAlert(true)
+        }
         setIsLeader(false)
     }
 
     const onUpdateProject = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault()
 
+        const startDateValidation = validateStartDate(startDate)
+        const endDateValidation = validateEndDate(endDate)
         if (0 < projectName.length && projectName.length < 50
             && 0 < description.length && description.length <= 2000
-            && dateRegex.test(startDate) && dateRegex.test(startDate) && description) {
+            && startDateValidation && endDateValidation && description) {
 
             const projectToUpdate: projectType =
             {
@@ -73,6 +99,34 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
         }
     }
 
+    const validateStartDate = (date: string): boolean => {
+        const validation = validateDate(date)
+        setShowStartDateAlert(!validation)
+        return validation
+    }
+
+    const validateEndDate = (date: string): boolean => {
+        if (date.length !== 0) {
+            const validation = validateDate(date)
+            setShowEndDateAlert(!validation)
+            return validation
+        }
+        setShowEndDateAlert(false)
+        return true
+    }
+
+    const validateDate = (date: string): boolean => {
+        if (dateRegex.test(date)) {
+            const dateArray = date.split('-')
+            const validatedMonth = parseInt(dateArray[1]) <= 12
+            const validatedDay = parseInt(dateArray[2]) <= 31
+            if (validatedMonth && validatedDay) {
+                return true
+            }
+        }
+        return false
+    }
+
     const clearForm = () => {
         setProjectName("")
         setStartDate("")
@@ -89,6 +143,10 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
         const leadersAfterRemoveAnEmail = leaderEmails.filter(email => email !== emailToDelete)
         setDeveloperEmails([...developersAfterRemoveAnEmail])
         setLeaderEmails([...leadersAfterRemoveAnEmail])
+    }
+
+    const pickSuggestedEmail = (suggestion: string) => {
+        setPersonEmail(suggestion)
     }
 
     return (
@@ -114,7 +172,8 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
                     <div className="input-group-text">
                         <span className="input-inset-format">YYYY-MM-DD</span>
                     </div>
-                    <input type="text" className="form-control" onChange={(e) => setStartDate(e.target.value)}
+                    <input type="text" className={`form-control ${showStartDateAlert ? "border-2 border-danger" : ""}`}
+                        onChange={(e) => setStartDate(e.target.value)}
                         placeholder="Start date"
                         value={startDate} />
                 </div>
@@ -125,7 +184,7 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
                     <div className="input-group-text">
                         <span className="input-inset-format">YYYY-MM-DD</span>
                     </div>
-                    <input type="text" className="form-control"
+                    <input type="text" className={`form-control ${showEndDateAlert ? "border-2 border-danger" : ""}`}
                         onChange={(e) => setEndDate(e.target.value)}
                         placeholder="End date (optional)"
                         value={endDate} />
@@ -148,8 +207,18 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
             </div>
 
             {showEmailAlert ? <div className="row ms-2">
-                <span className="text-start" style={{ color: "red" }}>The email has an invalid format</span>
+                <span className="text-start" style={{ color: "red", fontSize: "13px" }}>
+                    The email has an invalid format or was already added to this project</span>
             </div> : <></>}
+
+            {suggestedEmails.length > 0 ?
+                <div className="row m-2">
+                    <div className="col-sm--6">
+                        {suggestedEmails.map(suggestion =>
+                            <span key={suggestion} className="clickable overflow-hidden text-nowrap"
+                                onClick={() => pickSuggestedEmail(suggestion)}>{`${suggestion}`}<br /></span>)}
+                    </div>
+                </div> : <></>}
 
             {/* Pick the email to be deleted*/}
             <div className="row m-2">

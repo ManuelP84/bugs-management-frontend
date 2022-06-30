@@ -9,6 +9,7 @@ import sessionStorage from "redux-persist/es/storage/session";
 import projectReducer from "./slice/projectSlice";
 import tempProjectReducer from "./slice/tempProjectSlice";
 import tempTaskReducer from "./slice/tempTaskSlice";
+import dashboardReducer from "./slice/dashboardSlice";
 
 
 const persistConfig = {
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   projects: projectReducer,
   tempProject: tempProjectReducer,
   tempTask: tempTaskReducer,
+  dashboard: dashboardReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
@@ -30,7 +32,9 @@ export const store = configureStore({
   reducer: persistedReducer,
   devTools: process.env.NODE_ENV !== 'production',
   middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(thunk)
+    getDefaultMiddleware({
+      serializableCheck: false
+    }).concat(thunk)
 })
 
 export const persistor = persistStore(store)

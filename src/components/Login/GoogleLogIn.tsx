@@ -82,7 +82,7 @@ const GoogleLogIn: React.FunctionComponent<IGoogleLogInProps> = () => {
 
   return (
     <div className="login100-social-item bg3">
-      <button className="fa-google" onClick={signInWithGoogleButton}> <FaGoogle style={{color: "white", fontSize: "20px", marginRight: "10px"}}/> Sing Up with Google </button>
+      <button type="button" className="fa-google" onClick={signInWithGoogleButton}> <FaGoogle style={{color: "white", fontSize: "20px", marginRight: "10px"}}/> Sing Up with Google </button>
     </div>
   );
 };
