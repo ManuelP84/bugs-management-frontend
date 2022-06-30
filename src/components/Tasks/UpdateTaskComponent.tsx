@@ -97,7 +97,7 @@ const UpdateTaskComponent = () => {
     const onEditTask = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        if (nameTask && initStringDate && labels.length > 0 && description && taskState && emails.length > 0) {
+        if (nameTask && initStringDate && description && taskState && emails.length > 0) {
             const updatedTask: taskType = {
                 id: taskToUpdate.id,
                 projectId: taskToUpdate.projectId,
@@ -123,7 +123,7 @@ const UpdateTaskComponent = () => {
         <div className="w-25 center">
             <form onSubmit={(e) => onEditTask(e)}>
                 <label>Nombre de tarea</label>
-                <input type="text" className="form-control" placeholder="Nombre de tarea" required value={nameTask} onChange={(e) => setNameTask(e.target.value)} />
+                <input type="text" className="form-control" placeholder="Nombre de tarea" required maxLength={50} value={nameTask} onChange={(e) => setNameTask(e.target.value)} />
 
                 <label>Fecha de inicio</label>
                 <DatePicker className="form-control"
@@ -151,6 +151,7 @@ const UpdateTaskComponent = () => {
                             <span className="close" onClick={() => removeLabel(indexTags)}>&times;</span>
                         </li>)}
                     <input
+                        maxLength={50}
                         className="form-control"
                         value={inputLabel}
                         placeholder="Ingrese tags relacionados con la tarea"
@@ -162,7 +163,7 @@ const UpdateTaskComponent = () => {
 
                 <div className="form-group">
                     <label>Descripción</label>
-                    <textarea className="form-control" placeholder="Descripción" required value={description} onChange={(e) => setDescription(e.target.value)} />
+                    <textarea className="form-control" placeholder="Descripción" required value={description} maxLength={100} onChange={(e) => setDescription(e.target.value)} />
                 </div>
 
                 <div className="form-group">

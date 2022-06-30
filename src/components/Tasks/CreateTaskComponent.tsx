@@ -100,7 +100,7 @@ const CreateTaskComponent = () => {
     const onAddTask = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
-        if (nameTask && initStringDate && labels.length > 0 && description && taskState && emails.length > 0) {
+        if (nameTask && initStringDate && description && taskState && emails.length > 0) {
             const addTask: taskType = {
                 projectId: projectToList.projectId+'',
                 taskId: Math.floor(Math.random()*10)+'',
@@ -119,14 +119,13 @@ const CreateTaskComponent = () => {
         else{
             setTaskValidationModal(true)
         }      
-
     }
 
     return (
         <div className="w-25 center">
             <form onSubmit={(e) => onAddTask(e)}>
                 <label>Nombre de tarea</label>
-                <input type="text" className="form-control" placeholder="Nombre de tarea" required onChange={(e) => setNameTask(e.target.value)} />
+                <input type="text" className="form-control" placeholder="Nombre de tarea" maxLength={50} required onChange={(e) => setNameTask(e.target.value)} />
 
                 <label>Fecha de inicio</label>
                 <DatePicker className="form-control"
@@ -154,6 +153,7 @@ const CreateTaskComponent = () => {
                             <span className="close" onClick={() => removeLabel(indexTags)}>&times;</span>
                         </li>)}
                     <input
+                        maxLength={50}
                         className="form-control"
                         value={inputLabel}
                         placeholder="Ingrese tags relacionados con la tarea"
@@ -164,7 +164,7 @@ const CreateTaskComponent = () => {
                 </div>
 
                 <label>Descripción</label>
-                <textarea className="form-control" placeholder="Descripción" required onChange={(e) => setDescription(e.target.value)} />
+                <textarea className="form-control" placeholder="Descripción" maxLength={100} required onChange={(e) => setDescription(e.target.value)} />
 
                 <div className="form-group">
                     <label>Archivos adjuntos</label>
