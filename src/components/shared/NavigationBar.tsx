@@ -37,7 +37,7 @@ const NavigationBar: React.FC<Props> = (props) => {
             </Nav.Link>
           </>
         </Nav>
-        <Nav className="justify-content-right">
+        <Nav className="justify-content-right align-items-center">
           <Nav.Link>
             <span>
               {user?.userEmail} ({user?.userRol ? user?.userRol : "Reader"})
