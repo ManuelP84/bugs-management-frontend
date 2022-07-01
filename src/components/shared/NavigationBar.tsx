@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { selectActualUser } from "../../state/slice/loginSlice";
 import profile from "../../assets/profile.png";
+import { logOut } from '../../state/slice/loginSlice';
 
 type Props = {};
 
@@ -12,6 +13,10 @@ const NavigationBar: React.FC<Props> = (props) => {
 
     const dispatch = useDispatch();
 
+    const handleLogOut = () => {
+        dispatch(logOut())
+      }
+
 
     const [showLoginModal, setShowLoginModal] = useState(false);
     const user = useSelector(selectActualUser());
@@ -19,9 +24,6 @@ const NavigationBar: React.FC<Props> = (props) => {
     return (
         <Navbar bg="secondary sticky-top" variant="light" expand="lg">
             <Container>
-                <Navbar.Brand as={Link} to="/">
-                    Inicio
-                </Navbar.Brand>
                 <Nav className="me-auto">
                     <>
                         {user?.userRol == "Admin" && (
@@ -53,6 +55,10 @@ const NavigationBar: React.FC<Props> = (props) => {
                         />
                     )}
                 </Nav.Link>
+                <Nav.Link>
+                    <button onClick={handleLogOut}> Log out </button>
+                </Nav.Link>
+                
             </Container>
         </Navbar>
     );
