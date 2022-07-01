@@ -9,9 +9,12 @@ const DisplayTasksComponent = () => {
     const task = useSelector((state: RootState) => state.tempTask)
     const taskDetail = task.task
 
+    const project = useSelector((state: RootState) => state.tempProject)
+    const projectToList = project.project
+
     const user = useSelector((state: RootState) => state.login.actualUser);
     const rol = user?.userRol
-    const permissions = (rol == "Tester" || rol == "Admin")
+    const permissions = (rol == "Tester" || rol == "Admin" && (projectToList.state == "ACTIVE" || projectToList.state == "CREATED"))
 
     const dispatch = useAppDispatch()
 
@@ -107,7 +110,7 @@ const DisplayTasksComponent = () => {
                             </div>
                             <br />
                             <br />
-                            <div hidden={!permissions || taskDetail.state !== "Abierta"}>
+                            <div hidden={!permissions}>
                                 <Link to='/edit-task' className="text-decoration-none text-white">
                                     <button className="btn btn-primary"
                                         onClick={() => tempTask(taskDetail)}

@@ -22,7 +22,7 @@ const ListOfTasksComponent = () => {
 
     const user = useSelector((state: RootState) => state.login.actualUser);
     const rol = user?.userRol
-    const permissions = (rol == "Tester" || rol == "Admin")
+    const permissions = (rol == "Tester" || rol == "Admin" && (projectToList.state == "ACTIVE" || projectToList.state == "CREATED"))
 
     const tempTask = (task: taskType) => {
         dispatch(addTempTask(task))
@@ -86,7 +86,7 @@ const ListOfTasksComponent = () => {
             Header: "Borrar",
             Cell: ({ row }: any) => (
                 <div>
-                    <button hidden={row.original.state!=="Abierta"} className="btn btn-danger w-100 my-2"
+                    <button className="btn btn-danger w-100 my-2"
                         type="button"
                         onClick={() => setDeleteValidationModal(true)}
                     >
