@@ -152,7 +152,7 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
     return (
         <div className="fluid-container py-2">
             <div className="row m-2">
-                <h6>{"Updating project with id "}
+                <h6>{"Actualización del proyecto con id "}
                     <span style={{ textDecoration: "underline" }}>{project.projectId}
                     </span>
                 </h6>
@@ -162,7 +162,7 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
                 <div className="col-12">
                     <input className="form-control" type="text" id="name"
                         onChange={(e) => setProjectName(e.target.value)}
-                        placeholder="Project name (up to 50 characters)"
+                        placeholder="Project name (up to 50 caracteres)"
                         value={projectName} />
                 </div>
             </div>
@@ -170,11 +170,11 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
             <div className="row m-2 ">
                 <div className="col-12 input-group">
                     <div className="input-group-text">
-                        <span className="input-inset-format">YYYY-MM-DD</span>
+                        <span className="input-inset-format">AAAA-MM-DD</span>
                     </div>
                     <input type="text" className={`form-control ${showStartDateAlert ? "border-2 border-danger" : ""}`}
                         onChange={(e) => setStartDate(e.target.value)}
-                        placeholder="Start date"
+                        placeholder="Fecha de inicio"
                         value={startDate} />
                 </div>
             </div>
@@ -182,11 +182,11 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
             <div className="row m-2 ">
                 <div className="col-12 input-group">
                     <div className="input-group-text">
-                        <span className="input-inset-format">YYYY-MM-DD</span>
+                        <span className="input-inset-format">AAAA-MM-DD</span>
                     </div>
                     <input type="text" className={`form-control ${showEndDateAlert ? "border-2 border-danger" : ""}`}
                         onChange={(e) => setEndDate(e.target.value)}
-                        placeholder="End date (optional)"
+                        placeholder="Opcional: fecha de finalización"
                         value={endDate} />
                 </div>
             </div>
@@ -195,20 +195,20 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
             <div className="row m-2">
                 <div className="col input-group">
                     <input className="form-control" type="email"
-                        onChange={(e) => setPersonEmail(e.target.value)} placeholder="Person email"
+                        onChange={(e) => setPersonEmail(e.target.value)} placeholder="Email del involucrado"
                         value={personEmail} />
                     <div className="input-group-text">
-                        <span className="me-2 input-inset-format">leader</span>
+                        <span className="me-2 input-inset-format">líder</span>
                         <input className="form-check-input mt-0" type="checkbox" checked={isLeader}
                             onChange={(e) => { setIsLeader(e.currentTarget.checked) }} />
                     </div>
-                    <button className="btn btn-outline-primary" type="button" onClick={onAddPersonEmail}>Add</button>
+                    <button className="btn btn-outline-primary" type="button" onClick={onAddPersonEmail}>Agregar</button>
                 </div>
             </div>
 
             {showEmailAlert ? <div className="row ms-2">
                 <span className="text-start" style={{ color: "red", fontSize: "13px" }}>
-                    The email has an invalid format or was already added to this project</span>
+                El email no tiene un formato válido o ya fue añadido al proyecto</span>
             </div> : <></>}
 
             {suggestedEmails.length > 0 ?
@@ -225,13 +225,13 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
                 <div className="col input-group">
                     <select className="form-select" name="projectState"
                         onChange={(e) => setEmailToDelete(e.target.value)}>
-                        <option value="">Pick an email to remove...</option>
+                        <option value="">Seleccione el email a eliminar...</option>
                         {[...developerEmails, ...leaderEmails].map(
                             email => {
                                 return <option value={email} key={email}>{email}</option>
                             })}
                     </select>
-                    <button className="btn btn-outline-danger" type="button" onClick={onRemoveAnEmail}>Remove</button>
+                    <button className="btn btn-outline-danger" type="button" onClick={onRemoveAnEmail}>Remover</button>
                 </div>
             </div>
 
@@ -239,7 +239,7 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
                 <div className="col-12">
                     <textarea className="form-control" name="description" id="description" value={description}
                         onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Project description (up to 2000 characters)" />
+                        placeholder="Descripción del proyecto (hasta 2000 caracteres)" />
                 </div>
             </div>
 
@@ -248,7 +248,7 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
                 <div className="col-12">
                     <select className="form-select" name="projectState"
                         onChange={(e) => setProjectState(e.target.value)}>
-                        <option value="">Change project state (current: {projectState})</option>
+                        <option value="">Cambia el estado del proyecto (actual: {projectState})</option>
                         {(Object.values(projectStateEnum).slice(1)).map(
                             state => {
                                 return <option value={state} key={state}>{state}</option>
@@ -260,7 +260,7 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
             <div className="row m-2">
                 <div className="col-12">
                     <button className="btn btn-primary w-100" type="button"
-                        onClick={(e) => onUpdateProject(e)}>Update Project</button>
+                        onClick={(e) => onUpdateProject(e)}>Actualizar Proyecto</button>
                 </div>
             </div>
         </div>

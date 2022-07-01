@@ -50,14 +50,14 @@ const SelectProjectForm: React.FC<Props> = (props) => {
     return (
         <div className="fluid-container py-2">
             <div className="row m-2">
-                <label className="label-form mb-2" htmlFor="project-id">Project ID: </label>
+                <label className="label-form mb-2" htmlFor="project-id">ID del proyecto: </label>
                 <div className="col input-group">
                     <input className="form-control submit" type="text"
-                        onChange={(e) => setFilterBugsBy(e.target.value)} placeholder="Project ID"
+                        onChange={(e) => setFilterBugsBy(e.target.value)}
                         value={filterBugsBy} />
 
                     <button className="btn btn-outline-primary"
-                        type="button" onClick={onLoadDashboard}>Load dashboard</button>
+                        type="button" onClick={onLoadDashboard}>Cargar dashboard</button>
                 </div>
             </div>
 

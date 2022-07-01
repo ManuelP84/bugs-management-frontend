@@ -5,6 +5,7 @@ import ProjectList from '../components/project/ProjectList'
 import { getAllUsersThunk } from '../services/loginServices'
 import { getAllProjects } from '../services/project/getAllProjects'
 import { IUser } from '../state/slice/loginSlice'
+import { changePage } from '../state/slice/projectSlice'
 import { RootState, useAppDispatch } from '../state/store'
 import "/src/styles/projectStyle.css";
 
@@ -20,14 +21,15 @@ const ProjectPage = (props: Props) => {
         (user) ? dispatch(getAllProjects(user))
             : dispatch(getAllProjects({ userEmail: "", userRol: "Reader", userToken: "" } as IUser))
         dispatch(getAllUsersThunk())
-    }, [dispatch])
+        dispatch(changePage(1))
+    }, [user])
 
     return (
         <div className="fluid-container py-3">
 
             <div className="row m-2 px-3">
                 <div className="col"></div>
-                <h4>Project Management</h4>
+                <h4>Gestión de proyectos</h4>
             </div>
 
             <div className="row mx-sm-1">

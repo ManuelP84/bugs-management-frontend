@@ -85,7 +85,7 @@ const BugsPage: React.FunctionComponent<BugsPageProps> = () => {
           Cell: ({row}:any) => (
               <button className="btn btn-danger w-100 my-2"
                   type="button"
-                  onClick={()=>onDelete(row.original.id)}>
+                  onClick={()=>onDelete(row.original.bugId)}>
                   Borrar
               </button>
           )

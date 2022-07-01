@@ -26,7 +26,7 @@ const ProjectDropdown: React.FC<Props> = ({ project }) => {
             <div className="d-flex row justify-content-between mb-2 align-items-center">
                 <div className="dropdown col-md-2 col-sm-2 p-0 m-0">
                     <span className="btn btn-white dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="true">
-                        <b>Leaders</b>
+                        <b>Líderes</b>
                     </span>
                     <ul className="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
                         {project.leaderEmails.map(leaderEmail =>
@@ -34,8 +34,8 @@ const ProjectDropdown: React.FC<Props> = ({ project }) => {
                         )}
                     </ul>
                 </div>
-                <div className="col-md-5 col-sm-5"><b>Start date: </b>{project.startDate}</div>
-                <div className="col-md-5 col-sm-5"><b>End date: </b>{project.endDate ? project.endDate : "not defined"}</div>
+                <div className="col-md-5 col-sm-5"><b>Inicio: </b>{project.startDate}</div>
+                <div className="col-md-5 col-sm-5"><b>Finalización: </b>{project.endDate ? project.endDate : "Sin definir"}</div>
                 <ProjectDetails project={project} toggle={toggle} />
             </div>
         </div >

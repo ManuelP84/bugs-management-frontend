@@ -41,7 +41,7 @@ const SortingForm = (props: Props) => {
                 <select className="form-select" name="filter-criteria"
                     value={sortBy}
                     onChange={(e) => setSorting(e.target.value)}>
-                    <option value="">Sort by...</option>
+                    <option value="">Ordenar por...</option>
                     {sortingOptions.map(sortOption => {
                         return <option value={sortOption} key={sortOption}>{`${sortOption}`}</option>
                     })}
