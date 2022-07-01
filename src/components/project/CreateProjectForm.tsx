@@ -142,6 +142,14 @@ const CreateProjectForm: React.FC<Props> = (props) => {
         setPersonEmail(suggestion)
     }
 
+    const removeEmail = (e: React.MouseEvent<HTMLElement, MouseEvent>, pickedEmail: string) => {
+        e.preventDefault()
+        const newLeaderList = leaderEmails.filter(email => email !== pickedEmail)
+        const newDevList = developerEmails.filter(email => email !== pickedEmail)
+        setLeaderEmails([...newLeaderList])
+        setDeveloperEmails([...newDevList])
+    }
+
     return (
         <div className="fluid-container py-2">
             <div className="row m-2">
@@ -212,6 +220,17 @@ const CreateProjectForm: React.FC<Props> = (props) => {
                                 onClick={() => pickSuggestedEmail(suggestion)}>{`${suggestion}`}<br /></span>)}
                     </div>
                 </div> : <></>}
+
+            <div className="row m-2">
+                <div className="col">
+                    {[...leaderEmails, ...developerEmails].map(leader =>
+                        <span key={leader}>{`${leader}`}
+                            <b className="clickable" style={{ color: "#dc3545" }}
+                                onClick={(e) => removeEmail(e, leader)}> ✖</b> <br />
+                        </span>
+                    )}
+                </div>
+            </div>
 
             <div className="row m-2">
                 <div className="col-12">
