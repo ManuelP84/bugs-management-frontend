@@ -30,7 +30,7 @@ const DashboardPage = (props: Props) => {
             dispatch(loadRelatedProject(projects[0]))
             dispatch(getBugsByProjectId(projects[0]))
         }, 120000)
-    }, [user, projects, paginatedProjects])
+    }, [user, paginatedProjects])
 
     return (
         <div className="fluid-container py-3">
