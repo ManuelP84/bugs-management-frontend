@@ -88,7 +88,7 @@ const CreateProjectForm: React.FC<Props> = (props) => {
                 state: projectStateEnum.CREATED
             }
 
-            dispatch(createProject(projectToCreate))
+            dispatch(createProject({ project: projectToCreate, user: user as IUser }))
             clearForm()
         }
     }
