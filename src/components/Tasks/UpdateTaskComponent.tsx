@@ -25,8 +25,8 @@ const UpdateTaskComponent = () => {
     const [inputEmail, setInputEmail] = useState('');
     const [labels, setLabels] = useState(taskToUpdate.labels)
     const [emails, setEmails] = useState(taskToUpdate.developerEmails)
-    const [initDate, setInitDate] = useState(moment(taskToUpdate.date, "YYYY/MM/DD").toDate()) as any;
-    const [endDate, setEndDate] = useState(moment(taskToUpdate.endDate, "YYYY/MM/DD").toDate()) as any;
+    const [initDate, setInitDate] = useState(moment(taskToUpdate.date, "YYYY-MM-DD").toDate()) as any;
+    const [endDate, setEndDate] = useState(moment(taskToUpdate.endDate, "YYYY-MM-DD").toDate()) as any;
     const [emailValidation, setEmailValidation] = useState(true)
 
     const [nameTask, setNameTask] = useState(taskToUpdate.name)
@@ -92,9 +92,9 @@ const UpdateTaskComponent = () => {
 
     const navigate = useNavigate()
 
-    let initStringDate = moment(initDate).format("YYYY/MM/DD")
+    let initStringDate = moment(initDate).format("YYYY-MM-DD")
 
-    let endStringDate = moment(endDate).format("YYYY/MM/DD")
+    let endStringDate = moment(endDate).format("YYYY-MM-DD")
 
     const dispatch = useAppDispatch()
 
@@ -133,6 +133,7 @@ const UpdateTaskComponent = () => {
 
                 <label>Fecha de inicio</label>
                 <DatePicker className="form-control"
+                    dateFormat="yyyy-MM-dd"
                     selected={initDate}
                     onChange={date => setInitDate(date)}
                     isClearable
@@ -142,6 +143,7 @@ const UpdateTaskComponent = () => {
 
                 <label>Fecha de finalización</label>
                 <DatePicker className="form-control"
+                    dateFormat="yyyy-MM-dd"
                     selected={endDate}
                     onChange={date => setEndDate(date)}
                     isClearable

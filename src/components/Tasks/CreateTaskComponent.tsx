@@ -88,11 +88,11 @@ const CreateTaskComponent = () => {
         setEmails(emailToEdit)
     }
 
-    let initStringDate = moment(initDate).format("YYYY/MM/DD")
-    let initDateToString = moment(initStringDate, "YYYY/MM/DD").toDate();
+    let initStringDate = moment(initDate).format("YYYY-MM-DD")
+    let initDateToString = moment(initStringDate, "YYYY-MM-DD").toDate();
 
-    let endStringDate = moment(endDate).format("YYYY/MM/DD")
-    let endDateToString = moment(endStringDate, "YYYY/MM/DD").toDate();
+    let endStringDate = moment(endDate).format("YYYY-MM-DD")
+    let endDateToString = moment(endStringDate, "YYYY-MM-DD").toDate();
 
     const dispatch = useAppDispatch()
 

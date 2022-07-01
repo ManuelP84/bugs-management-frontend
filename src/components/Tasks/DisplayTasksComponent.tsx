@@ -102,7 +102,7 @@ const DisplayTasksComponent = () => {
                         </Link>
                     </div>
                     <br/>
-                    <div hidden={!permissions}>
+                    <div hidden={!permissions || taskDetail.state !== "Abierta"}>
                         <Link to='/edit-task' className="text-decoration-none text-white">
                             <button className="btn btn-primary"
                                 onClick={() => tempTask(taskDetail)}

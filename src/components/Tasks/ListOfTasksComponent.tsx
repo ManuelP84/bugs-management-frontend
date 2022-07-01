@@ -86,7 +86,7 @@ const ListOfTasksComponent = () => {
             Header: "Borrar",
             Cell: ({ row }: any) => (
                 <div>
-                    <button className="btn btn-danger w-100 my-2"
+                    <button hidden={row.original.state!=="Abierta"} className="btn btn-danger w-100 my-2"
                         type="button"
                         onClick={() => setDeleteValidationModal(true)}
                     >
