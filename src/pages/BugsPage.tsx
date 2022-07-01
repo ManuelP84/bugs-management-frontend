@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AddBugForm from "../components/Bugs/AddBugForm";
 import BugDetail from "../components/Bugs/BugDetail";
-import DevEditBugForm from "../components/Bugs/DevEditBugForm";
+import DevEditBugForm from "../components/Bugs/devEditBugForm";
 import EditBugForm from "../components/Bugs/EditBugForm";
 import TasksTable from "../components/Table/ReactTable";
 import { deleteBugThunk, getBugsByTaskIdThunk } from "../services/bugsServices";
