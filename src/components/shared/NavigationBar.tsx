@@ -18,26 +18,26 @@ const NavigationBar: React.FC<Props> = (props) => {
     <Navbar bg="secondary sticky-top" variant="light" expand="lg">
       <Container>
         <Navbar.Brand as={Link} to="/">
-          Home
+          Inicio
         </Navbar.Brand>
         <Nav className="me-auto">
           <>
             {user?.userRol == "Admin" && (
               <Nav.Link as={Link} to="/admin">
-                Admin
+                Administrador
               </Nav.Link>
             )}
             <Nav.Link as={Link} to="/dashboard">
               Dashboard
             </Nav.Link>
             <Nav.Link as={Link} to="/project">
-              Projects
+              Proyectos
             </Nav.Link>
             <Nav.Link as={Link} to="/task-list">
-              Tasks
+              Tareas
             </Nav.Link>
             <Nav.Link as={Link} to="/bugs">
-              Bugs
+              Defectos
             </Nav.Link>
           </>
         </Nav>
