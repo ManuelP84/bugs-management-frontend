@@ -12,31 +12,28 @@ const LifeCycleDashboard = (props: Props) => {
 
     const bugs = useSelector((state: RootState) => state.dashboard.bugs);
 
-
-
-    const planning = bugs.filter(bug => bug.lifecycle.toLowerCase() === "planning").length;
-    const analysis = bugs.filter(bug => bug.lifecycle.toLowerCase() === "analysis").length;
-    const design = bugs.filter(bug => bug.lifecycle.toLowerCase() === "design").length;
-    const implementation = bugs.filter(bug => bug.lifecycle.toLowerCase() === "implementation").length;
-    const testing = bugs.filter(bug => bug.lifecycle.toLowerCase() === "testing").length;
-    const deployment = bugs.filter(bug => bug.lifecycle.toLowerCase() === "deployment").length;
-    const use = bugs.filter(bug => bug.lifecycle.toLowerCase() === "use").length;
-    const maintenance = bugs.filter(bug => bug.lifecycle.toLowerCase() === "maintenance").length;
+    const planning = bugs.filter(bug => bug.lifecycle === "Planeación").length;
+    const analysis = bugs.filter(bug => bug.lifecycle === "Análisis").length;
+    const design = bugs.filter(bug => bug.lifecycle === "Diseño").length;
+    const implementation = bugs.filter(bug => bug.lifecycle === "Implementación").length;
+    const testing = bugs.filter(bug => bug.lifecycle === "Pruebas").length;
+    const deployment = bugs.filter(bug => bug.lifecycle === "Despliegue").length;
+    const use = bugs.filter(bug => bug.lifecycle === "Uso").length;
+    const maintenance = bugs.filter(bug => bug.lifecycle === "Mantenimiento").length;
 
     const data = [planning, analysis, design, implementation, testing, deployment, use, maintenance]
 
     const dataSetsProperties = { ...chartData.datasets[0] }
-    const dataSets = { ...dataSetsProperties, data: data, label: "No-Completed Bugs grouped by Life Cycle" }
+    const dataSets = { ...dataSetsProperties, data: data, label: "Defectos no terminados, agrupados por ciclo de vida" }
 
     const chartDataConfig = {
         ...chartData,
-        labels: ["Planning", "Analysis", "Design", "Implementation", "Testing", "Deployment", "Use", "Maintenance"],
+        labels: ["Planeación", "Análisis", "Diseño", "Implementación", "Pruebas", "Despliegue", "Uso", "Mantenimiento"],
         datasets: [dataSets]
     }
 
     return (
         <div className="fluid-container">
-            <div></div>
             <div className="row mb-4">
                 <div className="col">
                     <Bar data={chartDataConfig} options={chartOptions} />

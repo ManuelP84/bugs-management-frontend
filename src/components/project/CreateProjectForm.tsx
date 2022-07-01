@@ -88,7 +88,7 @@ const CreateProjectForm: React.FC<Props> = (props) => {
                 state: projectStateEnum.CREATED
             }
 
-            dispatch(createProject(projectToCreate))
+            dispatch(createProject({ project: projectToCreate, user: user as IUser }))
             clearForm()
         }
     }
@@ -142,17 +142,25 @@ const CreateProjectForm: React.FC<Props> = (props) => {
         setPersonEmail(suggestion)
     }
 
+    const removeEmail = (e: React.MouseEvent<HTMLElement, MouseEvent>, pickedEmail: string) => {
+        e.preventDefault()
+        const newLeaderList = leaderEmails.filter(email => email !== pickedEmail)
+        const newDevList = developerEmails.filter(email => email !== pickedEmail)
+        setLeaderEmails([...newLeaderList])
+        setDeveloperEmails([...newDevList])
+    }
+
     return (
         <div className="fluid-container py-2">
             <div className="row m-2">
-                <h4>Create a Project</h4>
+                <h4>Crear proyecto</h4>
             </div>
 
             <div className="row m-2">
                 <div className="col-12">
                     <input className="form-control" type="text" id="name"
                         onChange={(e) => setProjectName(e.target.value)}
-                        placeholder="Project name (up to 50 characters)"
+                        placeholder="Nombre del proyecto (hasta 50 caracteres)"
                         value={projectName} />
                 </div>
             </div>
@@ -160,11 +168,11 @@ const CreateProjectForm: React.FC<Props> = (props) => {
             <div className="row m-2 ">
                 <div className="col-12 input-group">
                     <div className="input-group-text">
-                        <span className="input-inset-format">YYYY-MM-DD</span>
+                        <span className="input-inset-format">AAAA-MM-DD</span>
                     </div>
                     <input type="text" className={`form-control ${showStartDateAlert ? "border-2 border-danger" : ""}`}
                         onChange={(e) => setStartDate(e.target.value)}
-                        placeholder="Start date"
+                        placeholder="Fecha de inicio"
                         value={startDate} />
                 </div>
             </div>
@@ -172,11 +180,11 @@ const CreateProjectForm: React.FC<Props> = (props) => {
             <div className="row m-2 ">
                 <div className="col-12 input-group">
                     <div className="input-group-text">
-                        <span className="input-inset-format">YYYY-MM-DD</span>
+                        <span className="input-inset-format">AAAA-MM-DD</span>
                     </div>
                     <input type="text" className={`form-control ${showEndDateAlert ? "border-2 border-danger" : ""}`}
                         onChange={(e) => setEndDate(e.target.value)}
-                        placeholder="End date (optional)"
+                        placeholder="Opcional: fecha de finalización"
                         value={endDate} />
                 </div>
             </div>
@@ -185,22 +193,23 @@ const CreateProjectForm: React.FC<Props> = (props) => {
             <div className="row m-2">
                 <div className="col input-group">
                     <input className="form-control" type="email"
-                        onChange={(e) => setPersonEmail(e.target.value)} placeholder="Person email" value={personEmail} />
+                        onChange={(e) => setPersonEmail(e.target.value)} placeholder="Email del involucrado"
+                        value={personEmail} />
                     <div className="input-group-text">
-                        <span className="me-2 input-inset-format">leader</span>
+                        <span className="me-2 input-inset-format">líder</span>
                         <input className="form-check-input mt-0" type="checkbox" checked={isLeader}
                             onChange={(e) => { setIsLeader(e.currentTarget.checked) }} />
                     </div>
 
                     {permissions ?
-                        <button className="btn btn-outline-primary" type="button" onClick={onAddPersonEmail}>Add</button>
-                        : <button className="btn btn-outline-primary disabled" type="button">Add</button>}
+                        <button className="btn btn-outline-primary" type="button" onClick={onAddPersonEmail}>Agregar</button>
+                        : <button className="btn btn-outline-primary disabled" type="button">Agregar</button>}
                 </div>
             </div>
 
             {showEmailAlert ? <div className="row ms-2">
                 <span className="text-start" style={{ color: "red", fontSize: "13px" }}>
-                    The email has an invalid format or was already added to this project</span>
+                    El email no tiene un formato válido o ya fue añadido al proyecto</span>
             </div> : <></>}
 
             {suggestedEmails.length > 0 ?
@@ -213,9 +222,21 @@ const CreateProjectForm: React.FC<Props> = (props) => {
                 </div> : <></>}
 
             <div className="row m-2">
+                <div className="col">
+                    {[...leaderEmails, ...developerEmails].map(leader =>
+                        <span key={leader}>{`${leader}`}
+                            <b className="clickable" style={{ color: "#dc3545" }}
+                                onClick={(e) => removeEmail(e, leader)}> ✖</b> <br />
+                        </span>
+                    )}
+                </div>
+            </div>
+
+            <div className="row m-2">
                 <div className="col-12">
                     <textarea className="form-control" name="description" id="description" value={description}
-                        onChange={(e) => setDescription(e.target.value)} placeholder="Project description (up to 2000 characters)" />
+                        onChange={(e) => setDescription(e.target.value)}
+                        placeholder="Descripción del proyecto (hasta 2000 caracteres)" />
                 </div>
             </div>
 
@@ -225,7 +246,7 @@ const CreateProjectForm: React.FC<Props> = (props) => {
                         <button className="btn btn-primary w-100" type="button"
                             onClick={(e) => onCreateProject(e)}>Create Project</button>
                         : <button className="btn btn-primary w-100 disabled" type="button"
-                            onClick={() => { }}>Create Project</button>}
+                            onClick={() => { }}>Crear Proyecto</button>}
                 </div>
             </div>
         </div>

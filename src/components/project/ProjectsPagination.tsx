@@ -38,11 +38,11 @@ const ProjectsPagination: React.FC<Props> = (props) => {
         <div className="row mx-2">
             <div className="d-flex col justify-content-between align-items-center">
                 <button className={`btn btn-outline-secondary ${(page === 1 || projects.length <= 0) ? "disabled" : ""}`}
-                    onClick={() => dispatch(changePage(page - 1))}>Previous page</button>
-                {loading ? <h6>Loading data...</h6> :
-                    (projects.length <= 0) ? <></> : <h6>{page} of {numberOfPages}</h6>}
+                    onClick={() => dispatch(changePage(page - 1))}>←</button>
+                {loading ? <h6>Cargando...</h6> :
+                    (projects.length <= 0) ? <></> : <h6>{page} de {numberOfPages}</h6>}
                 <button className={`btn btn-outline-secondary ${(page === numberOfPages || projects.length <= 0) ? "disabled" : ""}`}
-                    onClick={() => dispatch(changePage(page + 1))}>Next Page</button>
+                    onClick={() => dispatch(changePage(page + 1))}>→</button>
             </div>
         </div>
     )

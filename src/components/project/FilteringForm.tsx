@@ -60,7 +60,7 @@ const FilteringForm = (props: Props) => {
             <div className="col-md-3 col-sm-3 my-2">
                 <select className="form-select" name="filter-criteria"
                     value={filterBy} onChange={(e) => setFilter(e.target.value)}>
-                    <option value="">Filter by...</option>
+                    <option value="">Filtrar por...</option>
                     {filteringOptions.map(filterOption => {
                         return <option value={filterOption} key={filterOption}>{`${filterOption}`}</option>
                     })}
@@ -70,13 +70,13 @@ const FilteringForm = (props: Props) => {
                 <input className="form-control" type="text" name="filter"
                     value={filterInput}
                     onChange={(e) => setFilterInput(e.target.value)}
-                    placeholder="Filter criteria" required />
+                    placeholder="Buscar" required />
             </div>
             <div className="col-md-2 col-sm-6 my-2">
-                <button className="btn btn-primary w-100 text-nowrap px-0" onClick={onFilterProject}>Filter</button>
+                <button className="btn btn-primary w-100 text-nowrap px-0" onClick={onFilterProject}>Filtrar</button>
             </div>
             <div className="col-md-3 col-sm-6 my-2">
-                <button className="btn btn-primary w-100 text-nowrap px-0" onClick={(e) => onReload(e)}>Reload Data</button>
+                <button className="btn btn-primary w-100 text-nowrap px-0" onClick={(e) => onReload(e)}>Recargar datos</button>
             </div>
         </div>
     )

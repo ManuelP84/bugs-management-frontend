@@ -11,15 +11,18 @@ type Props = {}
 const DashboardPage = (props: Props) => {
 
     const projects = useSelector((state: RootState) => state.projects.projects);
+    const paginatedProjects = useSelector((state: RootState) => state.projects.paginatedProjects);
 
     const dispatch = useAppDispatch()
+
+    const user = useSelector((state: RootState) => state.login.actualUser);
 
     useEffect(() => {
         setInterval(() => {
             dispatch(loadRelatedProject(projects[0]))
             dispatch(getBugsByProjectId(projects[0]))
         }, 120000)
-    }, [])
+    }, [user, projects, paginatedProjects])
 
     return (
         <div className="fluid-container py-3">

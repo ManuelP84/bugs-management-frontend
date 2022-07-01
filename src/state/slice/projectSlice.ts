@@ -84,7 +84,11 @@ const projectSlice = createSlice({
         // POST cases
         builder.addCase(createProject.fulfilled, (state, action) => {
             state.status = possibleStatus.COMPLETED
-            state.projects.push(action.payload)
+            const emails = [...action.payload.project.leaderEmails, ...action.payload.project.leaderEmails]
+            const user = action.payload.user
+            if (emails.includes(user.userEmail) || !(user.userRol !== "Admin")) {
+                state.projects.push(action.payload.project)
+            }
         })
         builder.addCase(createProject.pending, (state, action) => {
             state.status = possibleStatus.PENDING;

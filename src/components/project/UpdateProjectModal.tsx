@@ -24,7 +24,7 @@ const UpdateProjectModal: React.FC<Props> = (props) => {
                 alignItems: "center"
             }}>
                 <Modal.Title>
-                    <h5>Project Update</h5>
+                    <h5>Actualización de Proyecto</h5>
                 </Modal.Title>
             </Modal.Header>
 
@@ -34,7 +34,7 @@ const UpdateProjectModal: React.FC<Props> = (props) => {
 
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Close
+                    Cerrar
                 </Button>
             </Modal.Footer>
         </Modal >

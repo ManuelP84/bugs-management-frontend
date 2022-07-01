@@ -15,7 +15,7 @@ const ProjectList: React.FC<Props> = (props) => {
     return (
         <div className="fluid-container py-2 " id="accordionExample">
             <div className="row mx-2">
-                <h4>Your Projects</h4>
+                <h4>Tus proyectos</h4>
             </div>
 
             <ProjectNavigation />
