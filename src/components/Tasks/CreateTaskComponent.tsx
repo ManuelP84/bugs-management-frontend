@@ -121,86 +121,103 @@ const CreateTaskComponent = () => {
     }
 
     return (
-        <div className="w-25 center">
-            <form onSubmit={(e) => onAddTask(e)}>
-                <label>Nombre de tarea</label>
-                <input type="text" className="form-control" placeholder="Nombre de tarea" maxLength={50} required onChange={(e) => setNameTask(e.target.value)} />
+        <div className="container d-flex justify-content-center mt-5">
+            <div className="row w-50">
+                <div className="text-center">
+                    <h1>Creación de tareas</h1>
+                </div>
+                <form onSubmit={(e) => onAddTask(e)}>
+                    <label className="fs-4">Nombre de tarea</label>
+                    <input type="text" className="form-control" placeholder="Nombre de tarea" maxLength={50} required onChange={(e) => setNameTask(e.target.value)} />
 
-                <label>Fecha de inicio</label>
-                <DatePicker className="form-control"
-                    selected={initDate}
-                    onChange={date => setInitDate(date)}
-                    isClearable
-                    required
-                    placeholderText="Fecha de inicio"
-                />
-
-                <label>Fecha de finalización</label>
-                <DatePicker className="form-control"
-                    selected={endDate}
-                    onChange={date => setEndDate(date)}
-                    isClearable
-                    minDate={new Date()}
-                    placeholderText="Fecha de finalización"
-                />
-
-                <div className="form-group">
-                    <label>labels</label>
-                    {labels.map((tags, indexTags) =>
-                        <li className="label" key={nanoid()}>
-                            <span>{tags.label}</span>
-                            <span className="close" onClick={() => removeLabel(indexTags)}>&times;</span>
-                        </li>)}
-                    <input
-                        maxLength={50}
-                        className="form-control"
-                        value={inputLabel}
-                        placeholder="Ingrese tags relacionados con la tarea"
-                        onKeyDown={onKeyDownLabel}
-                        onChange={onChangeLabel}
+                    <label className="fs-4">Fecha de inicio</label>
+                    <DatePicker className="form-control"
+                        dateFormat="yyyy-MM-dd"
+                        selected={initDate}
+                        onChange={date => setInitDate(date)}
+                        isClearable
+                        required
+                        placeholderText="Fecha de inicio"
                     />
-                    <small>Oprima enter o ',' (coma) para agregar un label</small>
-                </div>
 
-                <label>Descripción</label>
-                <textarea className="form-control" placeholder="Descripción" maxLength={100} required onChange={(e) => setDescription(e.target.value)} />
-
-                <div className="form-group">
-                    <label>Archivos adjuntos</label>
-                    <input type="file" className="form-control" placeholder="Enter email" />
-                </div>
-
-                <div className="form-group">
-                    <label>Email personas relacionadas</label>
-                    {emails.map((emails, indexEmail) =>
-                        <li className="email" key={nanoid()}>
-                            <span>{emails.email}</span>
-                            <span className="close" onClick={() => removeEmail(indexEmail)}>&times;</span>
-                        </li>)}
-                    <input
-                        className="form-control"
-                        value={inputEmail}
-                        placeholder="Ingrese un email"
-                        onKeyDown={onKeyDownEmail}
-                        onChange={onChangeEmail}
+                    <label className="fs-4">Fecha de finalización</label>
+                    <DatePicker className="form-control"
+                        dateFormat="yyyy-MM-dd"
+                        selected={endDate}
+                        onChange={date => setEndDate(date)}
+                        isClearable
+                        minDate={new Date()}
+                        placeholderText="Fecha de finalización"
                     />
-                    <small hidden={emailValidation} className="text-danger">Debe ingresar un email valido</small>
-                    <br hidden={emailValidation} />
-                    <small>Oprima enter o ',' (coma) para agregar un correo</small>
-                </div>
-                <br />
-                <button className="btn btn-primary" type="submit">Crear Tareas</button>
 
-            </form>
-            <br></br>
-            <Link to='/task-list' className="text-decoration-none text-white">
-                <button className="btn btn-secondary">
-                    Volver
-                </button>
-            </Link>
+                    <div className="form-group">
+                        <label className="fs-4">labels</label>
+                        {labels.map((tags, indexTags) =>
+                            <li className="label" key={nanoid()}>
+                                <span>{tags.label}</span>
+                                <span className="close" onClick={() => removeLabel(indexTags)}>&times;</span>
+                            </li>)}
+                        <input
+                            maxLength={50}
+                            className="form-control"
+                            value={inputLabel}
+                            placeholder="Ingrese tags relacionados con la tarea"
+                            onKeyDown={onKeyDownLabel}
+                            onChange={onChangeLabel}
+                        />
+                        <small>Oprima enter o ',' (coma) para agregar un label</small>
+                    </div>
 
+                    <label className="fs-4">Descripción</label>
+                    <textarea className="form-control" placeholder="Descripción" maxLength={100} required onChange={(e) => setDescription(e.target.value)} />
+
+                    <div className="form-group">
+                        <label className="fs-4">Archivos adjuntos</label>
+                        <input type="file" className="form-control" placeholder="Enter email" />
+                    </div>
+
+                    <div className="form-group">
+                        <label className="fs-4">Estado de la tarea</label>
+                        <br></br>
+                        <select className="custom-select form-control" required value={"Abierta"}>
+                            <option value="Abierta">Abierta</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label className="fs-4">Email personas relacionadas</label>
+                        {emails.map((emails, indexEmail) =>
+                            <li className="email" key={nanoid()}>
+                                <span>{emails.email}</span>
+                                <span className="close" onClick={() => removeEmail(indexEmail)}>&times;</span>
+                            </li>)}
+                        <input
+                            className="form-control"
+                            value={inputEmail}
+                            placeholder="Ingrese un email"
+                            onKeyDown={onKeyDownEmail}
+                            onChange={onChangeEmail}
+                        />
+                        <small hidden={emailValidation} className="text-danger">Debe ingresar un email valido</small>
+                        <br hidden={emailValidation} />
+                        <small>Oprima enter o ',' (coma) para agregar un correo</small>
+                    </div>
+                    <br />
+                    <div >
+                        <div className="row">
+                            <button className="btn btn-primary" type="submit">Crear Tareas</button>
+                        </div>
+                        <br />
+                        <Link to='/task-list' className="text-decoration-none text-white">
+                            <div className="row">
+                                <button className="btn btn-secondary">
+                                    Volver
+                                </button>
+                            </div>
+                        </Link>
+                    </div>
+                </form>
+            </div>
             <TaskValidationModal taskValidationModal={showTaskValidationModal} setTaskValidationModal={setTaskValidationModal} />
-
         </div>
     )
 }
