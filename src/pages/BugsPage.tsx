@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AddBugForm from "../components/Bugs/AddBugForm";
 import BugDetail from "../components/Bugs/BugDetail";
-import DevEditBugForm from "../components/Bugs/devEditBugForm";
+import DevEditBugForm from "../components/Bugs/DevEditBugForm";
 import EditBugForm from "../components/Bugs/EditBugForm";
 import TasksTable from "../components/Table/ReactTable";
 import { deleteBugThunk, getBugsByTaskIdThunk } from "../services/bugsServices";
@@ -17,9 +17,7 @@ export interface BugsPageProps {}
 
 const BugsPage: React.FunctionComponent<BugsPageProps> = () => {
   const dispatch = useAppDispatch();
-  const task = useSelector(
-    (state: RootState) => state.bugs.actualTask
-  ) as taskType;
+  const task = useSelector((state: RootState) => state.tempTask.task) as taskType;
   const actualUser = useSelector(selectActualUser()) as IUser;
 
   React.useEffect(() => {

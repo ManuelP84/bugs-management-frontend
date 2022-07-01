@@ -23,10 +23,8 @@ const EditBugForm: React.FunctionComponent<IEditBugFormProps> = ({bugProp}) => {
     const handleClose = () => setShow(false);
     const handleShow = () => {setShow(true)};   
   
-    const task = useSelector(
-      (state: RootState) => state.bugs.actualTask
-    ) as taskType;
     const actualUser = useSelector(selectActualUser()) as IUser;
+    const task = useSelector((state: RootState) => state.tempTask.task) as taskType
   
     const [initDate, setInitDate] = React.useState() as any;
     const [endDate, setEndDate] = React.useState() as any;
@@ -44,6 +42,9 @@ const EditBugForm: React.FunctionComponent<IEditBugFormProps> = ({bugProp}) => {
     const [references, setReferences] = React.useState("");
     const [developerEmail, setDeveloperEmail] = React.useState("");
     const [developerNotes, setDeveloperNotes] = React.useState("");
+
+    const asignadoType = ["Si", "No"]
+    
     
     const setInitialStateForm = () => {
       setEndDate()
@@ -119,13 +120,13 @@ const EditBugForm: React.FunctionComponent<IEditBugFormProps> = ({bugProp}) => {
         developerEmail
       ) {
         const newBug: IBug = {
-          projectId: task.projectId,
+          projectId: bugProp.projectId,
           bugId: Math.floor(Math.random() * 10000000) + "",
           title: bugTitle,
           description: description,
           date: initStringDate,
           testerEmail: actualUser.userEmail,
-          taskId: task.taskId,
+          taskId: bugProp.taskId,
           testerNotes: testerNotes,
           lifecycle: bugLifecycle,
           urls: [],
@@ -210,7 +211,7 @@ const EditBugForm: React.FunctionComponent<IEditBugFormProps> = ({bugProp}) => {
                   <input
                     className="form-control"
                     type="text"
-                    value={task.taskId}
+                    value={bugProp.taskId}
                     readOnly
                   ></input>
   
