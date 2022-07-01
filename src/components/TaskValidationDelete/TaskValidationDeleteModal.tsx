@@ -22,8 +22,6 @@ const TaskValidationDeleteModal: React.FC<Props> = (props) =>{
 
     const bugList = useSelector((state: RootState) => state.bugs.bugs)
 
-    bugList.map((bug) => (console.log(bug.taskId)))
-
     const {task, taskDeleteModal, setDeleteValidationModal} = props
 
     const handleClose = () => {
@@ -31,8 +29,8 @@ const TaskValidationDeleteModal: React.FC<Props> = (props) =>{
     }
 
     const onDelete = () => {
+        bugList.map((bug)=>{dispatch(deleteBugThunk(bug.bugId))})
         dispatch(deleteTask(task))
-        bugList.map((bug)=>deleteBugThunk(bug.taskId))
         handleClose();
     }
 
