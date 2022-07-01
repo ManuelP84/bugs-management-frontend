@@ -40,20 +40,20 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
             <div id="collapseOne" className={`accordion-collapse collapse ${toggle ? "show" : ""}`}>
                 <div className="fluid-container mx-4">
                     <hr></hr>
-                    <span className="row text-start"><b className="row">Leaders:</b>
+                    <span className="row text-start"><b className="row">Líderes:</b>
                         {project.leaderEmails.map(leader =>
                             <span key={leader}>{`${leader}`}
                                 {permissions ? <b className="clickable" style={{ color: "#dc3545" }}
                                     onClick={(e) => deleteLeaderEmail(e, leader)}> ✖</b> : <></>}</span>
                         )}</span>
-                    <span className="row text-start"><b className="row"> Developers:</b>
+                    <span className="row text-start"><b className="row"> Desarrolladores:</b>
                         {project.developerEmails.map(dev =>
                             <span key={dev}>{`${dev}`}
                                 {/* {permissions ? <b className="clickable" style={{ color: "#dc3545" }}
                                     onClick={() => deleteDeveloperEmail(dev)}> ✖</b> : <></>} */}
                             </span>
                         )}</span>
-                    <span className="row text-start"><b className="row">Description:</b>{project.description}</span>
+                    <span className="row text-start"><b className="row">Descripción:</b>{project.description}</span>
                     <div className="row my-2">
 
                         <div className={permissions && (project.state === projectStateEnum.CREATED) ?
@@ -62,7 +62,7 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
                                 <button className="btn btn-success w-100 my-2 px-0"
                                     type="button"
                                     onClick={() =>(tempProject(project))}
-                                >Tasks
+                                >Tareas
                                 </button>
                             </Link>
                         </div>
@@ -71,7 +71,7 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
                             <div className="col-sm-4 col-xs-4">
                                 <button className="btn btn-danger w-100 my-2 px-0"
                                     type="button"
-                                    onClick={() => setShowDeleteModal(true)}>Delete Project</button>
+                                    onClick={() => setShowDeleteModal(true)}>Eliminar Proyecto</button>
                             </div> : <></>}
 
                         {permissions ?
@@ -79,7 +79,7 @@ const ProjectDetails: React.FC<Props> = ({ project, toggle }) => {
                                 "col-sm-4 col-xs-4" : "col-sm-6"}>
                                 <button className="btn btn-warning w-100 my-2 px-0"
                                     type="button"
-                                    onClick={() => setShowUpdateModal(true)}>Update Project</button>
+                                    onClick={() => setShowUpdateModal(true)}>Actualizar Proyecto</button>
                             </div> : <></>}
                     </div>
                 </div>
