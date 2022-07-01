@@ -41,6 +41,7 @@ const NavigationBar: React.FC<Props> = (props) => {
             </Nav.Link>
           </>
         </Nav>
+        <span>{user?.userEmail} ({user?.userRol ? user?.userRol : "Reader"})</span>
       </Container>
     </Navbar>
   );

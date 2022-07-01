@@ -11,15 +11,18 @@ type Props = {}
 const DashboardPage = (props: Props) => {
 
     const projects = useSelector((state: RootState) => state.projects.projects);
+    const paginatedProjects = useSelector((state: RootState) => state.projects.paginatedProjects);
 
     const dispatch = useAppDispatch()
+
+    const user = useSelector((state: RootState) => state.login.actualUser);
 
     useEffect(() => {
         setInterval(() => {
             dispatch(loadRelatedProject(projects[0]))
             dispatch(getBugsByProjectId(projects[0]))
         }, 120000)
-    }, [])
+    }, [user, projects, paginatedProjects])
 
     return (
         <div className="fluid-container py-3">
@@ -31,10 +34,10 @@ const DashboardPage = (props: Props) => {
             </div>
 
             <div className="row">
-                <div className="col-md-4 py-2">
+                <div className="col-md-3 py-2">
                     <SelectProjectForm />
                 </div>
-                <div className="col-md-8 py-2">
+                <div className="col-md-9 py-2">
                     <Dashboards />
                 </div>
             </div>
