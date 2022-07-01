@@ -10,7 +10,7 @@ import { nanoid } from "@reduxjs/toolkit";
 import { Link, useNavigate } from "react-router-dom";
 import TaskValidationModal from "../TaskValidation/TaskValidationModal";
 import { IBug } from "../../state/slice/bugsSlice";
-import { postBugThunk } from "../../services/bugsServices";
+import { postBugThunk, updateBugThunk } from "../../services/bugsServices";
 import { Button, Modal } from "react-bootstrap";
 
 interface IDevEditBugFormProps {
@@ -26,7 +26,7 @@ const DevEditBugForm: React.FunctionComponent<IDevEditBugFormProps> = ({
     setShow(true);
   };
 
-  const [developerNotes, setDeveloperNotes] = React.useState("");
+  const [developerNotes, setDeveloperNotes] = React.useState(bugProp.developerNotes);
   const [state, setState] = React.useState<String>();
   const radioHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState(event.target.value);
@@ -117,6 +117,9 @@ const DevEditBugForm: React.FunctionComponent<IDevEditBugFormProps> = ({
     </>
   );
 
+  const returnSetState = () => {
+    return (state == "Si" && (bugProp.state == "Asignado" || bugProp.state == "Reincidente"))? "En proceso" : (state == "No" && bugProp.state == "Asignado" || bugProp.state == "Reincidente")? "Rechazado" : (state == "Si" && bugProp.state == "En proceso")? "Solucionado" : ""
+  }
   const onAddTask = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -124,6 +127,7 @@ const DevEditBugForm: React.FunctionComponent<IDevEditBugFormProps> = ({
 
     if (state && developerNotes) {
       const newBug: IBug = {
+        id: bugProp.id,
         projectId: bugProp.projectId,
         bugId: bugProp.bugId,
         title: bugProp.title,
@@ -137,7 +141,7 @@ const DevEditBugForm: React.FunctionComponent<IDevEditBugFormProps> = ({
         scope: bugProp.scope,
         priority: bugProp.priority,
         importance: bugProp.importance,
-        state: state == "Si" ? "En proceso" : "Rechazado",
+        state: returnSetState(),
         conclusions: bugProp.conclusions,
         problems: bugProp.problems,
         reference: bugProp.reference,
@@ -145,7 +149,7 @@ const DevEditBugForm: React.FunctionComponent<IDevEditBugFormProps> = ({
         developerEmail: bugProp.developerEmail,
         developerNotes: developerNotes,
       };
-      dispatch(postBugThunk(newBug));
+      dispatch(updateBugThunk(newBug));
       setInitialStateForm();
       setShow(false);
     } else {
@@ -173,7 +177,7 @@ const DevEditBugForm: React.FunctionComponent<IDevEditBugFormProps> = ({
           <Modal.Body>
             {bugProp.state == "Asignado" || bugProp.state == "Reincidente" ? (
               asignadoDiv
-            ) : bugProp.state == "En Proceso" ? (
+            ) : bugProp.state == "En proceso" ? (
                 enProcesoDiv
             ) : (
               <></>
@@ -183,12 +187,12 @@ const DevEditBugForm: React.FunctionComponent<IDevEditBugFormProps> = ({
             <Button variant="secondary" onClick={handleClose}>
               Cancel
             </Button>
-            {bugProp.state == "En Proceso" && state == "No" ? (
-              <></>
-            ) : (
+            {(bugProp.state == "En proceso" && state == "Si") || bugProp.state == "Asignado" || bugProp.state == "Reincidente" ? (
               <Button type="submit" variant="primary">
-                Save
-              </Button>
+              Save
+            </Button>
+            ) : (
+              <></>
             )}
             <TaskValidationModal
               taskValidationModal={showTaskValidationModal}
