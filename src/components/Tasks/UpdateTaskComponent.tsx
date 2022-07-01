@@ -25,8 +25,8 @@ const UpdateTaskComponent = () => {
     const [inputEmail, setInputEmail] = useState('');
     const [labels, setLabels] = useState(taskToUpdate.labels)
     const [emails, setEmails] = useState(taskToUpdate.developerEmails)
-    const [initDate, setInitDate] = useState(moment(taskToUpdate.date, "YYYY/MM/DD").toDate()) as any;
-    const [endDate, setEndDate] = useState(moment(taskToUpdate.endDate, "YYYY/MM/DD").toDate()) as any;
+    const [initDate, setInitDate] = useState(moment(taskToUpdate.date, "YYYY-MM-DD").toDate()) as any;
+    const [endDate, setEndDate] = useState(moment(taskToUpdate.endDate, "YYYY-MM-DD").toDate()) as any;
     const [emailValidation, setEmailValidation] = useState(true)
 
     const [nameTask, setNameTask] = useState(taskToUpdate.name)
@@ -92,9 +92,9 @@ const UpdateTaskComponent = () => {
 
     const navigate = useNavigate()
 
-    let initStringDate = moment(initDate).format("YYYY/MM/DD")
+    let initStringDate = moment(initDate).format("YYYY-MM-DD")
 
-    let endStringDate = moment(endDate).format("YYYY/MM/DD")
+    let endStringDate = moment(endDate).format("YYYY-MM-DD")
 
     const dispatch = useAppDispatch()
 
@@ -126,100 +126,109 @@ const UpdateTaskComponent = () => {
     }
 
     return (
-        <div className="w-25 center">
-            <form onSubmit={(e) => onEditTask(e)}>
-                <label>Nombre de tarea</label>
-                <input type="text" className="form-control" placeholder="Nombre de tarea" required maxLength={50} value={nameTask} onChange={(e) => setNameTask(e.target.value)} />
+        <div className="container d-flex justify-content-center mt-5">
+            <div className="row w-50">
+            <div className="text-center">
+                <h1>Edición de tareas</h1>
+                </div>
+                <form onSubmit={(e) => onEditTask(e)}>
+                    <label className="fs-4">Nombre de tarea</label>
+                    <input type="text" className="form-control" placeholder="Nombre de tarea" required maxLength={50} value={nameTask} onChange={(e) => setNameTask(e.target.value)} />
 
-                <label>Fecha de inicio</label>
-                <DatePicker className="form-control"
-                    selected={initDate}
-                    onChange={date => setInitDate(date)}
-                    isClearable
-                    required
-                    placeholderText="Fecha de inicio"
-                />
-
-                <label>Fecha de finalización</label>
-                <DatePicker className="form-control"
-                    selected={endDate}
-                    onChange={date => setEndDate(date)}
-                    isClearable
-                    minDate={new Date()}
-                    placeholderText="Fecha de finalización"
-                />
-
-                <div className="form-group">
-                    <label>labels</label>
-                    {labels.map((tags, indexTags) =>
-                        <li className="label" key={nanoid()}>
-                            <span>{tags.label}</span>
-                            <span className="close" onClick={() => removeLabel(indexTags)}>&times;</span>
-                        </li>)}
-                    <input
-                        maxLength={50}
-                        className="form-control"
-                        value={inputLabel}
-                        placeholder="Ingrese tags relacionados con la tarea"
-                        onKeyDown={onKeyDownLabel}
-                        onChange={onChangeLabel}
+                    <label className="fs-4">Fecha de inicio</label>
+                    <DatePicker className="form-control"
+                        dateFormat="yyyy-MM-dd"
+                        selected={initDate}
+                        onChange={date => setInitDate(date)}
+                        isClearable
+                        required
+                        placeholderText="Fecha de inicio"
                     />
-                    <small>Oprima enter o ',' (coma) para agregar un label</small>
-                </div>
 
-                <div className="form-group">
-                    <label>Descripción</label>
-                    <textarea className="form-control" placeholder="Descripción" required value={description} maxLength={100} onChange={(e) => setDescription(e.target.value)} />
-                </div>
-
-                <div className="form-group">
-                    <label>Archivos adjuntos</label>
-                    <input type="file" className="form-control" placeholder="Enter email" />
-                </div>
-
-                <div className="form-group">
-                    <label>Estado de la tarea</label>
-                    <br></br>
-                    <select className="custom-select form-control" required value={taskState} onChange={(e) => setTaskState(e.target.value)}>
-                        <option value="">Seleccione una opción</option>
-                        <option value="Abierta">Abierta</option>
-                        <option value="Cerrada">Cerrada</option>
-                        <option value="Impedimento">Impedimento</option>
-                    </select>
-                </div>
-
-                <div className="form-group">
-                    <label>Email personas relacionadas</label>
-                    {emails.map((emails, indexEmail) =>
-                        <li className="email" key={nanoid()}>
-                            <span>{emails.email}</span>
-                            <span className="close" onClick={() => removeEmail(indexEmail)}>&times;</span>
-                        </li>)}
-                    <input
-                        className="form-control"
-                        value={inputEmail}
-                        placeholder="Ingrese un email"
-                        onKeyDown={onKeyDownEmail}
-                        onChange={onChangeEmail}
+                    <label className="fs-4">Fecha de finalización</label>
+                    <DatePicker className="form-control"
+                        dateFormat="yyyy-MM-dd"
+                        selected={endDate}
+                        onChange={date => setEndDate(date)}
+                        isClearable
+                        minDate={new Date()}
+                        placeholderText="Fecha de finalización"
                     />
-                    <small hidden={emailValidation} className="text-danger">Debe ingresar un email valido</small>
-                    <br hidden={emailValidation} />
-                    <small>Oprima enter o ',' (coma) para agregar un correo</small>
-                </div>
 
-                <br />
-                <button className="btn btn-primary" type="submit">Actualizar información</button>
-            </form>
+                    <div className="form-group">
+                        <label className="fs-4">Labels</label>
+                        {labels.map((tags, indexTags) =>
+                            <li className="label" key={nanoid()}>
+                                <span>{tags.label}</span>
+                                <span className="close" onClick={() => removeLabel(indexTags)}>&times;</span>
+                            </li>)}
+                        <input
+                            maxLength={50}
+                            className="form-control"
+                            value={inputLabel}
+                            placeholder="Ingrese tags relacionados con la tarea"
+                            onKeyDown={onKeyDownLabel}
+                            onChange={onChangeLabel}
+                        />
+                        <small>Oprima enter o ',' (coma) para agregar un label</small>
+                    </div>
 
-            <Link to='/task-detail' className="text-decoration-none text-white">
-                <button className="btn btn-secondary">
-                    Volver
-                </button>
-            </Link>
+                    <div className="form-group">
+                        <label className="fs-4">Descripción</label>
+                        <textarea className="form-control" placeholder="Descripción" required value={description} maxLength={100} onChange={(e) => setDescription(e.target.value)} />
+                    </div>
 
+                    <div className="form-group">
+                        <label className="fs-4">Archivos adjuntos</label>
+                        <input type="file" className="form-control" placeholder="Enter email" />
+                    </div>
 
+                    <div className="form-group">
+                        <label className="fs-4">Estado de la tarea</label>
+                        <br></br>
+                        <select className="custom-select form-control" required value={taskState} onChange={(e) => setTaskState(e.target.value)}>
+                            <option value="">Seleccione una opción</option>
+                            <option value="Abierta">Abierta</option>
+                            <option value="Cerrada">Cerrada</option>
+                            <option value="Impedimento">Impedimento</option>
+                        </select>
+                    </div>
+
+                    <div className="form-group">
+                        <label className="fs-4">Email personas relacionadas</label>
+                        {emails.map((emails, indexEmail) =>
+                            <li className="email" key={nanoid()}>
+                                <span>{emails.email}</span>
+                                <span className="close" onClick={() => removeEmail(indexEmail)}>&times;</span>
+                            </li>)}
+                        <input
+                            className="form-control"
+                            value={inputEmail}
+                            placeholder="Ingrese un email"
+                            onKeyDown={onKeyDownEmail}
+                            onChange={onChangeEmail}
+                        />
+                        <small hidden={emailValidation} className="text-danger">Debe ingresar un email valido</small>
+                        <br hidden={emailValidation} />
+                        <small>Oprima enter o ',' (coma) para agregar un correo</small>
+                    </div>
+                    <br />
+                    <div >
+                        <div className="row">
+                            <button className="btn btn-primary" type="submit">Actualizar información</button>
+                        </div>
+                        <br />
+                        <Link to='/task-detail' className="text-decoration-none text-white">
+                            <div className="row">
+                                <button className="btn btn-secondary">
+                                    Volver
+                                </button>
+                            </div>
+                        </Link>
+                    </div>
+                </form>
+            </div>
             <TaskValidationModal taskValidationModal={showTaskValidationModal} setTaskValidationModal={setTaskValidationModal} />
-
         </div>
     )
 }

@@ -1,8 +1,11 @@
-import { useState } from "react"
+import { useEffect } from "react"
 import { Button, Modal } from "react-bootstrap"
+import { useSelector } from "react-redux"
+import { deleteBugThunk, getBugsByTaskIdThunk } from "../../services/bugsServices"
 import { deleteTask } from "../../services/Tasks/deleteTask"
+import { getTasksByProjectId } from "../../services/Tasks/getTasksByProjectId"
 import { taskType } from "../../state/slice/taskSlice"
-import { useAppDispatch } from "../../state/store"
+import { RootState, useAppDispatch } from "../../state/store"
 
 
 type Props ={
@@ -12,10 +15,16 @@ type Props ={
 }
 
 const TaskValidationDeleteModal: React.FC<Props> = (props) =>{
-        
-    const {task, taskDeleteModal, setDeleteValidationModal} = props
 
     const dispatch = useAppDispatch()
+
+    useEffect(() => { dispatch(getBugsByTaskIdThunk(task.taskId)) }, [dispatch])
+
+    const bugList = useSelector((state: RootState) => state.bugs.bugs)
+
+    bugList.map((bug) => (console.log(bug.taskId)))
+
+    const {task, taskDeleteModal, setDeleteValidationModal} = props
 
     const handleClose = () => {
         setDeleteValidationModal(false);
@@ -23,6 +32,7 @@ const TaskValidationDeleteModal: React.FC<Props> = (props) =>{
 
     const onDelete = () => {
         dispatch(deleteTask(task))
+        bugList.map((bug)=>deleteBugThunk(bug.taskId))
         handleClose();
     }
 
@@ -42,8 +52,8 @@ const TaskValidationDeleteModal: React.FC<Props> = (props) =>{
             </Modal.Body>
 
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>Close</Button>
-                <Button variant="danger" onClick={()=>(onDelete())}>Borrar</Button>
+                <Button variant="secondary" onClick={handleClose}>No</Button>
+                <Button variant="danger" onClick={()=>(onDelete())}>Si</Button>
             </Modal.Footer>
         </Modal> 
     )
