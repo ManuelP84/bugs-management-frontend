@@ -18,7 +18,7 @@ const BugDetail: React.FunctionComponent<IBugDetailProps> = ({ bugProp }) => {
 
   const bug = useSelector((state: RootState) => state.bugs.actualBug) as IBug;
   const task = useSelector(
-    (state: RootState) => state.bugs.actualTask
+    (state: RootState) => state.tempTask.task
   ) as taskType;
   const user = useSelector((state: RootState) => state.login.actualUser);
   const rol = user?.userRol;

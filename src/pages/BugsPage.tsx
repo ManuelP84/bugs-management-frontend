@@ -17,9 +17,7 @@ export interface BugsPageProps {}
 
 const BugsPage: React.FunctionComponent<BugsPageProps> = () => {
   const dispatch = useAppDispatch();
-  const task = useSelector(
-    (state: RootState) => state.bugs.actualTask
-  ) as taskType;
+  const task = useSelector((state: RootState) => state.tempTask.task) as taskType;
   const actualUser = useSelector(selectActualUser()) as IUser;
 
   React.useEffect(() => {

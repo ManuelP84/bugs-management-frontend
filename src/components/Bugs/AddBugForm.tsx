@@ -20,9 +20,8 @@ const AddBugForm: React.FunctionComponent<IAddBugFormProps> = (props) => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const task = useSelector(
-    (state: RootState) => state.bugs.actualTask
-  ) as taskType;
+  const task = useSelector((state: RootState) => state.tempTask.task)
+
   const actualUser = useSelector(selectActualUser()) as IUser;
 
   const [initDate, setInitDate] = React.useState() as any;

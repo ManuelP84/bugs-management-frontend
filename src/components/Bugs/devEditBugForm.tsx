@@ -26,9 +26,6 @@ const DevEditBugForm: React.FunctionComponent<IDevEditBugFormProps> = ({
     setShow(true);
   };
 
-  const task = useSelector(
-    (state: RootState) => state.bugs.actualTask
-  ) as taskType;
   const [developerNotes, setDeveloperNotes] = React.useState("");
   const [state, setState] = React.useState<String>();
   const radioHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
