@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { BrowserRouter } from "react-router-dom";
 import "./App.css";
+import "./styles/bugs.css"
 import { persistor, store} from "./state/store";
 import Router from "./components/Routes/Router";
 

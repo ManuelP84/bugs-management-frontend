@@ -36,6 +36,7 @@ export interface IBug {
 
 export interface BugState {
     bugs: IBug[],
+    actualBug: IBug | null,
     actualTask: taskType | null,
     status: possibleStatus,
     error: string | null,
@@ -43,6 +44,7 @@ export interface BugState {
 
 const initialState: BugState = {
     bugs: [],
+    actualBug: null,
     actualTask: {
         id: '62bce75077d284243d4b3e42',
         projectId: '4888037',
@@ -98,7 +100,9 @@ const bugSlice = createSlice({
     name: "bug",
     initialState,
     reducers: {
-
+        addActualBug(state:BugState, action: PayloadAction<IBug>) {
+            state.actualBug = action.payload
+        }
     },
     extraReducers: (builder) => {
         //POST 
@@ -155,7 +159,7 @@ const bugSlice = createSlice({
             state.status = possibleStatus.COMPLETED;
             if (action.payload.deleted) {
                 state.bugs = state.bugs.filter((bug) =>
-                    bug.id !== action.payload.bugId)
+                    bug.bugId != action.payload.bugId)
             }
         })
         builder.addCase(deleteBugThunk.rejected, (state, action) => {

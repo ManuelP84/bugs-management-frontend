@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../state/store";
 import PublicRoutes from "./PublicRoutes";
 import "../../styles/login.css";
+import "../../styles/bugs.css";
 import { selectActualUser } from "../../state/slice/loginSlice";
 import AdminRoutes from "./AdminRoutes";
 import UsersRoutes from "./UsersRoutes";
