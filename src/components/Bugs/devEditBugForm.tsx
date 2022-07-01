@@ -13,11 +13,11 @@ import { IBug } from "../../state/slice/bugsSlice";
 import { postBugThunk } from "../../services/bugsServices";
 import { Button, Modal } from "react-bootstrap";
 
-interface IdevEditBugFormProps {
+interface IDevEditBugFormProps {
   bugProp: IBug;
 }
 
-const devEditBugForm: React.FunctionComponent<IdevEditBugFormProps> = ({
+const DevEditBugForm: React.FunctionComponent<IDevEditBugFormProps> = ({
   bugProp,
 }) => {
   const [show, setShow] = React.useState(false);
@@ -177,7 +177,7 @@ const devEditBugForm: React.FunctionComponent<IdevEditBugFormProps> = ({
             {bugProp.state == "Asignado" || bugProp.state == "Reincidente" ? (
               asignadoDiv
             ) : bugProp.state == "En Proceso" ? (
-              <></>
+                enProcesoDiv
             ) : (
               <></>
             )}
@@ -204,4 +204,4 @@ const devEditBugForm: React.FunctionComponent<IdevEditBugFormProps> = ({
   );
 };
 
-export default devEditBugForm;
+export default DevEditBugForm;

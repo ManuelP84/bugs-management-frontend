@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import AddBugForm from "../components/Bugs/AddBugForm";
 import BugDetail from "../components/Bugs/BugDetail";
+import DevEditBugForm from "../components/Bugs/devEditBugForm";
 import EditBugForm from "../components/Bugs/EditBugForm";
 import TasksTable from "../components/Table/ReactTable";
 import { deleteBugThunk, getBugsByTaskIdThunk } from "../services/bugsServices";
@@ -81,16 +82,15 @@ const BugsPage: React.FunctionComponent<BugsPageProps> = () => {
       id: "developerEmail",
       accessor: "developerEmail",
     },
-    (actualUser.userRol == "Admin" ||
-      actualUser.userRol == "Tester" ||
-      actualUser.userRol == "Developer") && {
+    {
       Header: "Editar",
-      Cell: ({ row }: any) => <EditBugForm bugProp={row.original} />,
+      Cell: ({ row }: any) => (actualUser.userRol == "Admin" ||
+      actualUser.userRol == "Tester") ? <EditBugForm bugProp={row.original} /> : (actualUser.userRol == "Developer") ? <DevEditBugForm bugProp={row.original} /> : <></>
     },
-    (actualUser.userRol == "Admin" || actualUser.userRol == "Tester") && {
+     {
       Header: "Borrar",
       Cell: ({ row }: any) => (
-        <button
+        (actualUser.userRol == "Admin" || actualUser.userRol == "Tester") &&<button
           className="btn btn-danger w-100 my-2"
           type="button"
           onClick={() => onDelete(row.original.bugId)}
@@ -98,7 +98,7 @@ const BugsPage: React.FunctionComponent<BugsPageProps> = () => {
           Borrar
         </button>
       ),
-    },
+    }
   ];
 
   return (
@@ -106,10 +106,10 @@ const BugsPage: React.FunctionComponent<BugsPageProps> = () => {
       <h2 className="bugsPageTitle">Lista de bugs</h2>
       <h5 className="bugsPageTitle">Tarea: {task.name}</h5>
       <div className="text-center bugTableDiv">
-        <TasksTable columns={columns} data={getBugs} />
+        <TasksTable columns={columns} data={(actualUser.userRol == "Developer") ? getBugs.filter(bug => bug.developerEmail == actualUser.userEmail  ) : getBugs} />
       </div>
       <div className="bugsPageButtons">
-        <AddBugForm />
+        {(actualUser.userRol == "Admin" || actualUser.userRol == "Tester")&&<AddBugForm />}
 
         <button
           onClick={() => {
