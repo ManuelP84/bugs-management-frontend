@@ -207,8 +207,8 @@ const UpdateProjectForm: React.FC<Props> = (props) => {
             </div>
 
             {showEmailAlert ? <div className="row ms-2">
-                <span className="text-start" style={{ color: "red", fontSize: "13px" }}>
-                El email no tiene un formato válido o ya fue añadido al proyecto</span>
+                <span className="text-start text-danger" style={{ fontSize: "13px" }}>
+                    El email no tiene un formato válido o ya fue añadido al proyecto</span>
             </div> : <></>}
 
             {suggestedEmails.length > 0 ?

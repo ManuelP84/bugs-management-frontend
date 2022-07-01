@@ -1,22 +1,28 @@
 import * as React from 'react';
 import { useDispatch } from 'react-redux';
 import { logOut } from '../state/slice/loginSlice';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface IMainPageProps {
 }
 
 const MainPage: React.FunctionComponent<IMainPageProps> = (props) => {
 
-  const dispatch = useDispatch()
+  const navigate = useNavigate();
 
-  const handleLogOut = () => {
-    dispatch(logOut())
-  }
+  useEffect(() => {
 
-  return <div>
-    Hello from inside
-    <button onClick={handleLogOut}> Log out </button>
-  </div>
+    navigate("/dashboard")
+    
+  }, []);
+
+
+  return(
+    <div>
+  
+    </div>
+    )    
 };
 
 export default MainPage;

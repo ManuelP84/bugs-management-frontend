@@ -19,7 +19,7 @@ const Dashboards: React.FC<Props> = (props) => {
             <div className="row mb-2 mx-3 mb-4">
                 <div className="col">
                     <span>{(relatedProject) ? (<b>Projecto: {relatedProject.projectId} - {relatedProject.name}</b>)
-                        : (<b>Select a project by its ID to load the related dashboard</b>)}</span>
+                        : (<b>Seleccione un proyecto por su ID para cargar el dashboard asociado</b>)}</span>
                 </div>
             </div>
             <div className="row mx-3">

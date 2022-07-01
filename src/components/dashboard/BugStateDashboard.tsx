@@ -27,7 +27,7 @@ const BugStateDashboard = (props: Props) => {
 
     const chartDataConfig = {
         ...chartData,
-        labels: ["Asignado", "Cancelado", "Cerrado", "Cerrado con defectos", "Reincidente", "Rechazado", "solucionado"],
+        labels: ["Asignado", "Cancelado", "Cerrado", "Cerrado con defectos", "Reincidente", "Rechazado", "Solucionado"],
         datasets: [dataSets]
     }
 
