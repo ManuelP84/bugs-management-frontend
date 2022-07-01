@@ -3,7 +3,11 @@ import { useSelector } from 'react-redux'
 import Dashboards from '../components/dashboard/Dashboards'
 import SelectProjectForm from '../components/dashboard/SelectProjectForm'
 import { getBugsByProjectId } from '../services/dashboard/getBugsByProjectId'
+import { getAllUsersThunk } from '../services/loginServices'
+import { getAllProjects } from '../services/project/getAllProjects'
 import { loadRelatedProject } from '../state/slice/dashboardSlice'
+import { IUser } from '../state/slice/loginSlice'
+import { changePage } from '../state/slice/projectSlice'
 import { RootState, useAppDispatch } from '../state/store'
 
 type Props = {}
@@ -18,6 +22,10 @@ const DashboardPage = (props: Props) => {
     const user = useSelector((state: RootState) => state.login.actualUser);
 
     useEffect(() => {
+        (user) ? dispatch(getAllProjects(user))
+            : dispatch(getAllProjects({ userEmail: "", userRol: "Reader", userToken: "" } as IUser))
+        dispatch(getAllUsersThunk())
+        dispatch(changePage(1))
         setInterval(() => {
             dispatch(loadRelatedProject(projects[0]))
             dispatch(getBugsByProjectId(projects[0]))
