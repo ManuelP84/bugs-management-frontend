@@ -65,7 +65,9 @@ const projectSlice = createSlice({
         })
         builder.addCase(getAllProjects.fulfilled, (state, action) => {
             state.status = possibleStatus.COMPLETED;
-            if (action.payload.user.userRol === "Admin" || action.payload.user.userRol === "Reader") {
+            if (action.payload.user.userRol === "Admin" ||
+                action.payload.user.userRol === "Reader" ||
+                action.payload.user.userRol === null) {
                 state.projects = action.payload.retrievedProjects
             }
             if (action.payload.user.userRol === "Tester" || action.payload.user.userRol === "Developer") {
@@ -84,7 +86,7 @@ const projectSlice = createSlice({
         // POST cases
         builder.addCase(createProject.fulfilled, (state, action) => {
             state.status = possibleStatus.COMPLETED
-            const emails = [...action.payload.project.leaderEmails, ...action.payload.project.leaderEmails]
+            const emails = [...action.payload.project.developerEmails, ...action.payload.project.leaderEmails]
             const user = action.payload.user
             if (emails.includes(user.userEmail) || !(user.userRol !== "Admin")) {
                 state.projects.push(action.payload.project)
