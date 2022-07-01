@@ -3,7 +3,6 @@ import { Container, Nav, Navbar } from "react-bootstrap"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { selectActualUser } from "../../state/slice/loginSlice";
-import profile from "../../assets/profile.png";
 import { logOut } from '../../state/slice/loginSlice';
 
 type Props = {};
@@ -40,7 +39,7 @@ const NavigationBar: React.FC<Props> = (props) => {
                     </>
                 </Nav>
                 <span>{user?.userEmail} ({user?.userRol ? user?.userRol : "Reader"})</span>
-                <Nav.Link as={Link} to="/project">
+                <Nav.Link>
                     {user?.userImage ? (
                         <img
                             src={user?.userImage}
@@ -49,7 +48,7 @@ const NavigationBar: React.FC<Props> = (props) => {
                         />
                     ) : (
                         <img
-                            src={profile}
+                            src={"https://i.ibb.co/0MjtbfF/profile.png"}
                             height="35"
                             className="d-inline-block align-top rounded-circle"
                         />

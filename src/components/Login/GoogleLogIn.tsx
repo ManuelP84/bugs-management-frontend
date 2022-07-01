@@ -62,7 +62,7 @@ const GoogleLogIn: React.FunctionComponent<IGoogleLogInProps> = () => {
           getLogged(true)
         )
 
-          navigate("/project")
+          navigate("/dashboard")
         // ...
       })
       .catch((error: any) => {
