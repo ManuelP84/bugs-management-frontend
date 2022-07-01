@@ -34,10 +34,10 @@ const DashboardPage = (props: Props) => {
             </div>
 
             <div className="row">
-                <div className="col-md-3 py-2">
+                <div className="col-md-4 py-2">
                     <SelectProjectForm />
                 </div>
-                <div className="col-md-9 py-2">
+                <div className="col-md-8 py-2">
                     <Dashboards />
                 </div>
             </div>
