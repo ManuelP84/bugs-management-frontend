@@ -17,6 +17,7 @@ const SelectProjectForm: React.FC<Props> = (props) => {
     const [filterBugsBy, setFilterBugsBy] = useState('')
     const [suggestedProjects, setSuggestedProjects] = useState<projectType[]>([])
     const [selectedProject, setSuggestesetSelectedProject] = useState<projectType>()
+    const [showProjectIdAlert, setShowProjectIdAlert] = useState(false)
 
     // Project Suggestion
     useEffect(() => {
@@ -43,8 +44,14 @@ const SelectProjectForm: React.FC<Props> = (props) => {
 
     // To load the dashboard related to the selected project
     const onLoadDashboard = () => {
-        dispatch(getBugsByProjectId(selectedProject as projectType))
-        dispatch(loadRelatedProject(selectedProject as projectType))
+        if (suggestedProjects.length === 0) {
+            setShowProjectIdAlert(true)
+        }
+        if (suggestedProjects.length > 0) {
+            dispatch(getBugsByProjectId(selectedProject as projectType))
+            dispatch(loadRelatedProject(selectedProject as projectType))
+            setShowProjectIdAlert(false)
+        }
     }
 
     return (
@@ -60,6 +67,10 @@ const SelectProjectForm: React.FC<Props> = (props) => {
                         type="button" onClick={onLoadDashboard}>Cargar dashboard</button>
                 </div>
             </div>
+
+            {showProjectIdAlert ? <div className="row m-2">
+                <span className="text-danger" style={{ fontSize: "13px" }}>No existe un proyecto con el ID especificado</span>
+            </div> : <></>}
 
             <div className="row m-2 mt-2">
                 <div className={`row mx-2 ${suggestedProjects.length > 0 ? "card" : ""}`}>
