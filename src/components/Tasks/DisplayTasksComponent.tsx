@@ -14,7 +14,7 @@ const DisplayTasksComponent = () => {
 
     const user = useSelector((state: RootState) => state.login.actualUser);
     const rol = user?.userRol
-    const permissions = (rol == "Tester" || rol == "Admin" && (projectToList.state == "ACTIVE" || projectToList.state == "CREATED"))
+    const permissions = ((rol == "Tester" || rol == "Admin") (projectToList.state == "ACTIVE" || projectToList.state == "CREATED"))
 
     const dispatch = useAppDispatch()
 
