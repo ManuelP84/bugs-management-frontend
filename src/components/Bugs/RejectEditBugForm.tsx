@@ -13,15 +13,18 @@ import { IBug } from "../../state/slice/bugsSlice";
 import { updateBugThunk } from "../../services/bugsServices";
 import { Button, Modal } from "react-bootstrap";
 
-interface IEditBugFormProps {
+interface IRejectEditBugFormProps {
   bugProp: IBug;
 }
 
-const EditBugForm: React.FunctionComponent<IEditBugFormProps> = ({
+const RejectEditBugForm: React.FunctionComponent<IRejectEditBugFormProps> = ({
   bugProp,
 }) => {
   const [show, setShow] = React.useState(false);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setInitialStateForm();
+    setShow(false);
+  };
   const handleShow = () => {
     setShow(true);
   };
@@ -44,6 +47,9 @@ const EditBugForm: React.FunctionComponent<IEditBugFormProps> = ({
   const [problems, setProblems] = React.useState(bugProp.problems);
   const [references, setReferences] = React.useState(bugProp.reference);
   const [state, setState] = React.useState<String>();
+  const [developerEmail, setDeveloperEmail] = React.useState(
+    bugProp.developerEmail
+  );
 
   const setInitialStateForm = () => {
     setEndDate();
@@ -57,6 +63,8 @@ const EditBugForm: React.FunctionComponent<IEditBugFormProps> = ({
     setConclusions("");
     setProblems("");
     setReferences("");
+    setDeveloperEmail("");
+    setState("")
   };
 
   const lifecycleTypes = [
@@ -96,7 +104,8 @@ const EditBugForm: React.FunctionComponent<IEditBugFormProps> = ({
       importance,
       conclusions,
       problems,
-      references
+      references,
+      developerEmail
     );
 
     if (
@@ -109,7 +118,8 @@ const EditBugForm: React.FunctionComponent<IEditBugFormProps> = ({
       importance &&
       conclusions &&
       problems &&
-      references
+      references &&
+      developerEmail
     ) {
       const newBug: IBug = {
         id: bugProp.id,
@@ -131,7 +141,7 @@ const EditBugForm: React.FunctionComponent<IEditBugFormProps> = ({
         problems: problems,
         reference: references,
         endDate: endStringDate,
-        developerEmail: bugProp.developerEmail,
+        developerEmail: developerEmail,
         developerNotes: bugProp.developerNotes,
       };
       dispatch(updateBugThunk(newBug));
@@ -329,55 +339,63 @@ const EditBugForm: React.FunctionComponent<IEditBugFormProps> = ({
                   required
                   onChange={(e) => setReferences(e.target.value)}
                 />
+                <label>Notas del Desarrollador</label>
+                <textarea
+                  className="form-control"
+                  value={bugProp.developerNotes}
+                  placeholder="Problems"
+                  maxLength={5000}
+                  readOnly
+                />
               </div>
-              <label>Notas del Desarrollador</label>
-              <textarea
-                className="form-control"
-                value={bugProp.developerNotes}
-                placeholder="Problems"
-                maxLength={5000}
-                readOnly
-              />
-              <div className="container">
+
+              <div className="form-group">
                 <fieldset>
                   <legend>¿Como deseas proceder con el bug?</legend>
                   <p>
                     <input
                       type="radio"
                       name="drink"
-                      value="Cerrado"
-                      id="Cerrado"
+                      value="Cancelado"
+                      id="Cancelado"
                       onChange={radioHandler}
                     />
-                    <label htmlFor="Cerrado">Cerrar</label>
+                    <label htmlFor="Cancelado">Cancelar</label>
                   </p>
 
                   <p>
                     <input
                       type="radio"
                       name="drink"
-                      value="Cerrado con defectos"
-                      id="Cerrado con defectos"
+                      value="Asignado"
+                      id="Asignado"
                       onChange={radioHandler}
                     />
-                    <label htmlFor="Cerrado con defectos">
-                      Cerrar con defectos
-                    </label>
-                  </p>
-
-                  <p>
-                    <input
-                      type="radio"
-                      name="drink"
-                      value="Reincidente"
-                      id="Reincidente"
-                      onChange={radioHandler}
-                    />
-                    <label htmlFor="Reincidente">Reincidir</label>
+                    <label htmlFor="Asignado">Reasignar</label>
                   </p>
                 </fieldset>
               </div>
-              {state == "Cerrado" || state == "Cerrado con defectos" ? (
+              {state == "Asignado" ? (
+                <div className="form-group">
+                  <label>Developer Encargado</label>
+                  <br></br>
+                  <select
+                    className="custom-select form-control"
+                    required
+                    onChange={(e) => setDeveloperEmail(e.target.value)}
+                    defaultValue="none"
+                  >
+                    <option value="none" disabled hidden>
+                      Seleccione uno
+                    </option>
+                    {task.developerEmails.map((email: emailType, idx) => (
+                      <option value={email.email} key={idx}>
+                        {email.email}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ) : state == "Cancelado" ? (
                 <div className="form-group">
                   <label>Fecha de cierre</label>
                   <DatePicker
@@ -413,4 +431,4 @@ const EditBugForm: React.FunctionComponent<IEditBugFormProps> = ({
   );
 };
 
-export default EditBugForm;
+export default RejectEditBugForm;

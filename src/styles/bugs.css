@@ -5,6 +5,12 @@
     justify-content: center;
     align-items: center;
 }
+.modalFormBody {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
 .inputFormDiv {
     width: 80%;
     margin-left: auto;

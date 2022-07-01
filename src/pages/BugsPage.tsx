@@ -6,6 +6,7 @@ import AddBugForm from "../components/Bugs/AddBugForm";
 import BugDetail from "../components/Bugs/BugDetail";
 import DevEditBugForm from "../components/Bugs/devEditBugForm";
 import EditBugForm from "../components/Bugs/EditBugForm";
+import RejectEditBugForm from "../components/Bugs/RejectEditBugForm";
 import TasksTable from "../components/Table/ReactTable";
 import { deleteBugThunk, getBugsByTaskIdThunk } from "../services/bugsServices";
 import { selectBugsState } from "../state/slice/bugsSlice";
@@ -17,7 +18,9 @@ export interface BugsPageProps {}
 
 const BugsPage: React.FunctionComponent<BugsPageProps> = () => {
   const dispatch = useAppDispatch();
-  const task = useSelector((state: RootState) => state.tempTask.task) as taskType;
+  const task = useSelector(
+    (state: RootState) => state.tempTask.task
+  ) as taskType;
   const actualUser = useSelector(selectActualUser()) as IUser;
 
   React.useEffect(() => {
@@ -81,22 +84,36 @@ const BugsPage: React.FunctionComponent<BugsPageProps> = () => {
       accessor: "developerEmail",
     },
     {
-      Header: "Editar",
-      Cell: ({ row }: any) => (actualUser.userRol == "Admin" ||
-      actualUser.userRol == "Tester") ? <EditBugForm bugProp={row.original} /> : (actualUser.userRol == "Developer") ? <DevEditBugForm bugProp={row.original} /> : <></>
+      Header: "   ",
+      Cell: ({ row }: any) =>
+        (actualUser.userRol == "Admin" || actualUser.userRol == "Tester") &&
+        row.original.state == "Solucionado" ? (
+          <EditBugForm bugProp={row.original} />
+        ) : (actualUser.userRol == "Admin" || actualUser.userRol == "Tester") &&
+          row.original.state == "Rechazado" ? (
+          <RejectEditBugForm bugProp={row.original} />
+        ) : actualUser.userRol == "Developer" ||
+          actualUser.userRol == "Admin" ? (
+          <DevEditBugForm bugProp={row.original} />
+        ) : (
+          <></>
+        ),
     },
-     {
-      Header: "Borrar",
-      Cell: ({ row }: any) => (
-        (actualUser.userRol == "Admin" || actualUser.userRol == "Tester") &&<button
-          className="btn btn-danger w-100 my-2"
-          type="button"
-          onClick={() => onDelete(row.original.bugId)}
-        >
-          Borrar
-        </button>
-      ),
-    }
+    {
+      Header: "    ",
+      Cell: ({ row }: any) =>
+        actualUser.userRol == "Admin" || actualUser.userRol == "Tester" ? (
+          <button
+            className="btn btn-danger w-100 my-2"
+            type="button"
+            onClick={() => onDelete(row.original.bugId)}
+          >
+            Borrar
+          </button>
+        ) : (
+          <></>
+        ),
+    },
   ];
 
   return (
@@ -104,10 +121,21 @@ const BugsPage: React.FunctionComponent<BugsPageProps> = () => {
       <h2 className="bugsPageTitle">Lista de bugs</h2>
       <h5 className="bugsPageTitle">Tarea: {task.name}</h5>
       <div className="text-center bugTableDiv">
-        <TasksTable columns={columns} data={(actualUser.userRol == "Developer") ? getBugs.filter(bug => bug.developerEmail == actualUser.userEmail  ) : getBugs} />
+        <TasksTable
+          columns={columns}
+          data={
+            actualUser.userRol == "Developer"
+              ? getBugs.filter(
+                  (bug) => bug.developerEmail == actualUser.userEmail
+                )
+              : getBugs
+          }
+        />
       </div>
       <div className="bugsPageButtons">
-        {(actualUser.userRol == "Admin" || actualUser.userRol == "Tester")&&<AddBugForm />}
+        {(actualUser.userRol == "Admin" || actualUser.userRol == "Tester") && (
+          <AddBugForm />
+        )}
 
         <button
           onClick={() => {

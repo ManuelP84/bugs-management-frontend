@@ -94,7 +94,7 @@ const bugSlice = createSlice({
             state.status = possibleStatus.PENDING;
         })
         builder.addCase(updateBugThunk.fulfilled, (state, action) => {
-            const newState = [...state.bugs.map(bug => bug.id === action.payload.id ? action.payload : bug)]
+            const newState = state.bugs.map(bug => bug.id == action.payload.id ? action.payload : bug)
             state.bugs = newState
             state.status = possibleStatus.COMPLETED
         })
