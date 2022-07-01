@@ -35,12 +35,6 @@ const NavigationBar: React.FC<Props> = (props) => {
                         <Nav.Link as={Link} to="/project">
                             Proyectos
                         </Nav.Link>
-                        <Nav.Link as={Link} to="/task-list">
-                            Tareas
-                        </Nav.Link>
-                        <Nav.Link as={Link} to="/bugs">
-                            Defectos
-                        </Nav.Link>
                     </>
                 </Nav>
                 <span>{user?.userEmail} ({user?.userRol ? user?.userRol : "Reader"})</span>
